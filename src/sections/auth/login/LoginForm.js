@@ -1,0 +1,181 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-unused-vars */
+
+
+import { useState,useRef } from 'react';
+
+
+import { Navigate,useNavigate } from 'react-router-dom';
+
+
+import { useDispatch, useSelector } from "react-redux";
+
+
+import Swal from 'sweetalert2'
+import Form from "react-validation/build/form";
+
+
+
+// @mui
+import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { login } from '../../../redux/modules/auth';
+// eslint-disable-next-line import/order
+import CheckButton from "react-validation/build/button";
+
+// components
+import Iconify from '../../../components/iconify';
+
+// ----------------------------------------------------------------------
+
+export default function LoginForm() {
+  const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  // const handleClick = () => {
+  //   navigate('/dashboard', { replace: true });
+  // };
+
+
+
+  
+  const dispatch = useDispatch();
+  const form = useRef();
+  const checkBtn = useRef();
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const { isLoggedIn } = useSelector((state) => state);
+  const { message } = useSelector((state) => state);
+
+  // eslint-disable-next-line consistent-return
+  const required = (value) => {
+    if (!value) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          Este dato es requerido!
+        </div>
+      );
+    }
+  };
+
+  const onChangeUsername = (e) => {
+
+    const username = e.target.value;
+    setUsername(username);
+  }
+
+  const onChangePassword = (e) => {
+
+    const password = e.target.value;
+    setPassword(password);
+  }
+
+  const handleLogin = (e) => {
+
+    e.preventDefault();
+    setLoading(true);
+    form.current.validateAll();
+
+    if (checkBtn.current.context._errors.length === 0) {
+
+      dispatch(login(username, password))
+        .then(() => {
+          Swal.fire(
+            'sesion iniciada con exito !'
+
+          )
+          // navigate('/home');
+          window.location.reload()
+
+        })
+        .catch((error) => {
+          setLoading(false);
+          // alert(error.message);
+          // Swal.fire(
+          //  (error.message)
+
+          // )
+          // window.location.reload();
+
+        });
+    } else {
+      setLoading(false);
+    }
+
+  };
+  if (isLoggedIn) {
+    return <Navigate to='/home' />
+  }
+
+
+
+
+
+
+
+
+
+  return (
+    <>
+     <Form onSubmit={handleLogin} ref={form}>
+
+      <Stack spacing={3}>
+        <TextField name="user" label="User Name"
+        type="text"
+      
+        value={username}
+        onChange={onChangeUsername}
+        validations={[required]}
+        
+        
+        
+        />
+
+        <TextField
+          name="password"
+          label="Password"
+         
+                    
+                    value={password}
+                    onChange={onChangePassword}
+                    validatiosn={[required]}
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Stack>
+
+      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+        <Checkbox name="remember" label="Remember me" />
+        <Link variant="subtitle2" underline="hover">
+          Forgot password?
+        </Link>
+      </Stack>
+
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" >
+        Login
+      </LoadingButton>
+      {message && (
+                  <div className="form-group">
+                    <div className="alert alert-danger" role="alert">
+                      {message}
+                    </div>
+                  </div>
+                )}
+ <CheckButton style={{ display: "none" }} ref={checkBtn} />
+
+      </Form>
+    </>
+  );
+}
