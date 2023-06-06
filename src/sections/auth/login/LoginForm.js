@@ -49,8 +49,12 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
 
   const { isLoggedIn } = useSelector((state) => state);
-  const { message } = useSelector((state) => state);
+ 
+  const { auth } = useSelector((state) => state);
+  console.log("aqui auth", auth)
 
+const {message} = auth;
+console.log(message)
   // eslint-disable-next-line consistent-return
   const required = (value) => {
     if (!value) {
@@ -168,7 +172,7 @@ export default function LoginForm() {
       </LoadingButton>
       {message && (
                   <div className="form-group">
-                    <div className="alert alert-danger" role="alert">
+                    <div role="alert">
                       {message}
                     </div>
                   </div>
