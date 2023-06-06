@@ -68,7 +68,17 @@ export const login = (username, password) => (dispatch) => authServices.login(us
       return Promise.reject();
     }
   );
-
+// message
+export const setMessage = (message) => ({
+    type: SET_MESSAGE,
+    payload: message,
+  });
+  
+  export const clearMessage = () => ({
+    type: CLEAR_MESSAGE,
+  });
+  
+  
 
 export const logout = () => (dispatch) => {
     authServices.logout();
