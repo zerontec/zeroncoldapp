@@ -1,0 +1,25 @@
+Aquí tienes una sugerencia de paleta de colores para el componente de facturación:
+
+Principal:
+
+Color principal: #212F3D (Azul oscuro)
+Color de fondo: #FFFFFF (Blanco)
+Secundarios:
+
+Color secundario 1: #F2F3F4 (Gris claro)
+Color secundario 2: #EAEAEA (Gris)
+Acento:
+
+Color de acento: #27AE60 (Verde)
+Texto:
+
+Color de texto: #333333 (Negro)
+Color de texto secundario: #777777 (Gris oscuro)
+Recuerda que estos códigos de color son solo una sugerencia y puedes ajustarlos según tus preferencias y necesidades específicas.
+
+
+
+
+
+
+Regenerate response
