@@ -1,8 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
+
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography,  } from '@mui/material';
 // components
 import Iconify from '../components/iconify';
 // sections
@@ -17,6 +18,7 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
+import { ButtonBar } from '../components/ButtonBar';
 
 // ----------------------------------------------------------------------
 
@@ -26,13 +28,28 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title> Dashboard | La Muñeca </title>
       </Helmet>
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+         Hola Bienvenido
         </Typography>
+
+        <Grid item xs={12} md={6} lg={9}>
+          <Typography variant="h4" sx={{ mb: 5 }}>
+         Enlaces a Modulos 
+        </Typography>
+
+
+          <ButtonBar 
+          button1={"Administracion"} 
+          button1Link="/dashboard/Administracion" 
+          button2={"Compras"} 
+          button3={"otro"} 
+              />
+          </Grid>
+          <hr/>
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
@@ -50,6 +67,8 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
+
+         
 
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
