@@ -3,9 +3,18 @@ import thunk from 'redux-thunk';
 import authReducer from './modules/auth';
 // eslint-disable-next-line import/order
 import { composeWithDevTools } from "redux-devtools-extension";
+import invoiceReducer from './modules/invoices';
+import customerReducer from './modules/customer';
+import productReducer from './modules/products';
+
+
+
 // Combinar los reducers de tus módulos
 const rootReducer = combineReducers({
   auth: authReducer,
+  invoice:invoiceReducer,
+  customer:customerReducer,
+  product:productReducer
  
   // Otros módulos de Redux
 });
