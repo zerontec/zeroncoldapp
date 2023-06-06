@@ -6,7 +6,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import invoiceReducer from './modules/invoices';
 import customerReducer from './modules/customer';
 import productReducer from './modules/products';
-
+import sellerReducer from './modules/seller';
 
 
 // Combinar los reducers de tus módulos
@@ -14,7 +14,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
   invoice:invoiceReducer,
   customer:customerReducer,
-  product:productReducer
+  product:productReducer,
+  seller:sellerReducer
  
   // Otros módulos de Redux
 });
