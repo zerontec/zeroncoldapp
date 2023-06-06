@@ -1,18 +1,23 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable arrow-body-style */
-import React, { useState, useEffect } from 'react';
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import React, { useState, useEffect, useRef } from 'react';
+import { MenuItem, Select, FormControl, InputLabel, Box, Button, Grid, TextField, Typography } from '@mui/material';
+import Modal from "@mui/material/Modal";
+import {DayPicker} from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import { fetchCustomers } from '../../../redux/modules/customer';
 import { fetchProducts } from '../../../redux/modules/products';
-
+import { createInvoices } from '../../../redux/modules/invoices';
+import {fetchSellers} from '../../../redux/modules/seller'
 
 const SummaryContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   margin-top: 16px;
-  padding: 60px;
+  padding: 50px;
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 15px;
@@ -60,13 +65,50 @@ const Pos = () => {
   const [currencys, setCurrencys] = useState('$');
   const [query, setQuery] = useState('');
   const [queryp, setQueryp] = useState('');
-  const [productsQuantity, setProductsQuantity] = useState(1);
+  const [querys, setQuerys] = useState('');
+  const [productsQuantity, setProductsQuantity] = useState(0);
+  const [subtotalP, setSubtotalP] = useState(0);
+  const[seller, setSeller] = useState({})
+  
+  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const [paymentMethod, setPaymentMethod] = React.useState('');
+  const [isCredit, setIsCredit] = React.useState(false);
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+
+
+  useEffect(() => {
+    if (products.length === 0) {
+      setIsPopupOpen(false);
+    }
+  }, [products]);
+
+
+
+
+  const handlePaymentMethodChange = (event) => {
+    setPaymentMethod(event.target.value);
+  };
+
+  const handleCreditChange = (event) => {
+    setIsCredit(event.target.value === 'credit');
+  };
+ const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
 
   const dispatch = useDispatch();
+
+  const searchProductRef = useRef(null);
+  
   const customers = useSelector((state) => state.customer);
   const availableProducts = useSelector((state) => state.product.products);
-
-  console.log(availableProducts)
+  const availableSeller = useSelector((state) => state.seller.sellers);
+  console.log(availableSeller)
 
 
 
@@ -91,7 +133,7 @@ const Pos = () => {
 
   const handleSearchProduct = () => {
     const exactMatch = availableProducts.find(
-      (product) => product.barcode === queryp
+      (product) => product.barcode === queryp ||product.name === queryp
     );
     if (exactMatch) {
       setProduct(exactMatch);
@@ -101,15 +143,101 @@ const Pos = () => {
       );
       setProduct(partialMatch || {});
     }
+    
   };
 
-  const handleAddProduct = () => {
-    const updatedProduct = { ...product, cantidad: productsQuantity }; // Agregar la propiedad quantity con el valor de productsQuantity al objeto del producto
-    const updatedProducts = [...products, updatedProduct]; // Agregar el producto a la lista de productos
-    setProducts(updatedProducts);
-    setProduct({});
-    setProductsQuantity(1); // Restablecer el valor de productsQuantity a 1
+  const handleSearchSeller = () => {
+    const exactMatch = availableSeller.find(
+      (seller) => seller.identification === querys ||seller.codigo === querys
+    );
+    if (exactMatch) {
+      setSeller(exactMatch);
+    } else {
+      const partialMatch = availableSeller.find((seller) =>
+        seller.codigo.includes(querys)
+      );
+      setSeller(partialMatch || {});
+    }
+    
   };
+
+  // eslint-disable-next-line spaced-comment
+  //Agregar producto
+  let updatedProducts =[]
+  const handleAddProduct = () => {
+    if (product && productsQuantity > 0) {
+      const updatedProduct = { ...product, cantidad: productsQuantity, subtotalP: productsQuantity * product.price };
+      updatedProducts = [...products, updatedProduct];
+      
+      setProducts(updatedProducts);
+      setProduct({});
+      setProductsQuantity(0);
+  
+      const updatedSubtotal = updatedProducts.reduce(
+        (subtotal, product) => subtotal + product.subtotalP,
+        0
+      );
+      setSubtotal(updatedSubtotal);
+    }
+
+    setQueryp('')
+    setProductsQuantity(0)
+    searchProductRef.current.focus();
+
+  };
+  
+  const productoLista = products;
+  console.log("aquiProductoList", productoLista)
+
+
+
+
+// console.log("aqui clienteData", clienteData)
+
+
+const handleSubmit = (event) => {
+
+event.preventDefault();
+
+const invoiceData = {
+  credit:isCredit,
+  paymentMethod,
+  dueDate:selectedDate,
+  customer:{identification:client.identification,
+  name:client.name,
+  address:client.address
+  },
+
+   seller:{
+
+    codigo:seller.codigo,
+    identification:seller.identification,
+    name:seller.name
+
+},
+
+
+  productos:productoLista
+
+
+}
+
+
+dispatch(createInvoices(invoiceData))
+
+setQuery('');
+setClient({});
+setProduct({});
+setProducts([]);
+setProductsQuantity(0);
+setSubtotal(0);
+setIsPopupOpen(null)
+
+
+}
+
+
+
 // console.log("aqui update Product",updatedProducts)
 
 // const handleAddProduct = (event) => {
@@ -140,13 +268,122 @@ const Pos = () => {
     }
   }, [queryp, dispatch])
 
-  const calculateSubtotal = () => {
-    return updatedProducts.reduce((total, products) => total + products.total, 0);
+  useEffect(() => {
+    if (querys) {
+      dispatch(fetchSellers(querys));
+    }
+  }, [querys, dispatch])
+
+
+
+
+  const openPopup = () => {
+    if (products.length > 0) {
+      setIsPopupOpen(true);
+    }
   };
+const closePopup = () => {
+  setIsPopupOpen(false);
+};
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+   
+  //     return;
+    
+  //   // eslint-disable-next-line no-unreachable
+  //   const invoiceData = {
+  //     customer: {
+        
+  //     },
+  //     analysis: 
+  //   };
+
+  //   dispatch(createInvoices(invoiceData));
+
+  //   setQuery("");
+    
+ 
+   
+  // };
 
 
   return (
+
+
+    <>
+
+<Modal open={isPopupOpen === true} onClose={() => setIsPopupOpen(null)}>
+<Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 400, bgcolor: "background.paper", borderRadius: "8px", boxShadow: 24, p: 4 }}>
+        <Typography variant="h5" sx={{ marginBottom: 2 }}>
+          Resumen de pago
+        </Typography>
+
+        <Box sx={{ marginBottom: 2 }}>
+          <Typography variant="body1">SubTotal: {(subtotal).toFixed(2)}</Typography>
+          <Typography variant="body1">Iva(16%): {(subtotal * 0.16).toFixed(2)}</Typography>
+          <Typography>Total: {currency} {(subtotal + subtotal * 0.16).toFixed(2)}</Typography>
+          <Typography variant="body1">Método de pago: {paymentMethod}</Typography>
+          <Typography variant="body1">A crédito: {isCredit ? 'Sí' : 'No'}</Typography>
+        </Box>
+
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id="payment-method-label">Método de pago</InputLabel>
+              <Select
+                labelId="payment-method-label"
+                id="payment-method"
+                value={paymentMethod}
+                onChange={handlePaymentMethodChange}
+                label="Método de pago"
+              >
+                <MenuItem value="credit">Crédito</MenuItem>
+                <MenuItem value="debit">Débito</MenuItem>
+                <MenuItem value="cash">Efectivo</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id="credit-label">A crédito</InputLabel>
+              <Select
+                labelId="credit-label"
+                id="credit"
+                value={isCredit ? 'credit' : 'cash'}
+                onChange={handleCreditChange}
+                label="A crédito"
+              >
+                <MenuItem value="credit">Sí</MenuItem>
+                <MenuItem value="cash">No</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          {isCredit && (
+            <Grid item xs={12}>
+              <DayPicker selected={selectedDate} onDayClick={handleDateChange} />
+            </Grid>
+          )}
+          <Grid item xs={12}>
+            <Button style={{ marginLeft: 80 }} variant="contained" onClick={handleSubmit}>
+              Crear factura
+            </Button>
+          </Grid>
+        </Grid>
+
+        <hr />
+
+        <Button variant="contained" onClick={() => setIsPopupOpen(null)}>
+          X
+        </Button>
+      </Box>
+</Modal>
+    
     <Box>
+
+
+
+
       <Typography variant="h5" sx={{ marginBottom: 2 }}>
         Facturación
       </Typography>
@@ -166,7 +403,30 @@ const Pos = () => {
               onChange={(event) => setQuery(event.target.value)}
               onBlur={handleSearchClient}
             />
+            
+               <TextField
+           style={{marginTop:10}}
+           label="Agregar Vendedor"
+           variant="outlined"
+           value={querys}
+           onChange={(event) => setQuerys(event.target.value)}
+           onBlur={handleSearchSeller}
+         />
+
+<TextField
+              label="Nombre vendedor"
+              variant="outlined"
+              sx={{ marginBottom: 2 }}
+              value={seller.name || ''}
+              disabled
+              style={{marginTop:10}}
+            />  
           </Grid>
+
+          
+
+
+
           <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', marginTop: '20px' }}>
             <TextField
               label="Nombre"
@@ -195,13 +455,13 @@ const Pos = () => {
             {/* Resumen de la factura */}
             <Grid container spacing={2} sx={{ marginBottom: 2 }}>
               <Grid item xs={12} md={12}>
-                <SummaryContainer>
-                  <Typography>Subtotal: {subtotal}</Typography>
-                  <Typography>Iva(16%): {subtotal}</Typography>
-                  <Typography>Total: {currency} {total}</Typography>
-                  <Typography>Moneda: {currency}</Typography>
-                  <Typography>Monto en: {currencys}</Typography>
-                </SummaryContainer>
+              <SummaryContainer>
+  <Typography>Subtotal: {(subtotal).toFixed(2)}</Typography>
+  <Typography>Iva(16%): {(subtotal * 0.16).toFixed(2)}</Typography>
+  <Typography>Total: {currency} {(subtotal + subtotal * 0.16).toFixed(2)}</Typography>
+  <Typography>Moneda: {currency}</Typography>
+  <Typography>Monto en: {currencys}</Typography>
+</SummaryContainer>
               </Grid>
             </Grid>
           </Box>
@@ -211,11 +471,13 @@ const Pos = () => {
       {/* Formulario de búsqueda y agregar productos */}
       <Grid container spacing={2} sx={{ marginBottom: 2 }}>
         <Grid item xs={12} md={3}>
-          <TextField label="Buscar Producto" variant="outlined" fullWidth
-          
-              value={queryp}
-              onChange={(event) => setQueryp(event.target.value)}
-              onBlur={handleSearchProduct}
+          <TextField label="Buscar Producto" 
+          ref={searchProductRef}
+          variant="outlined" 
+          fullWidth
+          value={queryp}
+          onChange={(event) => setQueryp(event.target.value)}
+          onBlur={handleSearchProduct}
           
           />
         </Grid>
@@ -231,9 +493,13 @@ const Pos = () => {
           onChange={handleProductQuantityChange}   />
         </Grid>
         <Grid item xs={12} md={2}>
-          <Button variant="contained" onClick={handleAddProduct}>
+          <Button variant="contained" onClick={handleAddProduct} disabled={!product || productsQuantity <= 0}>
             Agregar Producto
           </Button>
+
+          <Button variant="contained" onClick={openPopup}>
+ Finalizar Venta
+</Button>
         </Grid>
       </Grid>
 
@@ -243,6 +509,7 @@ const Pos = () => {
           <Typography variant="h6">Productos Agregados</Typography>
         </Grid>
         {products.map((items, index) => (
+          
           <Grid item xs={12} key={index}>
             <SummaryContainerP style={{color:"black"}}>
             <Typography>{items.barcode}</Typography>
@@ -250,11 +517,14 @@ const Pos = () => {
               <Typography>{items.description}</Typography>
               <Typography>{items.price}</Typography>
               <Typography>{items.cantidad}</Typography>
+              <Typography>{items.subtotalP}</Typography>
+             
             </SummaryContainerP>
           </Grid>
         ))}
       </Grid>
     </Box>
+    </>
   );
 };
 
