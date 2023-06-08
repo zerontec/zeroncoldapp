@@ -14,6 +14,7 @@ import PosPage from './pages/PosPage';
 import PurchasePage from './pages/PurchasePages';
 import AdminPages from './pages/AdminPages';
 import InvoicePages from './pages/Invoices';
+import InventoryPages from './pages/InventoryPages';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,7 @@ export default function Router() {
         { path: 'Compras', element: <PurchasePage /> },
         { path: 'Administracion', element: <AdminPages /> },
         { path: 'invoice', element: <InvoicePages /> },
+        { path: 'inventario', element: <InventoryPages /> },
 
       ],
     },
