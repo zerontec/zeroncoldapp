@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable func-names */
 /* eslint-disable arrow-body-style */
 import axios from 'axios'
@@ -7,7 +8,9 @@ const FETCH_PRODUCT_REQUEST = 'FETCH_PRODUCT_REQUEST'
 const FETCH_PRODUCT_SUCCESS ='FETCH_PRODUCT_SUCCESS'
 const FETCH_PRODUCT_FAILURE = 'FETCH_PRODUCT_FAILURE'
 const CREATE_PRODUCT = 'CREATE_PRODUCT'
-
+const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
+const UPDATE_PRODUCT ='UPDATE_PRODUCT'
+const DELETE_PRODUCT ='DELETE_PRODUCT'
 
 export const fetchProductRequest = () => ({
     type: FETCH_PRODUCT_REQUEST,
@@ -40,7 +43,7 @@ export const fetchProductRequest = () => ({
   export const createProducts = (formInfo) => async (dispatch) => {
     try {
       const response = await axios.post(
-        `${URL}product/create-product`,
+        `${URL}product/create`,
         formInfo
       );
       dispatch({
@@ -57,6 +60,51 @@ export const fetchProductRequest = () => ({
     }
   };
 
+  export function getAllProduct() {
+    return async function (dispatch) {
+      try {
+        const resp = await axios.get(`${URL}product/all `);
+  
+        dispatch({
+          type: GET_ALL_PRODUCTS,
+          payload: resp.data,
+        });
+      } catch (err) {
+        return err.response;
+      }
+    };
+  }
+  
+
+
+  export function updateProduct(id, data) {
+    return async function (dispatch) {
+      try {
+        const resp = await axios.put(`${URL}product/update/${id}`, data);
+  
+        return dispatch({
+          type: UPDATE_PRODUCT,
+          payload: resp.data,
+        });
+      } catch (err) {
+        return err.response;
+      }
+    };
+  }
+
+
+  export const deleteProduct = (id) => async (dispatch) => {
+    try {
+      await axios.delete(`${URL}product/delete/${id}`);
+  
+      dispatch({
+        type: DELETE_PRODUCT,
+        payload: { id },
+      });
+    } catch (err) {
+      return err.response;
+    }
+  };
 
   export const initialState = {
     products: [],
@@ -68,6 +116,16 @@ export const fetchProductRequest = () => ({
 
   export default function productReducer(state = initialState, action) {
     switch (action.type) {
+
+
+      case GET_ALL_PRODUCTS:
+        return {
+          ...state,
+          products: action.payload,
+        };
+  
+
+
       case CREATE_PRODUCT:
         return {
           ...state,
@@ -97,6 +155,12 @@ export const fetchProductRequest = () => ({
                   isLoading: false,
                   error: action.payload
                 };
+
+                case DELETE_PRODUCT:
+                  return{
+                      ...state
+
+                  }
   
   
       default:
