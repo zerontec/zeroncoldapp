@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 
 import React, { useState , useEffect} from 'react';
 
@@ -54,10 +55,11 @@ const [supplier, setSupplier] = useState({})
 const [query, setQuery] = useState('')
 const [productsQuantity, setProductsQuantity] = useState(0);
 const [productsPrice, setProductsPrice] = useState(0);
-const [productsCosto, setProductsCosto] = useState('');
+const [productCantidad, setProductCantidad]= useState(0)
+const [productsCosto, setProductsCosto] = useState(0);
 const [numberinvoice, setNumberInvoice]=useState('');
 const [numberPurchase, setNumberpurchase]=useState('')
-const [porcentajeGanacia, setPorcentajeGanancia]=useState('');
+const [porcentajeGanacia, setPorcentajeGanancia]=useState(0);
 const [searchError, setSearchError] = useState(false);
 const [products, setProducts] = useState([]);
 const [subtotal, setSubtotal] = useState(0);
@@ -203,8 +205,12 @@ setNumberpurchase(event.target.value)
     //    }
        const updatedProduct = {
          ...product,
-         cantidad: productsQuantity,
-         subtotalP: productsQuantity * productsCosto,
+         barcode:product.barcode || manualProductData.barcode,
+         cantidad: parseInt(productsQuantity),
+         costo: parseFloat(productsCosto),
+         price: parseFloat(productsPrice),
+        
+          subtotalP: productsQuantity * productsCosto,
        };
        updatedProducts = [...products, updatedProduct];
  
@@ -222,6 +228,7 @@ setNumberpurchase(event.target.value)
    };
 
    const productoLista = products;
+   
    console.log('aquiProductoList', productoLista);
  
    const handleRemoveProduct = (index) => {
@@ -247,12 +254,12 @@ setNumberpurchase(event.target.value)
     event.preventDefault();
 
     const PurchaseData ={
-
+     
       
       invoiceNumber:  numberinvoice,
       purchaseNumber:numberPurchase,
       rif:supplier.rif,
-      totalAmount:subtotal,
+      // totalAmount:subtotal,
       status:paymentStatus,
 
       
@@ -269,9 +276,9 @@ setNumberpurchase(event.target.value)
     setSubtotal(0);
     setNumberInvoice('');
     setNumberpurchase('')
-    setPorcentajeGanancia('');
-    setProductsCosto('')
-    setProductsPrice('')
+    setPorcentajeGanancia(0);
+    setProductsCosto(0)
+    setProductsPrice(0)
     // setIsPopupOpen(null);
     // setManualClientData('');
     // setSeller({});
