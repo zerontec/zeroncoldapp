@@ -1,5 +1,6 @@
 /* eslint-disable func-names */
 /* eslint-disable arrow-body-style */
+/* eslint-disable arrow-body-style */
 
 import axios from 'axios';
 
