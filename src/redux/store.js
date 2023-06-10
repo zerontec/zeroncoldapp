@@ -7,6 +7,8 @@ import invoiceReducer from './modules/invoices';
 import customerReducer from './modules/customer';
 import productReducer from './modules/products';
 import sellerReducer from './modules/seller';
+import supplierReducer from './modules/supplier';
+import purchaseReducer from './modules/purchase';
 
 
 // Combinar los reducers de tus módulos
@@ -15,7 +17,9 @@ const rootReducer = combineReducers({
   invoice:invoiceReducer,
   customer:customerReducer,
   product:productReducer,
-  seller:sellerReducer
+  seller:sellerReducer,
+  supplier:supplierReducer,
+  purchase:purchaseReducer
  
   // Otros módulos de Redux
 });

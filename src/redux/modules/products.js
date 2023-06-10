@@ -11,6 +11,8 @@ const CREATE_PRODUCT = 'CREATE_PRODUCT'
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
 const UPDATE_PRODUCT ='UPDATE_PRODUCT'
 const DELETE_PRODUCT ='DELETE_PRODUCT'
+const MOVE_INVENTORY= 'MOVE_INVENTORY'
+
 
 export const fetchProductRequest = () => ({
     type: FETCH_PRODUCT_REQUEST,
@@ -106,11 +108,36 @@ export const fetchProductRequest = () => ({
     }
   };
 
+
+  export const moveInventory = (formInfo) => async(dispatch)=>{
+
+try{
+    const {data}= await axios.post(
+
+      `${URL}product/move-to-store`,
+      formInfo
+    );
+    dispatch({
+        type:MOVE_INVENTORY,
+        payload:data
+
+    });
+    return data;
+
+}catch(error){
+  return error.response
+
+}
+
+
+
+  }
+
   export const initialState = {
     products: [],
     message: null,
     error: null,
-   
+   sendProducts:{}
     
   };
 
@@ -160,7 +187,15 @@ export const fetchProductRequest = () => ({
                   return{
                       ...state
 
-                  }
+                  };
+
+                  case MOVE_INVENTORY:
+                    return{
+
+                      ...state,
+
+            sendProducts: action.payload,  
+                    }
   
   
       default:
