@@ -40,8 +40,7 @@ export const fetchCustomers = (query) => {
   return async function (dispatch) {
     dispatch(fetchCustomersRequest());
     try {
-      const response = await fetch(
-        'https://expressjs-postgres-production-bd69.up.railway.app/api/customer/search-query?q=${query}`
+      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/customer/search-query?q=${query}`
       );
       const data = await response.json();
       dispatch(fetchCustomersSuccess(data));
