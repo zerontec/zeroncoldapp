@@ -5,7 +5,7 @@
 
 import axios from 'axios';
 
-const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/';
+const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/'
 
 const FETCH_SUPPLIER_REQUEST = 'FETCH_SUPPLIER_REQUEST';
 const FETCH_SUPPLIER_SUCCESS = 'FETCH_SUPPLIER_SUCCESS';
