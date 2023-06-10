@@ -33,7 +33,7 @@ export const fetchSellerRequest = () => ({
       dispatch(fetchSellerRequest());
       try {
         const response = await fetch(
-          `http://localhost:5040/api/seller/search-query?q=${query}`
+          `https://expressjs-postgres-production-bd69.up.railway.app/api/seller/search-query?q=${query}`
         );
         const data = await response.json();
         dispatch(fetchSellerSuccess(data));
