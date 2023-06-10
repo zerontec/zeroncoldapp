@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/self-closing-comp */
@@ -14,13 +15,14 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import { Checkbox } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 
 import Swal from "sweetalert2";
 import Modal from "@mui/material/Modal";
 import styled from "styled-components";
-import { getAllProduct,deleteProduct, updateProduct  } from '../../../redux/modules/products';
+import { getAllProduct,deleteProduct, updateProduct, moveInventory  } from '../../../redux/modules/products';
 
 
 
@@ -78,6 +80,16 @@ const columns = [
 	  label: "Cantidad",
 	  minWidth: 150,
 	},
+	{	
+		id:"check",
+		label:"seleccionar",
+		
+
+	},
+	{
+		id:"canti",
+		label:"cantidad trasladar"
+	}
   ];
 
 
@@ -93,8 +105,8 @@ const ProductTable = () => {
 	const [errors, setErrors] = useState({});
 	const [selectedProductId, setSelectedProductId] = useState(null);
 	const [open, setOpen] = useState(false);
-
-
+	const [selectedProducts, setSelectedProducts] = useState([]);
+	const [quantityToMove, setQuantityToMove] = useState(0);
 
 
 	const dispatch = useDispatch()
@@ -105,8 +117,8 @@ const ProductTable = () => {
 	  }, [dispatch]);
 
 
-const product = useSelector((state)=> state.product)
-console.log(product)
+const productos = useSelector((state)=> state.product)
+console.log(productos)
 
 	const handleEditClick = (product) => {
 		setSelectedProductId(product.id		);
@@ -209,9 +221,83 @@ console.log(product)
 		// Lógica para realizar la búsqueda de pacientes en la API y actualizar el estado del componente con los resultados.
 	  };
 	
+	//   const handleSelectProduct = (product) => {
+	// 	const existingProduct = selectedProducts.find((p) => p.id === product.id);
+	// 	if (existingProduct) {
+	// 	  // Si el producto ya está seleccionado, lo quitamos de la lista
+	// 	  setSelectedProducts(selectedProducts.filter((p) => p.id !== product.id));
+	// 	} else {
+	// 	  // Si el producto no está seleccionado, lo agregamos a la lista
+	// 	  setSelectedProducts([...selectedProducts, product]);
+	// 	}
+	//   };
+	// const product = useSelector((state) => state.product);
 
+	const [products, setProducts] = useState(
+		productos.products.map((p) => ({
+		  ...p,
+		  selected: false,
+		  quantityToMove: 0, // Nuevo estado para la cantidad a mover
+		}))
+	  );;
 
+	  const handleToggleSelect = (productId) => {
+		const updatedProducts = products.map((p) => {
+		  if (p.id === productId) {
+			return { ...p, selected: !p.selected };
+		  }
+		  return p;
+		});
+		setProducts(updatedProducts);
+	  
+		// Actualiza la cantidad a trasladar si el producto está seleccionado
+		const selectedProduct = updatedProducts.find((p) => p.id === productId);
+		if (selectedProduct && selectedProduct.selected) {
+		  setQuantityToMove(selectedProduct.quantity);
+		} else {
+		  setQuantityToMove(0);
+		}
+	  };
+	  
 
+	  const handleSubmitProduct = (e) => {
+		e.preventDefault();
+	  
+		const selectedItems = selectedProducts.map((p) => ({
+		  id: p.id,
+		  quantity: p.quantity,
+		}));
+	  console.log(selectedItems)
+
+		// Realiza la solicitud POST al backend con los datos de los productos seleccionados
+		// ...
+			dispatch(moveInventory(selectedItems))
+
+			.then((response) => {
+				// setLoading(false);
+				Swal.fire("Movimiento creado con éxito!", "", "success");
+			
+			  })
+			  .catch((error) => {
+				console.log(error);
+				// setLoading(false);
+				
+				Swal.fire(error.message);
+			  });
+		// Reinicia el estado de selección de productos después de enviarlos al backend
+		setSelectedProducts([]);
+	  };
+
+	  const handleQuantityChange = (productId, quantity) => {
+		const updatedProducts = products.map((p) => {
+		  if (p.id === productId) {
+			return { ...p, quantityToMove: quantity };
+		  }
+		  return p;
+		});
+		setProducts(updatedProducts);
+	  };
+	  
 	return (
 
 		<>
@@ -390,7 +476,7 @@ console.log(product)
 			  </TableHead>
 			  <TableBody>
 				{" "}
-				{product.products.filter((items) =>
+				{productos.products.filter((items) =>
 					items.name.toLowerCase().includes(searchTerm.toLowerCase())
 				  )
 				  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -401,6 +487,37 @@ console.log(product)
 					  <TableCell align="left"> {items.description}</TableCell>
 					  <TableCell align="left"> {items.price}</TableCell>
 					  <TableCell align="left"> {items.quantity}</TableCell>
+					  
+						<TableCell align="left" padding="checkbox"    checked={items.selected}
+    onChange={() => handleToggleSelect(items.id)} >
+          <Checkbox
+            
+          />
+        </TableCell>
+		
+		<TableCell align="left">
+  {items.id ? (
+    <TextField
+      type="number"
+      value={items.quantityToMove} // Usar el estado quantityToMove del producto
+      onChange={(e) =>
+        handleQuantityChange(items.id, Number(e.target.value)) // Llamar a una función de manejo de cambios de cantidad
+      }
+    />
+  ) : null}
+</TableCell>
+
+{/* <TableCell align="left">
+  {items.selected ? (
+    <TextField
+      type="number"
+      value={"" + items.quantityToMove} // Usar el estado quantityToMove del producto
+      onChange={(e) =>
+        handleQuantityChange(items.id, Number(e.target.value)) // Llamar a una función de manejo de cambios de cantidad
+      }
+    />
+  ) : null}
+</TableCell> */}
 					  <>
 						<TableCell className="tableCell">
 						  <Button
@@ -434,15 +551,23 @@ console.log(product)
 						  <Button>Borrar</Button>
 						  </div>
 						</TableCell>
+
 					  </>
+
+
+
+					  
 					</TableRow>
 				  ))}{" "}
 			  </TableBody>
+			  <Button variant="contained" onClick={handleSubmitProduct}>
+        Enviar
+      </Button>
 			</Table>
 			<TablePagination
 			  rowsPerPageOptions={[5,10, 100]}
 			  component="div"
-			  count={product.products.length}
+			  count={productos.products.length}
 			  rowsPerPage={rowsPerPage}
 			  page={page}
 			  onPageChange={handleChangePage}

@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {TableHead,TableCell, TableBody,Table,TableRow,TableContainer, MenuItem, Select, FormControl, InputLabel, Box, Button, Grid, TextField, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import styled from 'styled-components';
@@ -84,15 +85,15 @@ const Pos = () => {
   const [paymentMethod, setPaymentMethod] = React.useState('');
   const [isCredit, setIsCredit] = React.useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  
   const [searchError, setSearchError] = useState(false);
   const [productList, setProductList] = useState([]);
   const [manualClientData, setManualClientData] = useState({ name: '', identification: '', address: '' });
   const [errorMessage, setErrorMessage] = useState('');
-
-
+  const [showMessage, setShowMessage] = useState(false);
+  const messageDuration = 5
+const [limpiar,setLimpiar]= useState('')
   
-
-
 
 
 
@@ -119,11 +120,11 @@ const Pos = () => {
   const searchProductRef = useRef(null);
   // aqui entro al estado de customer la el archivo desde customer entro a customers la variable que los obtiene
   const customers = useSelector((state) => state.customer);
-  const availableProducts = useSelector((state) => state.product.products);
+  const availableProducts = useSelector((state) => state.product);
   const availableSeller = useSelector((state) => state.seller.sellers);
 
   console.log(customers);
-
+  console.log("ErrorProd", availableProducts)
   const { message } = useSelector((state) => state.customer);
 
   console.log('Error', customers.customers.message);
@@ -148,12 +149,12 @@ const Pos = () => {
 
   // eslint-disable-next-line consistent-return
   const handleSearchProduct = () => {
-    const exactMatch = availableProducts.find((product) => product.barcode === queryp || product.name === queryp);
+    const exactMatch = availableProducts.products.find((product) => product.barcode === queryp || product.name === queryp);
     
     if (exactMatch) {
       setProduct(exactMatch);
     } else {
-      const partialMatch = availableProducts.find((product) => product.barcode.includes(queryp));
+      const partialMatch = availableProducts.products.find((product) => product.barcode.includes(queryp));
       setProduct(partialMatch || {});
     }
 
@@ -188,10 +189,11 @@ const Pos = () => {
     if (product && productsQuantity > 0) {
       if (productsQuantity > product.quantity) {
         setErrorMessage("La cantidad de venta es mayor a la cantidad disponible del producto");
+        setSearchError(true);
+        setQueryp('')
+        setLimpiar('')
         return;
       }
-
-    
       const updatedProduct = {
         ...product,
         cantidad: productsQuantity,
@@ -222,6 +224,9 @@ const Pos = () => {
     setProducts(newList);
   };
 
+
+  // envio para crear Factura
+  
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -296,6 +301,8 @@ const Pos = () => {
 
   return (
     <>
+
+    {/* resuman de pago */}
       <Modal open={isPopupOpen === true} onClose={() => setIsPopupOpen(null)}>
         <Box
           sx={{
@@ -399,7 +406,7 @@ const Pos = () => {
           >
             <Grid item xs={12} md={3}>
               <TextField
-              style={{color:'white'}}
+                style={{ color: 'white' }}
                 label="Buscar Cliente"
                 variant="outlined"
                 value={query}
@@ -518,10 +525,17 @@ const Pos = () => {
               onChange={(event) => setQueryp(event.target.value)}
               onBlur={handleSearchProduct}
             />
-              {errorMessage && <p>{errorMessage}</p>}
+            {/* Cantidad de venta supera inventario */}
+            <ErrorMessage message={errorMessage} show={searchError} />
+            {/* No existe Producto en inventario Stored */}
+            <ErrorMessage message={availableProducts.products.message} show={searchError} />
           </Grid>
+
           <Grid item xs={12} md={3}>
-            <TextField label="Descripción" variant="outlined" fullWidth value={product.description || ''} />
+            <TextField 
+            label="Descripción" 
+            variant="outlined" fullWidth 
+            value={product.description || ''  } />
           </Grid>
           <Grid item xs={12} md={2}>
             <TextField label="Precio" variant="outlined" fullWidth value={product.price || ''} />
@@ -549,56 +563,52 @@ const Pos = () => {
 
         {/* Lista de productos agregados */}
         <Grid container spacing={2} sx={{ marginBottom: 2 }}>
-      <Grid item xs={12}>
-        <Typography variant="h6">Productos Agregados : {products.length}  </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Codigo</TableCell>
-                <TableCell>Producto</TableCell>
-                <TableCell>Descripción</TableCell>
-                <TableCell>Precio</TableCell>
-                <TableCell>Cantidad</TableCell>
-                <TableCell>Subtotal</TableCell>
-                <TableCell>Quitar</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {products.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>{item.barcode}</TableCell>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.description}</TableCell>
-                  <TableCell>{item.price}</TableCell>
-                  <TableCell>{item.cantidad}</TableCell>
-                  <TableCell>{item.subtotalP}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => handleRemoveProduct(index)}
-                    >
-                      Quitar
-                    </Button>
-                  </TableCell>
-                </TableRow>
+          <Grid item xs={12}>
+            <Typography variant="h6">Productos Agregados : {products.length} </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Codigo</TableCell>
+                    <TableCell>Producto</TableCell>
+                    <TableCell>Descripción</TableCell>
+                    <TableCell>Precio</TableCell>
+                    <TableCell>Cantidad</TableCell>
+                    <TableCell>Subtotal</TableCell>
+                    <TableCell>Quitar</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {products.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{item.barcode}</TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.description}</TableCell>
+                      <TableCell>{item.price}</TableCell>
+                      <TableCell>{item.cantidad}</TableCell>
+                      <TableCell>{item.subtotalP}</TableCell>
+                      <TableCell>
+                        <Button variant="contained" color="error" onClick={() => handleRemoveProduct(index)}>
+                          Quitar
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body1">Suma de productos por item:</Typography>
+            <ul>
+              {Object.entries(sumasPorItem).map(([item, cantidad]) => (
+                <li key={item}>{`${item}: ${cantidad}`}</li>
               ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="body1">Suma de productos por item:</Typography>
-        <ul>
-          {Object.entries(sumasPorItem).map(([item, cantidad]) => (
-            <li key={item}>{`${item}: ${cantidad}`}</li>
-          ))}
-        </ul>
-      </Grid>
-    </Grid>
+            </ul>
+          </Grid>
+        </Grid>
       </Box>
     </>
   );

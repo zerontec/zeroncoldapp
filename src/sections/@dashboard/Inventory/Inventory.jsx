@@ -232,7 +232,7 @@ const Inventory = () => {
 					color="primary"
 				  >
 					{" "}
-					{loading ? "Cargando..." : "Agregar Producto "}{" "}
+					{loading ? "Cargando..." : "Crear Proveedor "}{" "}
 				  </Button>
 				</ActionsContainer>
 			  </FormContainer>
