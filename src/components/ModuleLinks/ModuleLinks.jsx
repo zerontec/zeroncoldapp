@@ -53,16 +53,17 @@ const ModuleLinks = () => {
       </LinkBox>
       <LinkBox
         style={{ backgroundColor: '#ff6b6b' }}
-        onClick={() => handleLinkClick('/modulo2')}
+        onClick={() => handleLinkClick('/dashboard/compras')}
       >
         <LinkText>Compras</LinkText>
       </LinkBox>
       <LinkBox
         style={{ backgroundColor: '#00cc99' }}
-        onClick={() => handleLinkClick('/modulo3')}
+        onClick={() => handleLinkClick('/dashboard/compras')}
       >
         <LinkText>Usuarios De Sistema</LinkText>
       </LinkBox>
+
 
 
       <LinkBox
