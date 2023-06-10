@@ -5,7 +5,7 @@
 
 import axios from 'axios';
 
-const URL = 'http://localhost:5040/api/';
+const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/';
 
 const FETCH_SUPPLIER_REQUEST = 'FETCH_SUPPLIER_REQUEST';
 const FETCH_SUPPLIER_SUCCESS = 'FETCH_SUPPLIER_SUCCESS';
@@ -37,7 +37,7 @@ export const fetchSupliers = (query) => {
   return async function (dispatch) {
     dispatch(fetchSupplierRequest());
     try {
-      const response = await fetch(`http://localhost:5040/api/supplier/search-query?q=${query}`);
+      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/supplier/search-query?q=${query}`);
       const data = await response.json();
       dispatch(fetchSupplierSuccess(data));
     } catch (error) {
@@ -50,7 +50,7 @@ export function getAllSupplier() {
   // eslint-disable-next-line consistent-return
   return async function (dispatch) {
     try {
-      const resp = await axios.get(`${URL}supplier/all`);
+      const resp = await axios.get(`${URL}api/supplier/all`);
 
       dispatch({
         type: GET_SUPPLIERS,
@@ -65,7 +65,7 @@ export function getAllSupplier() {
 export const createSuppliers = (supplierData) => async (dispatch) => {
     try {
       const { data } = await axios.post(
-        `${URL}supplier/create-supplier`,
+        `${URL}api/supplier/create-supplier`,
         supplierData
       );
       dispatch({
