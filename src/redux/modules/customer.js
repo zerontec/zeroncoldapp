@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = 'http://localhost:5040/api/'
+const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/'
 
 /* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable default-case */
@@ -41,7 +41,7 @@ export const fetchCustomers = (query) => {
     dispatch(fetchCustomersRequest());
     try {
       const response = await fetch(
-        `http://localhost:5040/api/customer/search-query?q=${query}`
+        'https://expressjs-postgres-production-bd69.up.railway.app/api/customer/search-query?q=${query}`
       );
       const data = await response.json();
       dispatch(fetchCustomersSuccess(data));
@@ -54,7 +54,7 @@ export const fetchCustomers = (query) => {
 export const createCustomer = (formInfo) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${URL}customer/create`,
+      `${URL}api/customer/create`,
       formInfo
     );
     dispatch({
