@@ -3,7 +3,7 @@
 /* eslint-disable arrow-body-style */
 import axios from 'axios'
 
-const URL = 'http://localhost:5040/api/'
+const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/'
 const FETCH_PRODUCT_REQUEST = 'FETCH_PRODUCT_REQUEST'
 const FETCH_PRODUCT_SUCCESS ='FETCH_PRODUCT_SUCCESS'
 const FETCH_PRODUCT_FAILURE = 'FETCH_PRODUCT_FAILURE'
@@ -33,7 +33,7 @@ export const fetchProductRequest = () => ({
       dispatch(fetchProductRequest());
       try {
         const response = await fetch(
-          `http://localhost:5040/api/product/search-query?q=${query}`
+          `https://expressjs-postgres-production-bd69.up.railway.app/api/product/search-query?q=${query}`
         );
         const data = await response.json();
         dispatch(fetchProductSuccess(data));
@@ -45,7 +45,7 @@ export const fetchProductRequest = () => ({
   export const createProducts = (formInfo) => async (dispatch) => {
     try {
       const response = await axios.post(
-        `${URL}product/create`,
+        `${URL}api/product/create`,
         formInfo
       );
       dispatch({
@@ -82,7 +82,7 @@ export const fetchProductRequest = () => ({
   export function updateProduct(id, data) {
     return async function (dispatch) {
       try {
-        const resp = await axios.put(`${URL}product/update/${id}`, data);
+        const resp = await axios.put(`${URL}api/product/update/${id}`, data);
   
         return dispatch({
           type: UPDATE_PRODUCT,
@@ -97,7 +97,7 @@ export const fetchProductRequest = () => ({
 
   export const deleteProduct = (id) => async (dispatch) => {
     try {
-      await axios.delete(`${URL}product/delete/${id}`);
+      await axios.delete(`${URL}api/product/delete/${id}`);
   
       dispatch({
         type: DELETE_PRODUCT,
@@ -114,7 +114,7 @@ export const fetchProductRequest = () => ({
 try{
     const {data}= await axios.post(
 
-      `${URL}product/move-to-store`,
+      `${URL}api/product/move-to-store`,
       formInfo
     );
     dispatch({
