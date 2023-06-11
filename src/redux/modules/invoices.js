@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/'
+const URL = 'http://localhost:5040/api/';
 
 const FETCH_IVOICE_REQUEST = 'FETCH_IVOICE_REQUEST';
 const FETCH_IVOICE_SUCCESS = 'FETCH_IVOICE_SUCCESS';
@@ -34,7 +34,7 @@ export const fetchInvoices = (query) => {
   return async function (dispatch) {
     dispatch(fetchInvoiceRequest());
     try {
-      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/invoice/search-ByQuery?q=${query}`);
+      const response = await fetch(`http://localhost:5040/api/invoice/search-ByQuery?q=${query}`);
       const data = await response.json();
       dispatch(fetchInvoiceSuccess(data));
     } catch (error) {
@@ -47,7 +47,7 @@ export function getAllInvoices() {
   // eslint-disable-next-line consistent-return
   return async function (dispatch) {
     try {
-      const resp = await axios.get(`${URL}api/invoice/all`);
+      const resp = await axios.get(`${URL}invoice/all`);
 
       dispatch({
         type: GET_INVOICES,
@@ -62,7 +62,7 @@ export function getAllInvoices() {
 export const createInvoices = (invoiceData) => async (dispatch) => {
     try {
       const { data } = await axios.post(
-        `${URL}api/invoice/create`,
+        `${URL}invoice/create`,
         invoiceData
       );
       dispatch({
