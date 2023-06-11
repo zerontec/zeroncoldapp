@@ -66,7 +66,7 @@ export const fetchProductRequest = () => ({
   export const getAllProduct =() =>async (dispatch)=>{
     
      try {
-        const resp = await axios.get(`${URL}product/all `);
+        const resp = await axios.get(`${URL}api/product/all `);
   
         dispatch({
           type: GET_ALL_PRODUCTS,
