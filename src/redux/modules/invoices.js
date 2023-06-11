@@ -3,7 +3,7 @@
 
 import axios from 'axios';
 
-const URL = 'http://localhost:5040/api/';
+const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/';
 
 const FETCH_IVOICE_REQUEST = 'FETCH_IVOICE_REQUEST';
 const FETCH_IVOICE_SUCCESS = 'FETCH_IVOICE_SUCCESS';
@@ -32,7 +32,7 @@ export const fetchInvoices = (query) => {
   return async function (dispatch) {
     dispatch(fetchInvoiceRequest());
     try {
-      const response = await fetch(`http://localhost:5040/api/invoice/search-ByQuery?q=${query}`);
+      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/invoice/search-ByQuery?q=${query}`);
       const data = await response.json();
       dispatch(fetchInvoiceSuccess(data));
     } catch (error) {
