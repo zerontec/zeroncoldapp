@@ -33,8 +33,7 @@ export const fetchProductRequest = () => ({
       dispatch(fetchProductRequest());
       try {
         const response = await fetch(
-          `https://expressjs-postgres-production-bd69.up.railway.app/api/product/search-query?q=${query}`
-        );
+          `https://expressjs-postgres-production-bd69.up.railway.app/api/product/search-query?q=${query}`);
         const data = await response.json();
         dispatch(fetchProductSuccess(data));
       } catch (error) {
