@@ -1,7 +1,4 @@
-/* eslint-disable consistent-return */
-/* eslint-disable prefer-promise-reject-errors */
-/* eslint-disable func-names */
-/* eslint-disable arrow-body-style */
+
 
 import axios from 'axios';
 
@@ -33,8 +30,8 @@ export const fetchSupplierFailure = (error) => ({
   payload: error,
 });
 
-export const fetchSupliers = (query) => {
-  return async function (dispatch) {
+export const fetchSupliers = (query) => async(dispatch)=>  {
+
     dispatch(fetchSupplierRequest());
     try {
       const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/supplier/search-query?q=${query}`);
@@ -44,11 +41,10 @@ export const fetchSupliers = (query) => {
       dispatch(fetchSupplierRequest(error.message));
     }
   };
-};
 
-export function getAllSupplier() {
-  // eslint-disable-next-line consistent-return
-  return async function (dispatch) {
+export const getAllSupplier =() => async(dispatch)=>  {
+  
+
     try {
       const resp = await axios.get(`${URL}api/supplier/all`);
 
@@ -56,11 +52,12 @@ export function getAllSupplier() {
         type: GET_SUPPLIERS,
         payload: resp.data,
       });
+      return resp.data
     } catch (err) {
       return err.response;
     }
   };
-}
+
 
 export const createSuppliers = (supplierData) => async (dispatch) => {
     try {
@@ -73,9 +70,10 @@ export const createSuppliers = (supplierData) => async (dispatch) => {
         payload: data,
       });
       // Aquí podrías enviar una notificación de éxito al usuario
+      return data
     } catch (error) {
       if (error.response && error.response.status === 409) {
-        return Promise.reject({ message: "El Rif ya existe. Ingrese otro." });
+        return new Error({ message: "El Rif ya existe. Ingrese otro." });
       }
       throw error;
     }

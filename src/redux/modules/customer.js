@@ -2,8 +2,6 @@ import axios from 'axios';
 
 const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/'
 
-/* eslint-disable prefer-promise-reject-errors */
-/* eslint-disable default-case */
 const FETCH_CUSTOMERS_FAILURE = 'FETCH_CUSTOMER_FAILURE'
 const FETCH_CUSTOMERS_SUCCESS = 'FETCH_CUSTOMERS_SUCCESS'
 const FETCH_CUSTOMERS_REQUEST = 'FETCH_CUSTOMERS_REQUEST'
@@ -34,21 +32,22 @@ export const customerError = (error) => ({
 
 
 
-// eslint-disable-next-line arrow-body-style
-export const fetchCustomers = (query) => {
-  // eslint-disable-next-line func-names
-  return async function (dispatch) {
+
+export const fetchCustomers = (query) =>async (dispatch) => {
+ 
+  
     dispatch(fetchCustomersRequest());
     try {
       const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/customer/search-query?q=${query}`
       );
       const data = await response.json();
       dispatch(fetchCustomersSuccess(data));
+      return response.data;
     } catch (error) {
       dispatch(fetchCustomersFailure(error.message));
+      return null
     }
   };
-};
 
 export const createCustomer = (formInfo) => async (dispatch) => {
   try {
@@ -63,7 +62,7 @@ export const createCustomer = (formInfo) => async (dispatch) => {
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 409) {
-      return Promise.reject({
+      throw new Error({
         message: "El código ya existe. Ingrese otro."
       });
     }

@@ -1,5 +1,3 @@
-/* eslint-disable default-case */
-/* eslint-disable no-empty */
 
 
 

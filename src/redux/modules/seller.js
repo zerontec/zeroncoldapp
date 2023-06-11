@@ -1,4 +1,4 @@
-/* eslint-disable default-case */
+
 const FETCH_SELLER_FAILURE = 'FETCH_SELLER_FAILURE'
 const FETCH_SELLER_SUCCESS = 'FETCH_SELLER_SUCCESS'
 const FETCH_SELLER_REQUEST ='FETCH_SELLER_REQUEST'
@@ -26,10 +26,9 @@ export const fetchSellerRequest = () => ({
 
 
   
-  // eslint-disable-next-line arrow-body-style
-  export const fetchSellers = (query) => {
-    // eslint-disable-next-line func-names
-    return async function (dispatch) {
+  export const fetchSellers =(query)=> async(dispatch) =>  {
+    
+   
       dispatch(fetchSellerRequest());
       try {
         const response = await fetch(
@@ -41,7 +40,7 @@ export const fetchSellerRequest = () => ({
         dispatch(fetchSellersFailure(error.message));
       }
     };
-  };
+ 
   
 
 

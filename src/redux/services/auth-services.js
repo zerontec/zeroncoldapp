@@ -1,19 +1,19 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5040/api/auth/";
+const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/";
 
-// eslint-disable-next-line prefer-template
-const register = (name,username, email, password) => axios.post(API_URL + "register-user", {
-    name,
-    username,
-    email,
-    password,
-   
-  });
+
+const register = (name, username, email, password) => axios.post(
+  `${API_URL}api/auth/register-user`, {
+  name,
+  username,
+  email,
+  password,
+});
 
 const login = (username, password) => axios
-    // eslint-disable-next-line prefer-template
-    .post(API_URL + "login", {
+  
+    .post(`${API_URL}api/auth/login`, {
       username,
       password,
     })

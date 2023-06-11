@@ -1,6 +1,4 @@
-/* eslint-disable consistent-return */
-/* eslint-disable func-names */
-/* eslint-disable arrow-body-style */
+
 import axios from 'axios'
 
 const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/'
@@ -28,85 +26,90 @@ export const fetchProductRequest = () => ({
     payload: error,
   });
   
-  export const fetchProducts = (query) => {
-    return async function (dispatch) {
-      dispatch(fetchProductRequest());
-      try {
-        const response = await fetch(
-          `https://expressjs-postgres-production-bd69.up.railway.app/api/product/search-query?q=${query}`);
-        const data = await response.json();
-        dispatch(fetchProductSuccess(data));
-      } catch (error) {
-        dispatch(fetchProductFailure(error.message));
-      }
-    };
-  };
-  export const createProducts = (formInfo) => async (dispatch) => {
+  export const fetchProducts = (query) => async (dispatch) => {
+    dispatch(fetchProductRequest());
     try {
-      const response = await axios.post(
-        `${URL}api/product/create`,
-        formInfo
-      );
-      dispatch({
-        type: CREATE_PRODUCT,
-        payload: response.data,
-      });
-      return response.data;
+      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/product/search-query?q=${query}`);
+      const data = await response.json();
+      dispatch(fetchProductSuccess(data));
+      return data;
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        // eslint-disable-next-line prefer-promise-reject-errors
-        return Promise.reject({ message: "El código ya existe. Ingrese otro." });
-      }
-      throw error;
+      dispatch(fetchProductFailure(error.message));
+      return null; // O devuelve otro valor adecuado en caso de error
     }
   };
-
-  export function getAllProduct() {
-    return async function (dispatch) {
+  
+    export const createProducts = (formInfo) => async (dispatch) => {
       try {
+        const response = await axios.post(`${URL}api/product/create`, formInfo);
+        dispatch({
+          type: CREATE_PRODUCT,
+          payload: response.data,
+        });
+        return response.data;
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          throw new Error("El código ya existe. Ingrese otro.");
+        }
+        throw error;
+      }
+    };
+   
+    
+    
+    
+    
+    
+    
+    
+
+  export const getAllProduct =() =>async (dispatch)=>{
+    
+     try {
         const resp = await axios.get(`${URL}product/all `);
   
         dispatch({
           type: GET_ALL_PRODUCTS,
           payload: resp.data,
         });
+        return resp.data
       } catch (err) {
         return err.response;
       }
     };
-  }
+  
   
 
 
-  export function updateProduct(id, data) {
-    return async function (dispatch) {
+    export const updateProduct = (id, data) => async (dispatch) => {
       try {
         const resp = await axios.put(`${URL}api/product/update/${id}`, data);
-  
-        return dispatch({
+    
+        dispatch({
           type: UPDATE_PRODUCT,
           payload: resp.data,
         });
+    
+        return resp.data;
       } catch (err) {
         return err.response;
       }
     };
-  }
 
 
-  export const deleteProduct = (id) => async (dispatch) => {
-    try {
-      await axios.delete(`${URL}api/product/delete/${id}`);
-  
-      dispatch({
-        type: DELETE_PRODUCT,
-        payload: { id },
-      });
-    } catch (err) {
-      return err.response;
-    }
-  };
-
+    export const deleteProduct = (id) => async (dispatch) => {
+      try {
+        await axios.delete(`${URL}api/product/delete/${id}`);
+    
+        dispatch({
+          type: DELETE_PRODUCT,
+          payload: { id },
+        });
+        return({message:"Eliminado con exito"})
+      } catch (err) {
+        return err.response;
+      }
+    };
 
   export const moveInventory = (formInfo) => async(dispatch)=>{
 

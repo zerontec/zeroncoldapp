@@ -1,5 +1,4 @@
-/* eslint-disable func-names */
-/* eslint-disable arrow-body-style */
+
 
 import axios from 'axios';
 
@@ -31,22 +30,24 @@ export const fetchPurchaseFailure = (error) => ({
   payload: error,
 });
 
-export const fetchPurchases = (query) => {
-  return async function (dispatch) {
+export const fetchPurchases = (query) => async(dispatch) => {
+ 
     dispatch(fetchPurchaseRequest());
     try {
       const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/purchase/search-ByQuery?q=${query}`);
       const data = await response.json();
       dispatch(fetchPurchaseSuccess(data));
+      return data
     } catch (error) {
       dispatch(fetchPurchaseRequest(error.message));
+      throw error 
     }
   };
-};
 
-export function getAllPurchases() {
-  // eslint-disable-next-line consistent-return
-  return async function (dispatch) {
+
+export const getAllPurchases= () => async(dispatch) =>  {
+
+
     try {
       const resp = await axios.get(`${URL}api/invoice/all`);
 
@@ -54,11 +55,12 @@ export function getAllPurchases() {
         type: GET_PURCHASES,
         payload: resp.data,
       });
+      return resp.data
     } catch (err) {
       return err.response;
     }
   };
-}
+
 
 export const createPurchase = (purchaseData) => async (dispatch) => {
     try {

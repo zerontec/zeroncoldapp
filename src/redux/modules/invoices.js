@@ -1,8 +1,4 @@
-/* eslint-disable consistent-return */
-/* eslint-disable no-unreachable */
-/* eslint-disable no-return-assign */
-/* eslint-disable func-names */
-/* eslint-disable arrow-body-style */
+
 
 import axios from 'axios';
 
@@ -31,34 +27,32 @@ export const fetchInvoiceFailure = (error) => ({
   payload: error,
 });
 
-export const fetchInvoices = (query) => {
-  return async function (dispatch) {
-    dispatch(fetchInvoiceRequest());
-    try {
-      const response = await fetch(
-        `https://expressjs-postgres-production-bd69.up.railway.app/api/invoice/search-query?q=${query}`);
-      const data = await response.json();
-      dispatch(fetchInvoiceSuccess(data));
-    } catch (error) {
-      dispatch(fetchInvoiceRequest(error.message));
-    }
-  };
+
+export const fetchInvoices = (query) => async (dispatch) => {
+  dispatch(fetchInvoiceRequest());
+  try {
+    const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/invoice/search-query?q=${query}`);
+    const data = await response.json();
+    dispatch(fetchInvoiceSuccess(data));
+    return data;
+  } catch (error) {
+    dispatch(fetchInvoiceRequest(error.message));
+    throw error;
+  }
 };
-export function getAllInvoices() {
-  return async function (dispatch) {
+
+  export const getAllInvoices = () => async (dispatch) => {
     try {
       const resp = await axios.get(`${URL}invoice/all`);
-
-      dispatch({ type: GET_INVOICES, 
-        payload: resp.data 
-      });
+  
+      dispatch({ type: GET_INVOICES, payload: resp.data });
+  
+      return resp.data;
     } catch (err) {
-      return err.response;
+      throw err.response;
     }
   };
-}
-
-
+  
 
 
 export const createInvoices = (invoiceData) => async (dispatch) => {
