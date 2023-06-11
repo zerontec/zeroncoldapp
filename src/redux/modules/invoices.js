@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-unreachable */
+/* eslint-disable no-return-assign */
 /* eslint-disable func-names */
 /* eslint-disable arrow-body-style */
 
@@ -41,22 +44,22 @@ export const fetchInvoices = (query) => {
     }
   };
 };
-
 export function getAllInvoices() {
-  // eslint-disable-next-line consistent-return
   return async function (dispatch) {
     try {
       const resp = await axios.get(`${URL}invoice/all`);
 
-      dispatch({
-        type: GET_INVOICES,
-        payload: resp.data,
+      dispatch({ type: GET_INVOICES, 
+        payload: resp.data 
       });
     } catch (err) {
       return err.response;
     }
   };
 }
+
+
+
 
 export const createInvoices = (invoiceData) => async (dispatch) => {
   try {
@@ -104,6 +107,9 @@ export default function invoiceReducer(state = initialState, action) {
         isSuccess: false,
         invoice: null,
       };
+
+
+     
 
     default:
       return state;
