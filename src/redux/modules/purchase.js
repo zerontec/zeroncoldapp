@@ -3,7 +3,7 @@
 
 import axios from 'axios';
 
-const URL = 'http://localhost:5040/api/';
+const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/';
 
 const FETCH_PURCHASE_REQUEST = 'FETCH_PURCHASE_REQUEST';
 const FETCH_PURCHASE_SUCCESS = 'FETCH_PURCHASE_SUCCESS';
@@ -35,7 +35,7 @@ export const fetchPurchases = (query) => {
   return async function (dispatch) {
     dispatch(fetchPurchaseRequest());
     try {
-      const response = await fetch(`http://localhost:5040/api/purchase/search-ByQuery?q=${query}`);
+      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/purchase/search-ByQuery?q=${query}`);
       const data = await response.json();
       dispatch(fetchPurchaseSuccess(data));
     } catch (error) {
@@ -48,7 +48,7 @@ export function getAllPurchases() {
   // eslint-disable-next-line consistent-return
   return async function (dispatch) {
     try {
-      const resp = await axios.get(`${URL}invoice/all`);
+      const resp = await axios.get(`${URL}api/invoice/all`);
 
       dispatch({
         type: GET_PURCHASES,
@@ -63,7 +63,7 @@ export function getAllPurchases() {
 export const createPurchase = (purchaseData) => async (dispatch) => {
     try {
       const { data } = await axios.post(
-        `${URL}purchase/create-purchase`,
+        `${URL}api/purchase/create-purchase`,
         purchaseData
       );
       dispatch({

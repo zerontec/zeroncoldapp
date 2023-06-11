@@ -1,5 +1,4 @@
-/* eslint-disable func-names */
-/* eslint-disable arrow-body-style */
+
 
 import axios from 'axios';
 
@@ -42,7 +41,7 @@ export const fetchInvoices = (query) => {
 };
 
 export function getAllInvoices() {
-  // eslint-disable-next-line consistent-return
+
   return async function (dispatch) {
     try {
       const resp = await axios.get(`${URL}invoice/all`);
