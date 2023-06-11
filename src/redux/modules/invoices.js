@@ -57,7 +57,7 @@ export const fetchInvoices = (query) => async (dispatch) => {
 
 export const createInvoices = (invoiceData) => async (dispatch) => {
   try {
-    const { data } = await axios.post(`${URL}invoice/create`, invoiceData);
+    const { data } = await axios.post(`${URL}api/invoice/create`, invoiceData);
     dispatch({
       type: CREATE_INVOICE_SUCCESS,
       payload: data,
