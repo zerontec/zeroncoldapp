@@ -11,11 +11,8 @@ const FETCH_IVOICE_FAILURE = 'FETCH_IVOICE_FAILURE';
 
 const CREATE_INVOICE = 'CREATE_INVOICE';
 const GET_INVOICES = 'GET_INVOICES';
-const CREATE_INVOICE_SUCCESS ='CREATE_INVOICE_SUCCESS';
+const CREATE_INVOICE_SUCCESS = 'CREATE_INVOICE_SUCCESS';
 const CREATE_INVOICE_ERROR = 'CREATE_INVOICE_ERROR';
-
-
-
 
 export const fetchInvoiceRequest = () => ({
   type: FETCH_IVOICE_REQUEST,
@@ -61,64 +58,51 @@ export function getAllInvoices() {
 }
 
 export const createInvoices = (invoiceData) => async (dispatch) => {
-    try {
-      const { data } = await axios.post(
-        `${URL}invoice/create`,
-        invoiceData
-      );
-      dispatch({
-        type: CREATE_INVOICE_SUCCESS,
-        payload: data,
-      });
-      // Aquí podrías enviar una notificación de éxito al usuario
-    } catch (error) {
-      dispatch({
-        type: CREATE_INVOICE_ERROR,
-        payload: error.response.data.message,
-      });
-      // Aquí podrías enviar una notificación de error al usuario
-    }
-  };
-  
-
-
-
-
+  try {
+    const { data } = await axios.post(`${URL}invoice/create`, invoiceData);
+    dispatch({
+      type: CREATE_INVOICE_SUCCESS,
+      payload: data,
+    });
+    // Aquí podrías enviar una notificación de éxito al usuario
+  } catch (error) {
+    dispatch({
+      type: CREATE_INVOICE_ERROR,
+      payload: error.response.data.message,
+    });
+    // Aquí podrías enviar una notificación de error al usuario
+  }
+};
 
 export const initialState = {
   invoices: [],
   message: null,
   error: null,
-  sendInvoice:{},
-  
+  sendInvoice: {},
 };
 
 export default function invoiceReducer(state = initialState, action) {
   switch (action.type) {
-    
     case GET_INVOICES:
       return {
         ...state,
         invoices: action.payload,
       };
 
-      case CREATE_INVOICE:
-        return{
-          ...state,
-          sendInvoice:action.payload
-    
-        }
+    case CREATE_INVOICE:
+      return {
+        ...state,
+        sendInvoice: action.payload,
+      };
 
-        case CREATE_INVOICE_ERROR:
-  return {
-    ...state,
-    isLoading: false,
-    error: action.payload,
-    isSuccess: false,
-    invoice: null,
-  };
-
-
+    case CREATE_INVOICE_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+        isSuccess: false,
+        invoice: null,
+      };
 
     default:
       return state;
