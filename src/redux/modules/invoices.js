@@ -43,7 +43,7 @@ export const fetchInvoices = (query) => async (dispatch) => {
 
   export const getAllInvoices = () => async (dispatch) => {
     try {
-      const resp = await axios.get(`${URL}invoice/all`);
+      const resp = await axios.get(`${URL}api/invoice/all`);
   
       dispatch({ type: GET_INVOICES, payload: resp.data });
   
