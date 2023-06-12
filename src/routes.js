@@ -15,32 +15,44 @@ import PurchasePage from './pages/PurchasePages';
 import AdminPages from './pages/AdminPages';
 import InvoicePages from './pages/Invoices';
 import InventoryPages from './pages/InventoryPages';
+import { ProtectedRoute } from './components/ProtectedRoute';
+
+import CuentasxPages from './pages/CuentasxcPages';
 
 // ----------------------------------------------------------------------
 
+
+const user = JSON.parse(localStorage.getItem("user"));
+console.log("user")
 export default function Router() {
+  const isLoggedIn = !!user; // Verificar si el usuario está registrado
+  const redirectPath = isLoggedIn ? "/dashboard" : "/login"; // Determinar la ruta de redirección
+
+
+
   const routes = useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" replace />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
+        
+        {path:"user", element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <UserPage/></ProtectedRoute> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
-        { path: 'facturacion', element: <PosPage /> },
-        { path: 'Compras', element: <PurchasePage /> },
-        { path: 'Administracion', element: <AdminPages /> },
-        { path: 'invoice', element: <InvoicePages /> },
-        { path: 'inventario', element: <InventoryPages /> },
-
+        { path: 'facturacion', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <PosPage /></ProtectedRoute> },
+        { path: 'Compras', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <PurchasePage /></ProtectedRoute>  },
+        { path: 'Administracion', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <AdminPages /></ProtectedRoute >},
+        { path: 'invoice', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <InvoicePages /></ProtectedRoute> },
+        { path: 'inventario', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <InventoryPages /></ProtectedRoute> },
+        { path: 'cuentasxc', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <CuentasxPages /></ProtectedRoute> },
       ],
     },
 
     {
-      path: 'login',
-      element: <LoginPage />,
+      path: "login",
+      element: isLoggedIn ? <Navigate to="/dashboard" replace /> : <LoginPage />,
     },
     {
       element: <SimpleLayout />,
