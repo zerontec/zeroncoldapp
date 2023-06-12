@@ -12,13 +12,8 @@ const navConfig = [
     icon: icon('ic_analytics'),
   },
   {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: icon('ic_user'),
-  },
-  {
-    title: 'product',
-    path: '/dashboard/products',
+    title: 'Administracion',
+    path: '/dashboard/Administracion',
     icon: icon('ic_cart'),
   },
   {
@@ -31,22 +26,36 @@ const navConfig = [
     path: '/dashboard/compras',
     icon: icon('ic_cart'),
   },
-
   {
-    title: 'Administracion',
-    path: '/dashboard/Administracion',
+    title: 'user',
+    path: '/dashboard/user',
+    icon: icon('ic_user'),
+  },
+  {
+    title: 'product',
+    path: '/dashboard/products',
     icon: icon('ic_cart'),
   },
+
+ 
+
+ 
   {
     title: 'blog',
     path: '/dashboard/blog',
     icon: icon('ic_blog'),
   },
-  {
-    title: 'login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
+  // {
+  //   title: 'login',
+  //   path: '/login',
+  //   icon: icon('ic_lock'),
+  // },
+
+  // {
+  //   title: 'logout',
+  //   path: '/logout',
+  //   icon: icon('ic_lock'),
+  // },
   {
     title: 'Not found',
     path: '/404',
