@@ -640,7 +640,7 @@ setNumberpurchase(event.target.value)
                     }}
                     edge="end"
                   >
-                    {isBarcodeDirty && <ClearIcon />}
+                    {isBarcodeDirty }
                   </IconButton>
                 ),
               }}
