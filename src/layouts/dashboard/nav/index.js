@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect , useState} from 'react';
 import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
@@ -35,8 +37,22 @@ Nav.propTypes = {
   onCloseNav: PropTypes.func,
 };
 
+
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
+
+  const [roleShow, setRoleShow] = useState('')
+
+const usuario = useSelector((state)=> state.auth)
+console.log("el usuario ", usuario)
+
+useEffect(() => {
+  if (usuario.user.roles.includes('ROLE_ADMIN')) {
+    setRoleShow('Administrador');
+  } else {
+    setRoleShow('Usuario normal');
+  }
+}, [usuario]);
 
   const isDesktop = useResponsive('up', 'lg');
 
@@ -65,11 +81,11 @@ export default function Nav({ openNav, onCloseNav }) {
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {usuario.user.username}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+                {roleShow}
               </Typography>
             </Box>
           </StyledAccount>
