@@ -2,14 +2,15 @@
 
 import React, { useState , useEffect} from 'react';
 
-import {InputLabel,Box,TableHead,TableCell, TableBody,Table,TableRow,TableContainer, MenuItem, Select, FormControl, Button, Grid, TextField, Typography } from '@mui/material';
+import {IconButton, InputLabel,Box,TableHead,TableCell, TableBody,Table,TableRow,TableContainer, MenuItem, Select, FormControl, Button, Grid, TextField, Typography } from '@mui/material';
 import styled from 'styled-components';
 import Modal from '@mui/material/Modal';
+
 import { useSelector, useDispatch } from 'react-redux';
 import Snackbar from '@mui/material/Snackbar';
 import { fetchSupliers } from '../../../redux/modules/supplier';
 import { fetchProducts } from '../../../redux/modules/products';
-import { createPurchase } from '../../../redux/modules/purchase';
+import { createPurchase, fetchPurchases } from '../../../redux/modules/purchase';
 import { ErrorMessage } from '../../../components/ErrorMessage';
 import { CreateSupplier } from '../../../components/CreateSupplier';
 
@@ -18,6 +19,16 @@ import { CreateSupplier } from '../../../components/CreateSupplier';
 const FormContainer = styled(Grid)`
   margin-bottom: 16px;
 `;
+
+const FormTipo = styled.div`
+  display: flex;
+  gap: 3rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 2rem;
+  background-color: rgb(255, 107, 107);
+  border-radius: 30px;
+`
 
 const SummaryContainerP = styled(Box)`
   display: flex;
@@ -64,13 +75,15 @@ const [searchError, setSearchError] = useState(false);
 const [products, setProducts] = useState([]);
 const [subtotal, setSubtotal] = useState(0);
 const [queryp, setQueryp] = useState('');
-const [manualProductData, setManualProductData] = useState({ name: '', description: '',barcode:'' });
+const [queryPu, setQueryPu] = useState('');
+const [manualProductData, setManualProductData] = useState({ name: '', description: '',barcode:'', productsPrices:'' });
 const [currency, setCurrency] = useState('Bs');
 const [currencys, setCurrencys] = useState('$');
 const [isPopupOpen, setIsPopupOpen] = useState(false);
-  
 const [paymentStatus, setPaymentStatus] = useState('');
 const [limpiarForm, setLimpiarForm] = useState('');
+const [message, setMessage] = useState('')
+
 const dispatch = useDispatch();
 
 
@@ -80,7 +93,8 @@ const [formValues, setFormValues] = useState({
   rif: supplier.rif || '',
   name: supplier.name || '',
   address: supplier.address || '',
-  phoneNumber: supplier.phoneNumber || ''
+  phoneNumber: supplier.phoneNumber || '',
+  barcode:product.barcode || ''
 });
 
 useEffect(() => {
@@ -88,7 +102,8 @@ useEffect(() => {
     rif: supplier.rif || '',
     name: supplier.name || '',
     address: supplier.address || '',
-    phoneNumber: supplier.phoneNumber || ''
+    phoneNumber: supplier.phoneNumber || '',
+   
   });
 }, [supplier])
 
@@ -99,9 +114,55 @@ const resetForm = () => {
     rif: '',
     name:'',
     address:'',
-    phoneNumber:''
+    phoneNumber:'',
+  
   });
 };
+
+
+
+const [formValuesP, setFormValuesP] = useState({
+ 
+  barcode:product.barcode || '' , name: product.name || '',
+  description: product.description || '',
+  cantidad: productsQuantity || '',
+  costo:productsCosto || '',
+  precioVenta:productsPrice || '',
+  porcentajeGan:porcentajeGanacia || ''
+});
+
+useEffect(() => {
+  setFormValuesP({
+    barcode: product.barcode || '',
+    name: product.name || '',
+    description: product.description || '',
+    cantidad: productsQuantity || '',
+    costo:productsCosto || '',
+    precioVenta:productsPrice || '',
+   porcentajeGan:porcentajeGanacia || ''
+   
+  });
+}, [product, porcentajeGanacia, productsCosto,productsQuantity,productsPrice ])
+
+
+
+const resetFormP= () => {
+  setFormValuesP({
+    ...formValuesP,
+    barcode: '',
+    name:'',
+    description:'',
+   cantidad:'',
+   costo:'',
+   precioVenta:'',
+   porcentajeGan:''
+
+  
+  });
+};
+
+
+
 
 
 useEffect(() => {
@@ -119,6 +180,12 @@ const availableProducts = useSelector((state)=> state.product)
 console.log("aqui producto",availableProducts);
 
 const compras = useSelector((state) => state.purchase)
+
+console.log("compras", compras)
+
+
+
+
 
   const handleSearchProvider = () => {
     // Agregar lógica para buscar al proveedor
@@ -143,6 +210,45 @@ const compras = useSelector((state) => state.purchase)
       setProduct(partialMatch || {});
     }
   }
+
+  const handleNumFacturaCompraChange = (event) => {
+    setQueryPu(event.target.value); // Se debe utilizar setQueryPu en lugar de event para actualizar el estado
+  };
+
+const handleSearchCompra =()=>{
+
+  console.log("aquiiiii")
+    const existeNumeroCompra = compras.purchases.find((purchase) => purchase.purchaseNumber === queryPu);
+  
+    if (existeNumeroCompra) {
+      console.log("'aqui numero de compra existe'",existeNumeroCompra)
+      setMessage("Epaleee")
+      setSearchError(true);
+    } else {
+      setSearchError(false);
+      // Realizar las acciones correspondientes si el número de compra es válido
+    }
+
+}
+
+  const validarNumeroCompra = () => {
+    // Agregar lógica para buscar la compra en el array de compras
+  
+    const existeNumeroCompra = compras.purchases.find((purchase) => purchase.purchaseNumber === queryPu);
+  
+    if (existeNumeroCompra) {
+      setSearchError(true);
+setMessage("Epaleee")
+   
+    } else {
+      setSearchError(false);
+      // Realizar las acciones correspondientes si el número de compra es válido
+    }
+  };
+
+
+
+
 
   const handleProductQuantityChange = (event) => {
     setProductsQuantity(event.target.value);
@@ -179,6 +285,7 @@ const handlenumberInvoice =(event)=>{
 
   setNumberInvoice(event.target.value)
 }
+
 const handlenumberPurchase=(event)=>{
 
 setNumberpurchase(event.target.value)
@@ -208,7 +315,10 @@ setNumberpurchase(event.target.value)
          barcode:product.barcode || manualProductData.barcode,
          cantidad: parseInt(productsQuantity),
          costo: parseFloat(productsCosto),
-         price: parseFloat(productsPrice),
+         price: parseFloat(productsPrice || manualProductData.productsPrice),
+         name:product.name ||manualProductData.name,
+         description:product.description ||manualProductData.description,
+        
         
           subtotalP: productsQuantity * productsCosto,
        };
@@ -284,7 +394,10 @@ setNumberpurchase(event.target.value)
     // setSeller({});
   };
 
-  
+  const [isBarcodeDirty, setIsBarcodeDirty] = useState(false);
+  const [isNameDirty, setIsNameDirty] = useState(false);
+  const [isDescriptionDirty, setIsDescriptionDirty] = useState(false);
+
 
   useEffect(() => {
     if (query) {
@@ -298,6 +411,13 @@ setNumberpurchase(event.target.value)
       dispatch(fetchProducts(queryp));
     }
   }, [queryp, dispatch]);
+
+
+  useEffect(() => {
+    if (queryPu) {
+      dispatch(fetchPurchases(queryPu));
+    }
+  }, [queryPu, dispatch]);
 
 
   const openPopup = () => {
@@ -330,10 +450,8 @@ setNumberpurchase(event.target.value)
           p: 4,
         }}
       >
-        <Typography variant="h5" sx={{ marginBottom: 2 }}>
-          Resumen de Compra
-        </Typography>
-
+       
+       
         <Box sx={{ marginBottom: 2 }}>
           {/* <Typography variant="body1">SubTotal: {subtotal.toFixed(2)}</Typography> */}
           
@@ -400,10 +518,11 @@ setNumberpurchase(event.target.value)
         </Button>
       </Box>
     </Modal><Box>
+     
         <Typography variant="h5" sx={{ marginBottom: 2 }}>
           Carga de Compras
         </Typography>
-
+        
         {/* Formulario de búsqueda y agregar proveedor */}
         <FormContainer container spacing={2} alignItems="flex-start">
           <Grid item xs={12} md={4}>
@@ -464,7 +583,7 @@ setNumberpurchase(event.target.value)
          
           </Grid>
 
-          <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={4}>
             <TextField 
             label="Número de Compra" 
             type="number"
@@ -474,6 +593,8 @@ setNumberpurchase(event.target.value)
             />
          
           </Grid>
+
+
           <Grid item xs={12} md={4}>
             <TextField label="Fecha de Factura" variant="outlined" fullWidth type="date" />
           </Grid>
@@ -483,6 +604,7 @@ setNumberpurchase(event.target.value)
         <SummaryContainer>
           <Typography variant="h6">Resumen de la Compra</Typography>
           <Typography>Total: {total}</Typography>
+          <Button  onClick={resetFormP }  >Limpiar Form Productos </Button>
         </SummaryContainer>
         <TextField
           style={{ marginBottom: '10px', marginTop: '10px' }}
@@ -493,16 +615,37 @@ setNumberpurchase(event.target.value)
           onBlur={handleSearchProduct} />
             <ErrorMessage message={availableProducts.products.message} show={searchError} />
         {/* Formulario de carga de producto */}
+        
         <FormContainer container spacing={2} alignItems="flex-start">
           <Grid item xs={12} md={2}>
             <TextField
               label="Código"
               variant="outlined"
-              value={product.barcode || manualProductData.barcode || ''}
+              value={formValuesP.barcode || manualProductData.barcode || ''}
               onChange={(event) => setManualProductData({
                 ...manualProductData,
                 barcode: event.target.value,
-              })} />
+              })}
+              
+              
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    onClick={() => {
+                      setManualProductData({
+                        ...manualProductData,
+                        barcode: '',
+                      });
+                      setIsBarcodeDirty(false);
+                    }}
+                    edge="end"
+                  >
+                    {isBarcodeDirty && <ClearIcon />}
+                  </IconButton>
+                ),
+              }}
+              
+              />
           </Grid>
           <Grid item xs={12} md={2}>
             <TextField
@@ -510,7 +653,7 @@ setNumberpurchase(event.target.value)
               variant="outlined"
               style={{ marginTop: 10 }}
               type='text'
-              value={product.name || manualProductData.name || ''}
+              value={formValuesP.name || manualProductData.name || ''}
               onChange={(event) => setManualProductData({
                 ...manualProductData,
                 name: event.target.value,
@@ -524,11 +667,15 @@ setNumberpurchase(event.target.value)
               label="Descripción"
               variant="outlined"
               style={{ marginTop: 10 }}
-              value={product.description || manualProductData.description || ''}
+              value={formValuesP.description || manualProductData.description || ''}
               onChange={(event) => setManualProductData({
                 ...manualProductData,
                 description: event.target.value,
-              })} />
+              })}
+              
+              
+              
+              />
 
 
 
@@ -553,7 +700,7 @@ setNumberpurchase(event.target.value)
               label="Cantidad"
               type="number"
               variant="outlined"
-              value={productsQuantity}
+              value={formValuesP.cantidad}
               onChange={handleProductQuantityChange} />
           </Grid>
 
@@ -563,7 +710,7 @@ setNumberpurchase(event.target.value)
               label="Costo"
               type="number"
               variant="outlined"
-              value={productsCosto}
+              value={formValuesP.costo}
               onChange={handleProductCostoChange} />
           </Grid>
 
@@ -573,7 +720,7 @@ setNumberpurchase(event.target.value)
             <TextField label="Porcentaje Ganancia "
               variant="outlined"
               type="number"
-              value={porcentajeGanacia}
+              value={formValuesP.porcentajeGan}
               onChange={handlePorcentajeGanancia} />
 
           </Grid>
@@ -584,7 +731,7 @@ setNumberpurchase(event.target.value)
               label="Precio de Venta"
               variant="outlined"
               type="number"
-              value={productsPrice}
+              value={formValuesP.precioVenta}
               fullWidth />
           </Grid>
 

@@ -450,7 +450,7 @@ console.log(productos)
   
 		<Box sx={{ m: 2 }}>
 		  <TextField
-			label="Buscar Analisis"
+			label="Buscar Productos"
 			value={searchTerm}
 			onChange={(e) => setSearchTerm(e.target.value)}
 		  />
@@ -477,7 +477,7 @@ console.log(productos)
 			  <TableBody>
 				{" "}
 				{productos.products.filter((items) =>
-					items.name.toLowerCase().includes(searchTerm.toLowerCase())
+					items.barcode.toLowerCase().includes(searchTerm.toLowerCase())
 				  )
 				  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 				  .map((items) => (

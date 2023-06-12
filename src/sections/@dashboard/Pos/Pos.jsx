@@ -92,7 +92,7 @@ const Pos = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showMessage, setShowMessage] = useState(false);
   const messageDuration = 5
-const [limpiar,setLimpiar]= useState('')
+  const [limpiar,setLimpiar]= useState('')
   
 
 
