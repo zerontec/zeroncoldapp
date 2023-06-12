@@ -6,6 +6,9 @@ const CREATE_SELLER = 'CREATE_SELLER'
 const CREATE_SELLER_ERROR='CREATE_SELLER_ERROR'
 
 
+const API_URL_D = "http://localhost:5040/";
+const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
+
 
 
 export const fetchSellerRequest = () => ({

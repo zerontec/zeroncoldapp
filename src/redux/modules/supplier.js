@@ -2,7 +2,8 @@
 
 import axios from 'axios';
 
-const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/'
+const API_URL_D = "http://localhost:5040/";
+const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
 
 const FETCH_SUPPLIER_REQUEST = 'FETCH_SUPPLIER_REQUEST';
 const FETCH_SUPPLIER_SUCCESS = 'FETCH_SUPPLIER_SUCCESS';
@@ -46,7 +47,7 @@ export const getAllSupplier =() => async(dispatch)=>  {
   
 
     try {
-      const resp = await axios.get(`${URL}api/supplier/all`);
+      const resp = await axios.get(`${API_URL}api/supplier/all`);
 
       dispatch({
         type: GET_SUPPLIERS,
@@ -62,7 +63,7 @@ export const getAllSupplier =() => async(dispatch)=>  {
 export const createSuppliers = (supplierData) => async (dispatch) => {
     try {
       const { data } = await axios.post(
-        `${URL}api/supplier/create-supplier`,
+        `${API_URL}api/supplier/create-supplier`,
         supplierData
       );
       dispatch({
