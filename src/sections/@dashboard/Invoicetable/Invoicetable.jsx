@@ -156,7 +156,7 @@ const InvoiceTable = () => {
 
 <Box sx={{ m: 2 }}>
         <TextField
-          label="Buscar Analisis"
+          label="Buscar Facturas"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
