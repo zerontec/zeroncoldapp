@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/'
+const API_URL_D = "http://localhost:5040/";
+const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
+
 
 const FETCH_CUSTOMERS_FAILURE = 'FETCH_CUSTOMER_FAILURE'
 const FETCH_CUSTOMERS_SUCCESS = 'FETCH_CUSTOMERS_SUCCESS'
@@ -52,7 +54,7 @@ export const fetchCustomers = (query) =>async (dispatch) => {
 export const createCustomer = (formInfo) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${URL}api/customer/create`,
+      `${API_URL}api/customer/create`,
       formInfo
     );
     dispatch({

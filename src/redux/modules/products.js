@@ -1,7 +1,9 @@
 
 import axios from 'axios'
 
-const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/'
+const API_URL_D = "http://localhost:5040/";
+const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
+
 const FETCH_PRODUCT_REQUEST = 'FETCH_PRODUCT_REQUEST'
 const FETCH_PRODUCT_SUCCESS ='FETCH_PRODUCT_SUCCESS'
 const FETCH_PRODUCT_FAILURE = 'FETCH_PRODUCT_FAILURE'
@@ -41,7 +43,7 @@ export const fetchProductRequest = () => ({
   
     export const createProducts = (formInfo) => async (dispatch) => {
       try {
-        const response = await axios.post(`${URL}api/product/create`, formInfo);
+        const response = await axios.post(`${API_URL}api/product/create`, formInfo);
         dispatch({
           type: CREATE_PRODUCT,
           payload: response.data,
@@ -66,7 +68,7 @@ export const fetchProductRequest = () => ({
   export const getAllProduct =() =>async (dispatch)=>{
     
      try {
-        const resp = await axios.get(`${URL}api/product/all `);
+        const resp = await axios.get(`${API_URL}api/product/all `);
   
         dispatch({
           type: GET_ALL_PRODUCTS,
@@ -83,7 +85,7 @@ export const fetchProductRequest = () => ({
 
     export const updateProduct = (id, data) => async (dispatch) => {
       try {
-        const resp = await axios.put(`${URL}api/product/update/${id}`, data);
+        const resp = await axios.put(`${API_URL}api/product/update/${id}`, data);
     
         dispatch({
           type: UPDATE_PRODUCT,
@@ -99,7 +101,7 @@ export const fetchProductRequest = () => ({
 
     export const deleteProduct = (id) => async (dispatch) => {
       try {
-        await axios.delete(`${URL}api/product/delete/${id}`);
+        await axios.delete(`${API_URL}api/product/delete/${id}`);
     
         dispatch({
           type: DELETE_PRODUCT,
@@ -116,7 +118,7 @@ export const fetchProductRequest = () => ({
 try{
     const {data}= await axios.post(
 
-      `${URL}api/product/move-to-store`,
+      `${API_URL}api/product/move-to-store`,
       formInfo
     );
     dispatch({

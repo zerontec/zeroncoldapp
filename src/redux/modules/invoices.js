@@ -2,7 +2,9 @@
 
 import axios from 'axios';
 
-const URL = 'https://expressjs-postgres-production-bd69.up.railway.app/';
+const API_URL_D = "http://localhost:5040/";
+const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
+
 
 const FETCH_IVOICE_REQUEST = 'FETCH_IVOICE_REQUEST';
 const FETCH_IVOICE_SUCCESS = 'FETCH_IVOICE_SUCCESS';
@@ -43,7 +45,7 @@ export const fetchInvoices = (query) => async (dispatch) => {
 
   export const getAllInvoices = () => async (dispatch) => {
     try {
-      const resp = await axios.get(`${URL}api/invoice/all`);
+      const resp = await axios.get(`${API_URL}api/invoice/all`);
   
       dispatch({ type: GET_INVOICES, payload: resp.data });
   
@@ -57,7 +59,7 @@ export const fetchInvoices = (query) => async (dispatch) => {
 
 export const createInvoices = (invoiceData) => async (dispatch) => {
   try {
-    const { data } = await axios.post(`${URL}api/invoice/create`, invoiceData);
+    const { data } = await axios.post(`${API_URL}api/invoice/create`, invoiceData);
     dispatch({
       type: CREATE_INVOICE_SUCCESS,
       payload: data,
