@@ -129,28 +129,28 @@ const CuentasPorCobrar = () => {
 		
 	  });
 
-	  function deleteHandler(items) {
-		Swal.fire({
-		  title: "Estas Seguro",
-		  text: "No podras revertir esta operacion !",
-		  icon: "advertencia",
-		  showCancelButton: true,
-		  confirmButtonColor: "#3085d6",
-		  cancelButtonColor: "#d33",
-		  confirmButtonText: "Si, Borrar!",
-		}).then((result) => {
-		  if (result.isConfirmed) {
-			dispatch(deleteCuenta(items.id));
-			Swal.fire("El producto ha sido borrado!");
+	//   function deleteHandler(items) {
+	// 	Swal.fire({
+	// 	  title: "Estas Seguro",
+	// 	  text: "No podras revertir esta operacion !",
+	// 	  icon: "advertencia",
+	// 	  showCancelButton: true,
+	// 	  confirmButtonColor: "#3085d6",
+	// 	  cancelButtonColor: "#d33",
+	// 	  confirmButtonText: "Si, Borrar!",
+	// 	}).then((result) => {
+	// 	  if (result.isConfirmed) {
+	// 		dispatch(deleteCuenta(items.id));
+	// 		Swal.fire("El producto ha sido borrado!");
 	
-			setTimeout(() => {
-			  window.location.reload();
-			}, 500);
-		  } else {
-			Swal.fire("El producto  Esta Seguro !");
-		  }
-		});
-	  }
+	// 		setTimeout(() => {
+	// 		  window.location.reload();
+	// 		}, 500);
+	// 	  } else {
+	// 		Swal.fire("El producto  Esta Seguro !");
+	// 	  }
+	// 	});
+	//   }
 
 
 	  const handleChangePage = (event, newPage) => {
