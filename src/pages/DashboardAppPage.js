@@ -3,9 +3,10 @@ import { faker } from '@faker-js/faker';
 
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography,  } from '@mui/material';
+import { Grid, Container, Typography, Box } from '@mui/material';
 // components
 import Iconify from '../components/iconify';
+
 // sections
 import {
   AppTasks,
@@ -18,7 +19,9 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
+import { ModuleLinks } from '../components/ModuleLinks';
 import { ButtonBar } from '../components/ButtonBar';
+
 
 // ----------------------------------------------------------------------
 
@@ -38,16 +41,16 @@ export default function DashboardAppPage() {
 
         <Grid item xs={12} md={6} lg={9}>
           <Typography variant="h4" sx={{ mb: 5 }}>
-         Enlaces a Modulos 
+         Dashboard
         </Typography>
 
 
-          <ButtonBar 
+          {/* <ButtonBar 
           button1={"Administracion"} 
           button1Link="/dashboard/Administracion" 
           button2={"Compras"} 
           button3={"otro"} 
-              />
+              /> */}
           </Grid>
           <hr/>
 
@@ -68,8 +71,10 @@ export default function DashboardAppPage() {
             <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
 
-         
 
+
+         
+{/* 
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="Website Visits"
@@ -108,9 +113,9 @@ export default function DashboardAppPage() {
                 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
               title="Current Visits"
               chartData={[
@@ -126,9 +131,9 @@ export default function DashboardAppPage() {
                 theme.palette.error.main,
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
               title="Conversion Rates"
               subheader="(+43%) than last year"
@@ -145,9 +150,9 @@ export default function DashboardAppPage() {
                 { label: 'United Kingdom', value: 1380 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject
               title="Current Subject"
               chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
@@ -158,9 +163,9 @@ export default function DashboardAppPage() {
               ]}
               chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate
               title="News Update"
               list={[...Array(5)].map((_, index) => ({
@@ -171,8 +176,8 @@ export default function DashboardAppPage() {
                 postedAt: faker.date.recent(),
               }))}
             />
-          </Grid>
-
+          </Grid> */}
+{/* 
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
               title="Order Timeline"
@@ -189,9 +194,9 @@ export default function DashboardAppPage() {
                 time: faker.date.past(),
               }))}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppTrafficBySite
               title="Traffic by Site"
               list={[
@@ -217,9 +222,9 @@ export default function DashboardAppPage() {
                 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppTasks
               title="Tasks"
               list={[
@@ -230,9 +235,17 @@ export default function DashboardAppPage() {
                 { id: '5', label: 'Sprint Showcase' },
               ]}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
+
+
+     
       </Container>
+      <hr/>
+      <Typography variant="h4" sx={{ mb: 5 }}>
+         Modulos de Administracion
+        </Typography>
+      <ModuleLinks/>
     </>
   );
 }
