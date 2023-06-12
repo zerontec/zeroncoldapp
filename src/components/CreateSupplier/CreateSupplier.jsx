@@ -152,7 +152,7 @@ const dispatch = useDispatch();
 		<hr />
 		<Box sx={{ m: 8 }}>
 		  <Button variant="contained" onClick={() => setSelectButton()}>
-			Crear Supplier
+			Crear Proveedor
 		  </Button>
 		</Box>
   
@@ -231,7 +231,7 @@ const dispatch = useDispatch();
 					color="primary"
 				  >
 					{" "}
-					{loading ? "Cargando..." : "Agregar Producto "}{" "}
+					{loading ? "Cargando..." : "Agregar Proveedor "}{" "}
 				  </Button>
 				</ActionsContainer>
 			  </FormContainer>
