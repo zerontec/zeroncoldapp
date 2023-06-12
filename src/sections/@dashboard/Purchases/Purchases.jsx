@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Modal from '@mui/material/Modal';
 
 import { useSelector, useDispatch } from 'react-redux';
-import Snackbar from '@mui/material/Snackbar';
+
 import { fetchSupliers } from '../../../redux/modules/supplier';
 import { fetchProducts } from '../../../redux/modules/products';
 import { createPurchase, fetchPurchases } from '../../../redux/modules/purchase';
