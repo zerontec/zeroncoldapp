@@ -346,9 +346,7 @@ const Pos = () => {
   return (
     <>
     <GlobalStyle />
-    <StyledComponent>
-        Contenido con la fuente personalizada  2244
-      </StyledComponent>
+   
 
     {/* resuman de pago */}
       <Modal open={isPopupOpen === true} onClose={() => setIsPopupOpen(null)}>
