@@ -1,3 +1,5 @@
+
+// 0412-1110533 Yurbelis Fuentes   Habudy 0414-8653999
 /* eslint-disable import/no-unresolved */
 /* eslint-disable arrow-body-style */
 import React, { useState, useEffect, useRef } from 'react';
@@ -7,7 +9,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import { fetchCustomers, createCustomer } from '../../../redux/modules/customer';
@@ -16,21 +18,36 @@ import { createInvoices } from '../../../redux/modules/invoices';
 import { fetchSellers } from '../../../redux/modules/seller';
 import { ErrorMessage } from '../../../components/ErrorMessage';
 
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'DIGIT-LCD';
+    src: url('public/assets2/font/DIGIT-LCD.ttf') format('truetype');
+   
+  }
+`;
+const StyledComponent = styled.div`
+font-family: 'DIGIT-LCD', sans-serif;
+/* Otros estilos */
+`;
+
+
 const SummaryContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   margin-top: 16px;
-  padding: 50px;
+  padding: 40px;
 
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 15px;
   color: white;
   font-weight: 600;
-  background-color: #27ae60;
+  background-color: #ff8000;
   margin-bottom: 10px;
   margin-top: 30px;
   margin-right: 20px;
+  font-family:'DIGIT-LCD';
+  background-image: linear-gradient(to bottom, #ff8000, #ffbf00);
 `;
 
 const SummaryContainerP = styled(Box)`
@@ -62,6 +79,33 @@ const FormContainer = styled.form`
   margin-bottom: 2rem;
   background-color: #212f3d;
   border-radius: 30px;
+`;
+
+const StyledBox = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  margin: 10px; */
+  /* background-color: ${(props) => props.color}; */
+  color: #ffffff;
+`;
+
+const StyledTextField = styled(TextField)`
+  && {
+    margin-top: 10px;
+    color: #ffffff;
+    text-align: center;
+
+    input {
+      text-align: center;
+      
+    color: #919EAB;
+    }
+  }
 `;
 
 
@@ -301,6 +345,10 @@ const Pos = () => {
 
   return (
     <>
+    <GlobalStyle />
+    <StyledComponent>
+        Contenido con la fuente personalizada  2244
+      </StyledComponent>
 
     {/* resuman de pago */}
       <Modal open={isPopupOpen === true} onClose={() => setIsPopupOpen(null)}>
@@ -405,18 +453,22 @@ const Pos = () => {
             }}
           >
             <Grid item xs={12} md={3}>
-              <TextField
-                style={{ color: 'white' }}
+          
+              <StyledTextField
+                
                 label="Buscar Cliente"
                 variant="outlined"
                 value={query}
+                
                 onChange={(event) => setQuery(event.target.value)}
                 onBlur={handleSearchClient}
               />
+            
               <>
                 <ErrorMessage message={customers.customers.message} show={searchError} />
               </>
-              <TextField
+             
+              <StyledTextField
                 style={{ marginTop: 10 }}
                 label="Agregar Vendedor"
                 variant="outlined"
@@ -425,7 +477,7 @@ const Pos = () => {
                 onBlur={handleSearchSeller}
               />
 
-              <TextField
+              <StyledTextField
                 label="Nombre vendedor"
                 variant="outlined"
                 sx={{ marginBottom: 2 }}
@@ -445,7 +497,7 @@ const Pos = () => {
                 marginTop: '20px',
               }}
             >
-              <TextField
+              <StyledTextField
                 label="Nombre"
                 variant="outlined"
                 sx={{
@@ -460,7 +512,7 @@ const Pos = () => {
                   })
                 }
               />
-              <TextField
+              <StyledTextField
                 label="Identificación"
                 variant="outlined"
                 sx={{
@@ -475,7 +527,7 @@ const Pos = () => {
                   })
                 }
               />
-              <TextField
+              <StyledTextField
                 label="Dirección"
                 variant="outlined"
                 sx={{
@@ -498,9 +550,10 @@ const Pos = () => {
               <Grid container spacing={2} sx={{ marginBottom: 2 }}>
                 <Grid item xs={12} md={12}>
                   <SummaryContainer>
-                    <Typography>Subtotal: {subtotal.toFixed(2)}</Typography>
-                    <Typography>Iva(16%): {(subtotal * 0.16).toFixed(2)}</Typography>
-                    <Typography>
+                  
+                    <Typography style={{fontFamily:"DIGIT-LCD", fontSize:20}}  >Subtotal: {subtotal.toFixed(2)}</Typography>
+                    <Typography style={{fontFamily:"DIGIT-LCD", fontSize:20}} >Iva(16%): {(subtotal * 0.16).toFixed(2)}</Typography>
+                    <Typography style={{fontFamily:"DIGIT-LCD", fontSize:20}} >
                       Total: {currency}
                       {(subtotal + subtotal * 0.16).toFixed(2)}
                     </Typography>

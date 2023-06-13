@@ -60,18 +60,18 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-          <MonetizationOnIcon style={{color:'green'}}/>
+          {/* <MonetizationOnIcon style={{color:'green'}}/> */}
             <AppWidgetSummary title="Tasa $ BCV " total={26.52} icon={'ant-design:dollar'} />
     
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-          <MonetizationOnIcon style={{color:'red'}}/>
+          {/* <MonetizationOnIcon style={{color:'red'}}/> */}
             <AppWidgetSummary title="Tasa $ Paralela" total={1352831} color="info" icon={'ant-design:dollar'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-          <AddShoppingCartIcon style={{color:"blue"}}/>
+          {/* <AddShoppingCartIcon style={{color:"blue"}}/> */}
             <AppWidgetSummary title="Ventas de el dia " total={1723315} color="warning" icon={'ant-design:car'} />
           </Grid>
 
