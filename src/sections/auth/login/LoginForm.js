@@ -128,7 +128,7 @@ console.log(message)
      <Form onSubmit={handleLogin} ref={form}>
 
       <Stack spacing={3}>
-        <TextField name="user" label="User Name"
+        <TextField name="user" label="Usuario"
         type="text"
       
         value={username}
@@ -141,7 +141,7 @@ console.log(message)
 
         <TextField
           name="password"
-          label="Password"
+          label="Contraseña"
          
                     
                     value={password}
@@ -163,7 +163,7 @@ console.log(message)
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
         <Checkbox name="remember" label="Remember me" />
         <Link variant="subtitle2" underline="hover">
-          Forgot password?
+         Olvidaste tu password comunicate con el Administrador
         </Link>
       </Stack>
 
