@@ -108,7 +108,7 @@ export default function NotificationsPopover() {
         </Badge>
       </IconButton>
 
-      <Popover
+      {/* <Popover
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleClose}
@@ -176,7 +176,7 @@ export default function NotificationsPopover() {
             View All
           </Button>
         </Box>
-      </Popover>
+      </Popover> */}
     </>
   );
 }

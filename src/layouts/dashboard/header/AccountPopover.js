@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState,  useEffect} from 'react';
+import { useDispatch, useSelector } from "react-redux";
+
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
@@ -26,6 +28,22 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+
+
+  const [roleShow, setRoleShow] = useState('')
+
+const usuario = useSelector((state)=> state.auth)
+console.log("el usuario ", usuario)
+
+useEffect(() => {
+  if (usuario.user.roles.includes('ROLE_ADMIN')) {
+    setRoleShow('Administrador');
+  } else {
+    setRoleShow('Usuario normal');
+  }
+}, [usuario]);
+
+
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -78,10 +96,13 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+          {usuario.user.username}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+          {usuario.user.email}
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          {roleShow}
           </Typography>
         </Box>
 
