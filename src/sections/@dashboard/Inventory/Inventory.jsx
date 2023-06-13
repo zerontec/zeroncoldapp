@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import styled from 'styled-components';
 
 import { useDispatch, useSelector } from "react-redux";
@@ -66,6 +66,24 @@ const Inventory = () => {
 	  price: "",
 	  quantity: "",
 	});
+	const [isFormValid, setIsFormValid] = useState(false);
+
+	const validateForm = () => {
+		const { barcode, name, description, price, quantity } = formInfo;
+		setIsFormValid(
+		  barcode.trim() !== "" &&
+		  name.trim() !== "" &&
+		  description.trim() !== "" &&
+		  price.trim() !== "" &&
+		  quantity.trim() !== ""
+		);
+	  };
+
+
+	  useEffect(() => {
+		validateForm();
+	  }, [formInfo]);
+
   
 	function validate(formInfo) {
 	  // eslint-disable-next-line prefer-const
@@ -90,7 +108,8 @@ const Inventory = () => {
   
 	  return errors;
 	}
-  
+
+
 	const handleChange = (event) => {
 	  const { name, value } = event.target;
 	  setFormInfo((prevFormInfo) => ({
@@ -225,14 +244,14 @@ const Inventory = () => {
 				  )}{" "}
 				</FieldContainer>
 				<ActionsContainer>
-				  <Button
-					type="submit"
-					onClick={handleSubmit}
-					variant="contained"
-					color="primary"
-				  >
-					{" "}
-					{loading ? "Cargando..." : "Crear Proveedor "}{" "}
+				<Button
+  type="submit"
+  onClick={handleSubmit}
+  variant="contained"
+  color="primary"
+  disabled={!isFormValid} // Deshabilitar el botón si isFormValid es false
+>
+  {loading ? "Cargando..." : "Crear Producto"}
 				  </Button>
 				</ActionsContainer>
 			  </FormContainer>

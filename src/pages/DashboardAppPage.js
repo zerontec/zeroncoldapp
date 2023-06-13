@@ -1,11 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography, Box } from '@mui/material';
+import { Grid, Container, Typography, Box, Button } from '@mui/material';
 // components
 import Iconify from '../components/iconify';
+
 
 // sections
 import {
@@ -21,7 +26,6 @@ import {
 } from '../sections/@dashboard/app';
 import { ModuleLinks } from '../components/ModuleLinks';
 import { ButtonBar } from '../components/ButtonBar';
-
 
 // ----------------------------------------------------------------------
 
@@ -56,22 +60,26 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+          <MonetizationOnIcon style={{color:'green'}}/>
+            <AppWidgetSummary title="Tasa $ BCV " total={26.52} icon={'ant-design:dollar'} />
+    
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+          <MonetizationOnIcon style={{color:'red'}}/>
+            <AppWidgetSummary title="Tasa $ Paralela" total={1352831} color="info" icon={'ant-design:dollar'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+          <AddShoppingCartIcon style={{color:"blue"}}/>
+            <AppWidgetSummary title="Ventas de el dia " total={1723315} color="warning" icon={'ant-design:car'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:shooping'} />
           </Grid>
 
-
+              
 
          
 {/* 
