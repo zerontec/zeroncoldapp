@@ -1,8 +1,25 @@
 /* eslint-disable radix */
 
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
-import {IconButton, InputLabel,Box,TableHead,TableCell, TableBody,Table,TableRow,TableContainer, MenuItem, Select, FormControl, Button, Grid, TextField, Typography } from '@mui/material';
+import {
+  IconButton,
+  InputLabel,
+  Box,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table,
+  TableRow,
+  TableContainer,
+  MenuItem,
+  Select,
+  FormControl,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import styled from 'styled-components';
 import Modal from '@mui/material/Modal';
 
@@ -13,8 +30,6 @@ import { fetchProducts } from '../../../redux/modules/products';
 import { createPurchase, fetchPurchases } from '../../../redux/modules/purchase';
 import { ErrorMessage } from '../../../components/ErrorMessage';
 import { CreateSupplier } from '../../../components/CreateSupplier';
-
-
 
 const FormContainer = styled(Grid)`
   margin-bottom: 16px;
@@ -28,7 +43,7 @@ const FormTipo = styled.div`
   margin-bottom: 2rem;
   background-color: rgb(255, 107, 107);
   border-radius: 30px;
-`
+`;
 
 const SummaryContainerP = styled(Box)`
   display: flex;
@@ -50,7 +65,6 @@ const SummaryContainerP = styled(Box)`
   }
 `;
 
-
 const SummaryContainer = styled(Box)`
   margin-top: 16px;
   padding: 16px;
@@ -59,133 +73,114 @@ const SummaryContainer = styled(Box)`
 `;
 
 const Purchases = () => {
+  const [product, setProduct] = useState({});
+  const [total, setTotal] = useState(0);
+  const [supplier, setSupplier] = useState({});
+  const [query, setQuery] = useState('');
+  const [productsQuantity, setProductsQuantity] = useState(0);
+  const [productsPrice, setProductsPrice] = useState(0);
+  const [productCantidad, setProductCantidad] = useState(0);
+  const [productsCosto, setProductsCosto] = useState(0);
+  const [numberinvoice, setNumberInvoice] = useState('');
+  const [numberPurchase, setNumberpurchase] = useState('');
+  const [porcentajeGanacia, setPorcentajeGanancia] = useState(0);
+  const [searchError, setSearchError] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const [queryp, setQueryp] = useState('');
+  const [queryPu, setQueryPu] = useState('');
+  const [manualProductData, setManualProductData] = useState({
+    name: '',
+    description: '',
+    barcode: '',
+    productsPrices: '',
+  });
+  const [currency, setCurrency] = useState('Bs');
+  const [currencys, setCurrencys] = useState('$');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState('');
+  const [limpiarForm, setLimpiarForm] = useState('');
+  const [message, setMessage] = useState('');
 
-const [product, setProduct] = useState({});
-const [total, setTotal] = useState(0);
-const [supplier, setSupplier] = useState({})
-const [query, setQuery] = useState('')
-const [productsQuantity, setProductsQuantity] = useState(0);
-const [productsPrice, setProductsPrice] = useState(0);
-const [productCantidad, setProductCantidad]= useState(0)
-const [productsCosto, setProductsCosto] = useState(0);
-const [numberinvoice, setNumberInvoice]=useState('');
-const [numberPurchase, setNumberpurchase]=useState('')
-const [porcentajeGanacia, setPorcentajeGanancia]=useState(0);
-const [searchError, setSearchError] = useState(false);
-const [products, setProducts] = useState([]);
-const [subtotal, setSubtotal] = useState(0);
-const [queryp, setQueryp] = useState('');
-const [queryPu, setQueryPu] = useState('');
-const [manualProductData, setManualProductData] = useState({ name: '', description: '',barcode:'', productsPrices:'' });
-const [currency, setCurrency] = useState('Bs');
-const [currencys, setCurrencys] = useState('$');
-const [isPopupOpen, setIsPopupOpen] = useState(false);
-const [paymentStatus, setPaymentStatus] = useState('');
-const [limpiarForm, setLimpiarForm] = useState('');
-const [message, setMessage] = useState('')
+  const dispatch = useDispatch();
 
-const dispatch = useDispatch();
-
-
-
-
-const [formValues, setFormValues] = useState({
-  rif: supplier.rif || '',
-  name: supplier.name || '',
-  address: supplier.address || '',
-  phoneNumber: supplier.phoneNumber || '',
-  barcode:product.barcode || ''
-});
-
-useEffect(() => {
-  setFormValues({
+  const [formValues, setFormValues] = useState({
     rif: supplier.rif || '',
     name: supplier.name || '',
     address: supplier.address || '',
     phoneNumber: supplier.phoneNumber || '',
-   
+    barcode: product.barcode || '',
   });
-}, [supplier])
 
+  useEffect(() => {
+    setFormValues({
+      rif: supplier.rif || '',
+      name: supplier.name || '',
+      address: supplier.address || '',
+      phoneNumber: supplier.phoneNumber || '',
+    });
+  }, [supplier]);
 
-const resetForm = () => {
-  setFormValues({
-    ...formValues,
-    rif: '',
-    name:'',
-    address:'',
-    phoneNumber:'',
-  
-  });
-};
+  const resetForm = () => {
+    setFormValues({
+      ...formValues,
+      rif: '',
+      name: '',
+      address: '',
+      phoneNumber: '',
+    });
+  };
 
-
-
-const [formValuesP, setFormValuesP] = useState({
- 
-  barcode:product.barcode || '' , name: product.name || '',
-  description: product.description || '',
-  cantidad: productsQuantity || '',
-  costo:productsCosto || '',
-  precioVenta:productsPrice || '',
-  porcentajeGan:porcentajeGanacia || ''
-});
-
-useEffect(() => {
-  setFormValuesP({
+  const [formValuesP, setFormValuesP] = useState({
     barcode: product.barcode || '',
     name: product.name || '',
     description: product.description || '',
     cantidad: productsQuantity || '',
-    costo:productsCosto || '',
-    precioVenta:productsPrice || '',
-   porcentajeGan:porcentajeGanacia || ''
-   
+    costo: productsCosto || '',
+    precioVenta: productsPrice || '',
+    porcentajeGan: porcentajeGanacia || '',
   });
-}, [product, porcentajeGanacia, productsCosto,productsQuantity,productsPrice ])
 
+  useEffect(() => {
+    setFormValuesP({
+      barcode: product.barcode || '',
+      name: product.name || '',
+      description: product.description || '',
+      cantidad: productsQuantity || '',
+      costo: productsCosto || '',
+      precioVenta: productsPrice || '',
+      porcentajeGan: porcentajeGanacia || '',
+    });
+  }, [product, porcentajeGanacia, productsCosto, productsQuantity, productsPrice]);
 
+  const resetFormP = () => {
+    setFormValuesP({
+      ...formValuesP,
+      barcode: '',
+      name: '',
+      description: '',
+      cantidad: '',
+      costo: '',
+      precioVenta: '',
+      porcentajeGan: '',
+    });
+  };
 
-const resetFormP= () => {
-  setFormValuesP({
-    ...formValuesP,
-    barcode: '',
-    name:'',
-    description:'',
-   cantidad:'',
-   costo:'',
-   precioVenta:'',
-   porcentajeGan:''
+  useEffect(() => {
+    if (products.length === 0) {
+      setIsPopupOpen(false);
+    }
+  }, [products]);
 
-  
-  });
-};
+  const proveedor = useSelector((state) => state.supplier);
+  console.log('aqui proveerdor', proveedor);
 
+  const availableProducts = useSelector((state) => state.product);
+  console.log('aqui producto', availableProducts);
 
+  const compras = useSelector((state) => state.purchase);
 
-
-
-useEffect(() => {
-  if (products.length === 0) {
-    setIsPopupOpen(false);
-  }
-}, [products]);
-
-
-  const proveedor =useSelector((state)=> state.supplier)
-console.log("aqui proveerdor", proveedor);
-
-
-const availableProducts = useSelector((state)=> state.product)
-console.log("aqui producto",availableProducts);
-
-const compras = useSelector((state) => state.purchase)
-
-console.log("compras", compras)
-
-
-
-
+  console.log('compras', compras);
 
   const handleSearchProvider = () => {
     // Agregar lógica para buscar al proveedor
@@ -197,58 +192,52 @@ console.log("compras", compras)
       setSupplier(partialMatch || {});
     }
     setSearchError(true);
-  
   };
 
   const handleSearchProduct = () => {
-    const exactMatch = availableProducts.products.find((product) => product.barcode === queryp || product.name === queryp);
-    
+    const exactMatch = availableProducts.products.find(
+      (product) => product.barcode === queryp || product.name === queryp
+    );
+
     if (exactMatch) {
       setProduct(exactMatch);
     } else {
       const partialMatch = availableProducts.products.find((product) => product.barcode.includes(queryp));
       setProduct(partialMatch || {});
     }
-  }
+  };
 
   const handleNumFacturaCompraChange = (event) => {
     setQueryPu(event.target.value); // Se debe utilizar setQueryPu en lugar de event para actualizar el estado
   };
 
-const handleSearchCompra =()=>{
-
-  console.log("aquiiiii")
+  const handleSearchCompra = () => {
+    console.log('aquiiiii');
     const existeNumeroCompra = compras.purchases.find((purchase) => purchase.purchaseNumber === queryPu);
-  
-    if (existeNumeroCompra) {
-      console.log("'aqui numero de compra existe'",existeNumeroCompra)
-      setMessage("Epaleee")
-      setSearchError(true);
-    } else {
-      setSearchError(false);
-      // Realizar las acciones correspondientes si el número de compra es válido
-    }
 
-}
-
-  const validarNumeroCompra = () => {
-    // Agregar lógica para buscar la compra en el array de compras
-  
-    const existeNumeroCompra = compras.purchases.find((purchase) => purchase.purchaseNumber === queryPu);
-  
     if (existeNumeroCompra) {
+      console.log("'aqui numero de compra existe'", existeNumeroCompra);
+      setMessage('Epaleee');
       setSearchError(true);
-setMessage("Epaleee")
-   
     } else {
       setSearchError(false);
       // Realizar las acciones correspondientes si el número de compra es válido
     }
   };
 
+  const validarNumeroCompra = () => {
+    // Agregar lógica para buscar la compra en el array de compras
 
+    const existeNumeroCompra = compras.purchases.find((purchase) => purchase.purchaseNumber === queryPu);
 
-
+    if (existeNumeroCompra) {
+      setSearchError(true);
+      setMessage('Epaleee');
+    } else {
+      setSearchError(false);
+      // Realizar las acciones correspondientes si el número de compra es válido
+    }
+  };
 
   const handleProductQuantityChange = (event) => {
     setProductsQuantity(event.target.value);
@@ -257,41 +246,30 @@ setMessage("Epaleee")
   const handleProductCostoChange = (event) => {
     setProductsCosto(event.target.value);
     calculatePrice();
-  
   };
-const handlePorcentajeGanancia=(event)=>{
-    setPorcentajeGanancia(event.target.value)
+  const handlePorcentajeGanancia = (event) => {
+    setPorcentajeGanancia(event.target.value);
     calculatePrice();
+  };
 
+  const handleStatusChange = (event) => {
+    setPaymentStatus(event.target.value);
+  };
 
-}
+  const calculatePrice = () => {
+    const cost = parseFloat(productsCosto);
+    const ganancia = parseFloat(porcentajeGanacia);
+    const precioVenta = cost + (cost * ganancia) / 100;
+    setProductsPrice(precioVenta);
+  };
 
-const handleStatusChange =(event)=>{
+  const handlenumberInvoice = (event) => {
+    setNumberInvoice(event.target.value);
+  };
 
-    setPaymentStatus(event.target.value)
-
-}
-
-
-const calculatePrice = () => {
-  const cost = parseFloat(productsCosto);
-  const ganancia = parseFloat(porcentajeGanacia);
-  const precioVenta = cost + (cost * ganancia) / 100;
-  setProductsPrice(precioVenta);
-};
-
-
-const handlenumberInvoice =(event)=>{
-
-  setNumberInvoice(event.target.value)
-}
-
-const handlenumberPurchase=(event)=>{
-
-setNumberpurchase(event.target.value)
-
-
-}
+  const handlenumberPurchase = (event) => {
+    setNumberpurchase(event.target.value);
+  };
 
   // const handleCostoChange =(event) => {
 
@@ -299,9 +277,9 @@ setNumberpurchase(event.target.value)
 
   // }
 
-   // Agregar producto
-   let updatedProducts = [];
-   const handleAddProduct = () => {
+  // Agregar producto
+  let updatedProducts = [];
+  const handleAddProduct = () => {
     //  if (product && productsQuantity > 0) {
     //    if (productsQuantity > product.quantity) {
     //      setErrorMessage("La cantidad de venta es mayor a la cantidad disponible del producto");
@@ -310,72 +288,58 @@ setNumberpurchase(event.target.value)
     //      setLimpiar('')
     //      return;
     //    }
-       const updatedProduct = {
-         ...product,
-         barcode:product.barcode || manualProductData.barcode,
-         cantidad: parseInt(productsQuantity),
-         costo: parseFloat(productsCosto),
-         price: parseFloat(productsPrice || manualProductData.productsPrice),
-         name:product.name ||manualProductData.name,
-         description:product.description ||manualProductData.description,
-        
-        
-          subtotalP: productsQuantity * productsCosto,
-       };
-       updatedProducts = [...products, updatedProduct];
- 
-       setProducts(updatedProducts);
-       setProduct({});
-       setProductsQuantity(0);
- 
-       const updatedSubtotal = updatedProducts.reduce((subtotal, product) => subtotal + product.subtotalP, 0);
-       setSubtotal(updatedSubtotal);
-     
-     // Enfocar nuevamente el campo de buscar producto después de agregar un producto
-    //  searchProductRef.current.focus();
-     setQueryp('');
-     setProductsQuantity(0);
-   };
+    const updatedProduct = {
+      ...product,
+      barcode: product.barcode || manualProductData.barcode,
+      cantidad: parseInt(productsQuantity),
+      costo: parseFloat(productsCosto),
+      price: parseFloat(productsPrice || manualProductData.productsPrice),
+      name: product.name || manualProductData.name,
+      description: product.description || manualProductData.description,
 
-   const productoLista = products;
-   
-   console.log('aquiProductoList', productoLista);
- 
-   const handleRemoveProduct = (index) => {
+      subtotalP: productsQuantity * productsCosto,
+    };
+    updatedProducts = [...products, updatedProduct];
+
+    setProducts(updatedProducts);
+    setProduct({});
+    setProductsQuantity(0);
+
+    const updatedSubtotal = updatedProducts.reduce((subtotal, product) => subtotal + product.subtotalP, 0);
+    setSubtotal(updatedSubtotal);
+
+    // Enfocar nuevamente el campo de buscar producto después de agregar un producto
+    //  searchProductRef.current.focus();
+    setQueryp('');
+    setProductsQuantity(0);
+  };
+
+  const productoLista = products;
+
+  console.log('aquiProductoList', productoLista);
+
+  const handleRemoveProduct = (index) => {
     const newList = [...products];
     newList.splice(index, 1);
     setProducts(newList);
   };
 
- 
- 
-  
-  console.log("rif suu", supplier.rif)
+  console.log('rif suu', supplier.rif);
 
+  console.log('aqui podu list, productoLista', productoLista);
 
-  console.log("aqui podu list, productoLista",productoLista)
-
-  
- 
-  
-  
-  
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const PurchaseData ={
-     
-      
-      invoiceNumber:  numberinvoice,
-      purchaseNumber:numberPurchase,
-      rif:supplier.rif,
+    const PurchaseData = {
+      invoiceNumber: numberinvoice,
+      purchaseNumber: numberPurchase,
+      rif: supplier.rif,
       // totalAmount:subtotal,
-      status:paymentStatus,
+      status: paymentStatus,
 
-      
       products: productoLista,
-  
-    }
+    };
     dispatch(createPurchase(PurchaseData));
 
     setQuery('');
@@ -385,10 +349,10 @@ setNumberpurchase(event.target.value)
     setProductsQuantity(0);
     setSubtotal(0);
     setNumberInvoice('');
-    setNumberpurchase('')
+    setNumberpurchase('');
     setPorcentajeGanancia(0);
-    setProductsCosto(0)
-    setProductsPrice(0)
+    setProductsCosto(0);
+    setProductsPrice(0);
     // setIsPopupOpen(null);
     // setManualClientData('');
     // setSeller({});
@@ -398,13 +362,11 @@ setNumberpurchase(event.target.value)
   const [isNameDirty, setIsNameDirty] = useState(false);
   const [isDescriptionDirty, setIsDescriptionDirty] = useState(false);
 
-
   useEffect(() => {
     if (query) {
       dispatch(fetchSupliers(query));
     }
   }, [query, dispatch]);
-
 
   useEffect(() => {
     if (queryp) {
@@ -412,13 +374,11 @@ setNumberpurchase(event.target.value)
     }
   }, [queryp, dispatch]);
 
-
   useEffect(() => {
     if (queryPu) {
       dispatch(fetchPurchases(queryPu));
     }
   }, [queryPu, dispatch]);
-
 
   const openPopup = () => {
     if (products.length > 0) {
@@ -429,60 +389,51 @@ setNumberpurchase(event.target.value)
     setIsPopupOpen(false);
   };
 
-
-
-
-
   return (
-
     <>
-    <Modal open={isPopupOpen === true} onClose={() => setIsPopupOpen(null)}>
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          borderRadius: '8px',
-          boxShadow: 24,
-          p: 4,
-        }}
-      >
-       
-       
-        <Box sx={{ marginBottom: 2 }}>
-          {/* <Typography variant="body1">SubTotal: {subtotal.toFixed(2)}</Typography> */}
-          
-          <Typography>
-            Total Compra: {currency}
-            {(subtotal).toFixed(2)}
-          </Typography>
-          {/* <Typography variant="body1">Método de pago: {paymentMethod}</Typography>
+      <Modal open={isPopupOpen === true} onClose={() => setIsPopupOpen(null)}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            borderRadius: '8px',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Box sx={{ marginBottom: 2 }}>
+            {/* <Typography variant="body1">SubTotal: {subtotal.toFixed(2)}</Typography> */}
+
+            <Typography>
+              Total Compra: {currency}
+              {subtotal.toFixed(2)}
+            </Typography>
+            {/* <Typography variant="body1">Método de pago: {paymentMethod}</Typography>
           <Typography variant="body1">A crédito: {isCredit ? 'Sí' : 'No'}</Typography> */}
-        </Box>
+          </Box>
 
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="payment-method-label">Status de Compra</InputLabel>
-              <Select
-                labelId="payment-method-label"
-                id="payment-method"
-                value={paymentStatus}
-                onChange={handleStatusChange}
-                label="status"
-              >
-                <MenuItem value="pagada">pagada</MenuItem>
-                <MenuItem value="por pagar">Por Pagar"</MenuItem>
-               
-              </Select>
-            </FormControl>
-          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="payment-method-label">Status de Compra</InputLabel>
+                <Select
+                  labelId="payment-method-label"
+                  id="payment-method"
+                  value={paymentStatus}
+                  onChange={handleStatusChange}
+                  label="status"
+                >
+                  <MenuItem value="pagada">pagada</MenuItem>
+                  <MenuItem value="por pagar">Por Pagar"</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
 
-
-          {/* <Grid item xs={12}>
+            {/* <Grid item xs={12}>
             <FormControl fullWidth>
               <InputLabel id="credit-label">A crédito</InputLabel>
               <Select
@@ -499,30 +450,30 @@ setNumberpurchase(event.target.value)
               </Select>
             </FormControl>
           </Grid> */}
-          {/* {isCredit && (
+            {/* {isCredit && (
             <Grid item xs={12}>
               <DayPicker selected={selectedDate} onDayClick={handleDateChange} />
             </Grid>
           )} */}
-          <Grid item xs={12}>
-            <Button style={{ marginLeft: 80 }} variant="contained" onClick={handleSubmit}>
-              Crear Compra
-            </Button>
+            <Grid item xs={12}>
+              <Button style={{ marginLeft: 80 }} variant="contained" onClick={handleSubmit}>
+                Crear Compra
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
 
-        <hr />
+          <hr />
 
-        <Button variant="contained" onClick={() => setIsPopupOpen(null)}>
-          X
-        </Button>
-      </Box>
-    </Modal><Box>
-     
+          <Button variant="contained" onClick={() => setIsPopupOpen(null)}>
+            X
+          </Button>
+        </Box>
+      </Modal>
+      <Box>
         <Typography variant="h5" sx={{ marginBottom: 2 }}>
           Carga de Compras
         </Typography>
-        
+
         {/* Formulario de búsqueda y agregar proveedor */}
         <FormContainer container spacing={2} alignItems="flex-start">
           <Grid item xs={12} md={4}>
@@ -532,68 +483,50 @@ setNumberpurchase(event.target.value)
               fullWidth
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              onBlur={handleSearchProvider} />
-           <ErrorMessage message={proveedor.suppliers.message} show={searchError} />
-          <CreateSupplier/>
-          
+              onBlur={handleSearchProvider}
+            />
+            <ErrorMessage message={proveedor.suppliers.message} show={searchError} />
+            <CreateSupplier />
           </Grid>
           <Grid item xs={12} md={4}>
-            <TextField
-              label="Nombre"
-              variant="outlined"
-              fullWidth
-              value={formValues.name || '' } disabled />
+            <TextField label="Nombre" variant="outlined" fullWidth value={formValues.name || ''} disabled />
 
-            <TextField
-              label="Rif"
-              variant="outlined"
-              fullWidth
-              name="rif"
-              value={formValues.rif}
-              disabled />
-            <TextField
-              label="Dirección"
-              varian="outlined"
-              fullWidth
-              value={formValues.address || ''}
-              disabled />
+            <TextField label="Rif" variant="outlined" fullWidth name="rif" value={formValues.rif} disabled />
+            <TextField label="Dirección" varian="outlined" fullWidth value={formValues.address || ''} disabled />
 
             <TextField
               label="Numero Telefonico"
               varian="outlined"
               fullWidth
               value={formValues.phoneNumber || ''}
-              disabled />
-
+              disabled
+            />
           </Grid>
 
-<Button  onClick={resetForm }  >Limpiar Form </Button>
+          <Button onClick={resetForm}>Limpiar Form </Button>
         </FormContainer>
 
         {/* Formulario de datos de la factura */}
         <FormContainer container spacing={2} alignItems="flex-start">
           <Grid item xs={12} md={4}>
-            <TextField 
-            label="Número de Factura" 
-            type="number"
-            variant="outlined" 
-             value={numberinvoice}
-             onChange={handlenumberInvoice} 
+            <TextField
+              label="Número de Factura"
+              type="number"
+              variant="outlined"
+              value={numberinvoice}
+              onChange={handlenumberInvoice}
             />
-         
           </Grid>
 
-              <Grid item xs={12} md={4}>
-            <TextField 
-            label="Número de Compra" 
-            type="number"
-            variant="outlined" 
-             value={numberPurchase}
-             onChange={handlenumberPurchase} 
+          <Grid item xs={12} md={4}>
+            <TextField
+              label="Número de Compra"
+              type="number"
+              variant="outlined"
+              value={numberPurchase}
+              onChange={handlenumberPurchase}
             />
-         
           </Grid>
-
 
           <Grid item xs={12} md={4}>
             <TextField label="Fecha de Factura" variant="outlined" fullWidth type="date" />
@@ -604,7 +537,7 @@ setNumberpurchase(event.target.value)
         <SummaryContainer>
           <Typography variant="h6">Resumen de la Compra</Typography>
           <Typography>Total: {total}</Typography>
-          <Button  onClick={resetFormP }  >Limpiar Form Productos </Button>
+          <Button onClick={resetFormP}>Limpiar Form Productos </Button>
         </SummaryContainer>
         <TextField
           style={{ marginBottom: '10px', marginTop: '10px' }}
@@ -612,22 +545,23 @@ setNumberpurchase(event.target.value)
           variant="outlined"
           value={queryp}
           onChange={(event) => setQueryp(event.target.value)}
-          onBlur={handleSearchProduct} />
-            <ErrorMessage message={availableProducts.products.message} show={searchError} />
+          onBlur={handleSearchProduct}
+        />
+        <ErrorMessage message={availableProducts.products.message} show={searchError} />
         {/* Formulario de carga de producto */}
-        
+
         <FormContainer container spacing={2} alignItems="flex-start">
           <Grid item xs={12} md={2}>
             <TextField
               label="Código"
               variant="outlined"
               value={formValuesP.barcode || manualProductData.barcode || ''}
-              onChange={(event) => setManualProductData({
-                ...manualProductData,
-                barcode: event.target.value,
-              })}
-              
-              
+              onChange={(event) =>
+                setManualProductData({
+                  ...manualProductData,
+                  barcode: event.target.value,
+                })
+              }
               InputProps={{
                 endAdornment: (
                   <IconButton
@@ -640,48 +574,40 @@ setNumberpurchase(event.target.value)
                     }}
                     edge="end"
                   >
-                    {isBarcodeDirty }
+                    {isBarcodeDirty}
                   </IconButton>
                 ),
               }}
-              
-              />
+            />
           </Grid>
           <Grid item xs={12} md={2}>
             <TextField
               label="Producto"
               variant="outlined"
-              style={{ marginTop: 10 }}
-              type='text'
+              // style={{ marginTop: 10 }}
+              type="text"
               value={formValuesP.name || manualProductData.name || ''}
-              onChange={(event) => setManualProductData({
-                ...manualProductData,
-                name: event.target.value,
-              })} />
-
+              onChange={(event) =>
+                setManualProductData({
+                  ...manualProductData,
+                  name: event.target.value,
+                })
+              }
+            />
           </Grid>
           <Grid item xs={12} md={2}>
-
-
             <TextField
               label="Descripción"
               variant="outlined"
-              style={{ marginTop: 10 }}
+              // style={{ marginTop: 10 }}
               value={formValuesP.description || manualProductData.description || ''}
-              onChange={(event) => setManualProductData({
-                ...manualProductData,
-                description: event.target.value,
-              })}
-              
-              
-              
-              />
-
-
-
-
-
-
+              onChange={(event) =>
+                setManualProductData({
+                  ...manualProductData,
+                  description: event.target.value,
+                })
+              }
+            />
           </Grid>
           {/* <Grid item xs={12} md={2}>
       <TextField label="Precio"
@@ -701,9 +627,9 @@ setNumberpurchase(event.target.value)
               type="number"
               variant="outlined"
               value={formValuesP.cantidad}
-              onChange={handleProductQuantityChange} />
+              onChange={handleProductQuantityChange}
+            />
           </Grid>
-
 
           <Grid item xs={12} md={2}>
             <TextField
@@ -711,20 +637,19 @@ setNumberpurchase(event.target.value)
               type="number"
               variant="outlined"
               value={formValuesP.costo}
-              onChange={handleProductCostoChange} />
+              onChange={handleProductCostoChange}
+            />
           </Grid>
 
-
-
           <Grid item xs={12} md={2}>
-            <TextField label="Porcentaje Ganancia "
+            <TextField
+              label="Porcentaje Ganancia "
               variant="outlined"
               type="number"
               value={formValuesP.porcentajeGan}
-              onChange={handlePorcentajeGanancia} />
-
+              onChange={handlePorcentajeGanancia}
+            />
           </Grid>
-
 
           <Grid item xs={12} md={2}>
             <TextField
@@ -732,9 +657,9 @@ setNumberpurchase(event.target.value)
               variant="outlined"
               type="number"
               value={formValuesP.precioVenta}
-              fullWidth />
+              fullWidth
+            />
           </Grid>
-
 
           <Grid item xs={12} md={4}>
             <Button variant="contained" onClick={handleAddProduct} disabled={!product || productsQuantity <= 0}>
@@ -742,17 +667,15 @@ setNumberpurchase(event.target.value)
             </Button>
           </Grid>
           <Grid item xs={12} md={4}>
-          <Button variant="contained" onClick={openPopup}>
+            <Button variant="contained" onClick={openPopup}>
               Finalizar Venta
             </Button>
-            </Grid>
+          </Grid>
         </FormContainer>
-
-
 
         <Grid container spacing={2} sx={{ marginBottom: 2 }}>
           <Grid item xs={12}>
-            <Typography variant="h6">Productos Agregados :  </Typography>
+            <Typography variant="h6">Productos Agregados : </Typography>
           </Grid>
           <Grid item xs={12}>
             <TableContainer>
@@ -799,7 +722,8 @@ setNumberpurchase(event.target.value)
     </ul> */}
           </Grid>
         </Grid>
-      </Box></>
+      </Box>
+    </>
   );
 };
 
