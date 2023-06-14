@@ -18,6 +18,7 @@ import InventoryPages from './pages/InventoryPages';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 import CuentasxPages from './pages/CuentasxcPages';
+import UserSystemPage from './pages/UserSystemPages';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +48,7 @@ export default function Router() {
         { path: 'invoice', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <InvoicePages /></ProtectedRoute> },
         { path: 'inventario', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <InventoryPages /></ProtectedRoute> },
         { path: 'cuentasxc', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <CuentasxPages /></ProtectedRoute> },
+        { path: 'usuarios', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <UserSystemPage /></ProtectedRoute> },
       ],
     },
 
