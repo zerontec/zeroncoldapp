@@ -10,6 +10,7 @@ import sellerReducer from './modules/seller';
 import supplierReducer from './modules/supplier';
 import purchaseReducer from './modules/purchase';
 import cuentasxcReducer from './modules/cuentasxcobrar';
+import userReducer from './modules/user';
 
 
 // Combinar los reducers de tus módulos
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   seller:sellerReducer,
   supplier:supplierReducer,
   purchase:purchaseReducer,
-  cuentasxc:cuentasxcReducer
+  cuentasxc:cuentasxcReducer,
+  usuarios:userReducer
  
   // Otros módulos de Redux
 });
