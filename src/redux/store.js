@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   invoice:invoiceReducer,
   customer:customerReducer,
   product:productReducer,
-  seller:sellerReducer,
+  vendedores:sellerReducer,
   supplier:supplierReducer,
   purchase:purchaseReducer,
   cuentasxc:cuentasxcReducer,
