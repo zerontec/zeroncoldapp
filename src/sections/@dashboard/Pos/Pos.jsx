@@ -165,8 +165,9 @@ const Pos = () => {
   // aqui entro al estado de customer la el archivo desde customer entro a customers la variable que los obtiene
   const customers = useSelector((state) => state.customer);
   const availableProducts = useSelector((state) => state.product);
-  const availableSeller = useSelector((state) => state.seller.sellers);
+  const availableSeller = useSelector((state) => state.vendedores.vendedores);
 
+  console.log("vendedores", availableSeller)
   console.log(customers);
   console.log("ErrorProd", availableProducts)
   const { message } = useSelector((state) => state.customer);
