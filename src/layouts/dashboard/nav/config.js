@@ -32,7 +32,17 @@ title: 'usuarios',
 path:'/dashboard/usuarios',
 icon: icon('ic_user'),
 
-}
+},
+{
+
+  title: 'vendedores',
+  path:'/dashboard/vendedores',
+  icon: icon('ic_user'),
+  
+  },
+  
+
+
 
 
   // {
