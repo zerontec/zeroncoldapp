@@ -19,6 +19,8 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 import CuentasxPages from './pages/CuentasxcPages';
 import UserSystemPage from './pages/UserSystemPages';
+import SellerPage from './pages/SellerPage';
+import SubModulePages from './pages/SubModulePages';
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +51,8 @@ export default function Router() {
         { path: 'inventario', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <InventoryPages /></ProtectedRoute> },
         { path: 'cuentasxc', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <CuentasxPages /></ProtectedRoute> },
         { path: 'usuarios', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <UserSystemPage /></ProtectedRoute> },
+        { path: 'vendedores', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <SellerPage /></ProtectedRoute> },
+        { path: 'submodule', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <SubModulePages /></ProtectedRoute> },
       ],
     },
 
