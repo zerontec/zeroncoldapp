@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 const LinkBoxContainer = styled(Box)`
   display: flex;
@@ -40,34 +41,23 @@ const ModuleLinks = () => {
 
   return (
     <LinkBoxContainer>
-      <LinkBox
-        style={{ backgroundColor: '#007bff' }}
-        onClick={() => handleLinkClick('/dashboard/invoice')}
-      >
+      <LinkBox style={{ backgroundColor: '#007bff' }} onClick={() => handleLinkClick('/dashboard/invoice')}>
         <LinkText>Ventas</LinkText>
       </LinkBox>
-      <LinkBox
-        style={{ backgroundColor: '#ff6b6b' }}
-        onClick={() => handleLinkClick('/dashboard/compras')}
-      >
+
+      <LinkBox style={{ backgroundColor: '#ff6b6b' }} onClick={() => handleLinkClick('/dashboard/compras')}>
         <LinkText>Compras</LinkText>
       </LinkBox>
-      <LinkBox
-        style={{ backgroundColor: '#00cc99' }}
-        onClick={() => handleLinkClick('/dashboard/compras')}
-      >
+
+      <LinkBox style={{ backgroundColor: '#00cc99' }} onClick={() => handleLinkClick('/dashboard/submodule')}>
         <LinkText>Usuarios De Sistema</LinkText>
       </LinkBox>
-      <LinkBox
-        style={{ backgroundColor: '#FF5722' }}
-        onClick={() => handleLinkClick('/dashboard/inventario')}
-      >
+
+      <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/inventario')}>
         <LinkText>Inventario</LinkText>
       </LinkBox>
-      <LinkBox
-        style={{ backgroundColor: '#ff8c00' }}
-        onClick={() => handleLinkClick('modulo5')}
-      >
+
+      <LinkBox style={{ backgroundColor: '#ff8c00' }} onClick={() => handleLinkClick('modulo5')}>
         <LinkText>Reportes</LinkText>
       </LinkBox>
     </LinkBoxContainer>
