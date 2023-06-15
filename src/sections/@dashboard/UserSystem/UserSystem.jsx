@@ -60,6 +60,16 @@ const FieldContainer = styled.div`
 `;
 
 
+const FormTipo = styled.div`
+  display: flex;
+  gap: 3rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 2rem;
+  background-color:rgb(0, 204, 153);
+  border-radius: 20px;
+`
+
 
 const UserSystem = () => {
   const [selected, setSelected] = useState([]);
@@ -546,11 +556,13 @@ const UserSystem = () => {
 		  </Box>
 		</Modal>
 
-
- <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+    <FormTipo>
+          <Typography style={{color:"white" , marginLeft:10}} variant="h4" gutterBottom>
             Usuarios de el sistema
-          </Typography>
+          </Typography></FormTipo>
+ <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        
+         
           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}onClick={() => setSelectButton()} >
             Nuevo Usuario 
           </Button>
