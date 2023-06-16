@@ -70,7 +70,7 @@ const FormTipo = styled.div`
 
 const Seller = () => {
   const [selected, setSelected] = useState([]);
-  const [selectedRole, setSelectedRole] = useState([]);
+
   const [editMode, setEditMode] = useState(false);
   const [editData, setEditData] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
@@ -355,12 +355,13 @@ const Seller = () => {
   // Filtrar usuarios en función del término de búsqueda
   let filteredUsers;
 
-  if (sellers && sellers.vendedores && Array.isArray(sellers.vendedores)) {
-    filteredUsers = sellers.vendedores.filter(
+  if (sellers && sellers.vendedores && Array.isArray(sellers.vendedores.seller)) {
+    
+	filteredUsers = sellers.vendedores.seller.filter(
       (user) =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.codigo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        user.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.codigo.toLowerCase().includes(searchTerm.toLowerCase())
     );
   } else {
     filteredUsers = [];
