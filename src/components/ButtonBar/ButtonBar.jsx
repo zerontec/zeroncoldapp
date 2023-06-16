@@ -24,12 +24,17 @@ const ButtonBar = ({button1, button1Link, button2, button2Link, button3, button3
   return (
     <Box display="flex" justifyContent="center">
       <ButtonContainer>
-  <Link to={button1Link} >   <StyledButton variant="contained" >
+ 
+  <Link to={button1Link} >   
+  <StyledButton variant="contained" >
         {  button1}
-        </StyledButton></Link>  
-        <StyledButton variant="contained" href="/enlace2">
+        </StyledButton></Link> 
+
+  <Link to={button2Link} > <StyledButton variant="contained" href="/enlace2">
+         
           {button2}
-        </StyledButton>
+        </StyledButton> </Link>
+
         <StyledButton variant="contained" href="/enlace3">
          {button3}
         </StyledButton>

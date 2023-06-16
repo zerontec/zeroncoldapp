@@ -1,4 +1,7 @@
 import axios from 'axios';
+import authHeader from '../services/auth-header';
+
+
 
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
@@ -10,6 +13,9 @@ const FETCH_CUSTOMERS_REQUEST = 'FETCH_CUSTOMERS_REQUEST'
 const CREATE_CUSTOMER = 'CREATE_CUSTOMER'
 const CREATE_CUSTOMER_ERROR = 'CREATE_CUSTOMER_ERROR'
 const CUSTOMER_ERROR = 'CUSTOMER_ERROR'
+const GET_CUSTOMER ='GET_CUSTOMER'
+const UPDATE_CUSTOMER='UPDATE_CUSTOMER'
+const DELETE_CUSTOMER= 'DELETE_CUSTOMER'
 
 export const fetchCustomersRequest = () => ({
   type: FETCH_CUSTOMERS_REQUEST,
@@ -40,7 +46,7 @@ export const fetchCustomers = (query) =>async (dispatch) => {
   
     dispatch(fetchCustomersRequest());
     try {
-      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/customer/search-query?q=${query}`
+      const response = await fetch(`${API_URL}api/customer/search-query?q=${query}`
       );
       const data = await response.json();
       dispatch(fetchCustomersSuccess(data));
@@ -72,7 +78,57 @@ export const createCustomer = (formInfo) => async (dispatch) => {
   }
 };
 
+ 
+  
 
+export const getAllCustomer= () => async(dispatch) =>  {
+
+
+  try {
+    const resp = await axios.get(`${API_URL}api/customer/find-all`,{ headers: authHeader() });
+
+    dispatch({
+      type: GET_CUSTOMER,
+      payload: resp.data,
+    });
+    return resp.data
+  } catch (err) {
+    return err.response;
+  }
+};
+
+
+
+  
+export const updateCustomer = (id, data) => async (dispatch) => {
+  try {
+    const resp = await axios.put(`${API_URL}api/customer/update/${id}`, data,{ headers: authHeader() });
+
+    dispatch({
+      type: UPDATE_CUSTOMER,
+      payload: resp.data,
+    });
+
+    return resp.data;
+  } catch (err) {
+    return err.response;
+  }
+};
+
+
+export const deleteCustomer = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`${API_URL}api/customer/delete/${id}`,{ headers: authHeader() });
+
+    dispatch({
+      type: DELETE_CUSTOMER,
+      payload: { id },
+    });
+    return({message:"Eliminado con exito"})
+  } catch (err) {
+    return err.response;
+  }
+};
 
 
 
@@ -133,6 +189,29 @@ export default function customerReducer(state = initialState, action) {
         };
 
 
+        case UPDATE_CUSTOMER:
+          return{
+          ...state,
+          customers:action.payload
+  
+  
+          }
+
+          case GET_CUSTOMER:
+
+          return{
+  
+            ...state
+            ,customers:action.payload
+  
+          }
+  
+  case DELETE_CUSTOMER:
+    return{
+  
+      ...state
+    }
+  
 
       default:
         return state;
