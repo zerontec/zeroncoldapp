@@ -21,6 +21,7 @@ import CuentasxPages from './pages/CuentasxcPages';
 import UserSystemPage from './pages/UserSystemPages';
 import SellerPage from './pages/SellerPage';
 import SubModulePages from './pages/SubModulePages';
+import CustomerPages from './pages/Customerpages';
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +54,7 @@ export default function Router() {
         { path: 'usuarios', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <UserSystemPage /></ProtectedRoute> },
         { path: 'vendedores', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <SellerPage /></ProtectedRoute> },
         { path: 'submodule', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <SubModulePages /></ProtectedRoute> },
+        { path: 'clientes', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <CustomerPages /></ProtectedRoute> },
       ],
     },
 

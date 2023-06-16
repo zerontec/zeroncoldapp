@@ -40,6 +40,13 @@ icon: icon('ic_user'),
   icon: icon('ic_user'),
   
   },
+  {
+
+    title: 'clientes',
+    path:'/dashboard/clientes',
+    icon: icon('ic_user'),
+    
+    },
   
 
 
