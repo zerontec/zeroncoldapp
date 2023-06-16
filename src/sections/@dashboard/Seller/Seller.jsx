@@ -519,13 +519,13 @@ const Seller = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
+              {/* <TableCell padding="checkbox">
                 <Checkbox
                   checked={selected.length === usersOnPage.length}
                   indeterminate={selected.length > 0 && selected.length < usersOnPage.length}
                   onChange={handleSelectAllClick}
                 />
-              </TableCell>
+              </TableCell> */}
               <TableCell>Nombre</TableCell>
               <TableCell>Codigo</TableCell>
               <TableCell>Identificacion</TableCell>
@@ -536,9 +536,9 @@ const Seller = () => {
           <TableBody>
             {usersOnPage.map((user) => (
               <TableRow key={user.id} hover>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                   <Checkbox checked={selected.includes(user.id)} onChange={(event) => handleClick(event, user.id)} />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <Stack direction="row" alignItems="center" spacing={2}>
                     <Avatar alt={user.name} src={user.avatar} />
@@ -581,7 +581,7 @@ const Seller = () => {
         </Typography>
       </Box>
 
-      {selected.length > 0 && (
+      {/* {selected.length > 0 && (
         <Card variant="outlined" sx={{ mt: 2, p: 2 }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Typography variant="subtitle1">{`${selected.length} selected`}</Typography>
@@ -642,7 +642,7 @@ const Seller = () => {
             </Button>
           </Box>
         </Card>
-      </Popover>
+      </Popover> */}
 
       <Modal open={selectButton !== null} onClose={() => setSelectButton(null)}>
         <Box
