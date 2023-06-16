@@ -18,7 +18,7 @@ const CREATE_USER_SUCCESS ='CREATE_USER_SUCCESS';
 const CREATE_USER_ERROR = 'CREATE_USER_ERROR';
 const UPDATE_USER = 'UPDATE_USER'
 const DELETE_USER ='DELETE_USER'
-
+const DELETE_USERS ='DELETE_USERS'
 
 export const fetchUserRequest = () => ({
   type: FETCH_USER_REQUEST,
@@ -69,28 +69,28 @@ export const getAllUsers= () => async(dispatch) =>  {
 export const createUser = (userData) => async (dispatch) => {
     try {
       const { data } = await axios.post(
-        `${API_URL}api/user/create-user`,
-        userData
+        `${API_URL}api/user/create`,userData,{ headers: authHeader() }
       );
       dispatch({
         type: CREATE_USER_SUCCESS,
         payload: data,
       });
+
+      return data;
       // Aquí podrías enviar una notificación de éxito al usuario
     } catch (error) {
-      dispatch({
-        type: CREATE_USER_ERROR,
-        payload: error.response.data.message,
-      });
-      // Aquí podrías enviar una notificación de error al usuario
+      if (error.response && error.response.status === 409) {
+        throw new Error("El usuario o email  ya existe. Ingrese otro.");
+      }
+      throw error;
     }
   };
-  
+ 
 
 
   export const updateUser = (id, data) => async (dispatch) => {
     try {
-      const resp = await axios.put(`${API_URL}api/user/update/${id}`, data);
+      const resp = await axios.put(`${API_URL}api/user/update/${id}`, data,{ headers: authHeader() });
   
       dispatch({
         type: UPDATE_USER,
@@ -106,7 +106,7 @@ export const createUser = (userData) => async (dispatch) => {
 
   export const deleteUser = (id) => async (dispatch) => {
     try {
-      await axios.delete(`${API_URL}api/user/delete/${id}`);
+      await axios.delete(`${API_URL}api/user/delete/${id}`,{ headers: authHeader() });
   
       dispatch({
         type: DELETE_USER,
@@ -117,6 +117,21 @@ export const createUser = (userData) => async (dispatch) => {
       return err.response;
     }
   };
+
+  export const deleteMultiplyUser = (ids) => async (dispatch) => {
+    try {
+      await axios.delete(`${API_URL}api/user/delete-multiply`, { data:ids, headers: authHeader() });
+  
+      dispatch({
+        type: DELETE_USERS,
+        payload: { ids },
+      });
+      return({message:"usuarios Eliminados con exito"})
+    } catch (err) {
+      return err.response;
+    }
+  };
+
 
 
 
@@ -154,6 +169,20 @@ export default function userReducer(state = initialState, action) {
 
 
         }
+case DELETE_USER:
+  return{
+
+    ...state
+  }
+
+  case DELETE_USERS:
+  return{
+
+    ...state
+  }
+
+
+
         case CREATE_USER_ERROR:
   return {
     ...state,
