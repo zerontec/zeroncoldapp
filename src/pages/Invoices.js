@@ -30,6 +30,7 @@ const InvoicePages = () => (
 button1={"Cuentas Por Cobrar"}
 button1Link={'/dashboard/cuentasxc'}
 button2={"Clientes"}
+button2Link={'/dashboard/clientes'}
 button3={"Reporte Ventas"}
            
 />
