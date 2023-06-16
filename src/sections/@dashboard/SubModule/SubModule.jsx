@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+
 
 const LinkBoxContainer = styled(Box)`
   display: flex;
