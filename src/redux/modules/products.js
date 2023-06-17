@@ -12,7 +12,7 @@ const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
 const UPDATE_PRODUCT ='UPDATE_PRODUCT'
 const DELETE_PRODUCT ='DELETE_PRODUCT'
 const MOVE_INVENTORY= 'MOVE_INVENTORY'
-
+const DELETE_PRODUCTS='DELETE_PRODUCTS,'
 
 export const fetchProductRequest = () => ({
     type: FETCH_PRODUCT_REQUEST,
@@ -28,10 +28,12 @@ export const fetchProductRequest = () => ({
     payload: error,
   });
   
+
+  
   export const fetchProducts = (query) => async (dispatch) => {
     dispatch(fetchProductRequest());
     try {
-      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/product/search-query?q=${query}`);
+      const response = await fetch(`${API_URL}api/product/search-query?q=${query}`);
       const data = await response.json();
       dispatch(fetchProductSuccess(data));
       return data;
@@ -112,6 +114,23 @@ export const fetchProductRequest = () => ({
         return err.response;
       }
     };
+
+
+    export const deleteMultiplyProducts = (ids) => async (dispatch) => {
+      try {
+        await axios.delete(`${API_URL}api/product/delete-multiply/`, ids);
+    
+        dispatch({
+          type: DELETE_PRODUCTS,
+          payload: { ids },
+        });
+        return({message:"Productos Eliminados con exito"})
+      } catch (err) {
+        return err.response;
+      }
+    };
+  
+
 
   export const moveInventory = (formInfo) => async(dispatch)=>{
 
