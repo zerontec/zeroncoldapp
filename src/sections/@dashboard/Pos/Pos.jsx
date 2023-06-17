@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 
 // 0412-1110533 Yurbelis Fuentes   Habudy 0414-8653999
 /* eslint-disable import/no-unresolved */
@@ -111,39 +113,68 @@ const StyledTextField = styled(TextField)`
 
 
 const Pos = () => {
+
   const [client, setClient] = useState({});
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState({});
   const [subtotal, setSubtotal] = useState(0);
-  const [total, setTotal] = useState(0);
+ 
   const [currency, setCurrency] = useState('Bs');
   const [currencys, setCurrencys] = useState('$');
   const [query, setQuery] = useState('');
   const [queryp, setQueryp] = useState('');
   const [querys, setQuerys] = useState('');
   const [productsQuantity, setProductsQuantity] = useState(0);
-  const [subtotalP, setSubtotalP] = useState(0);
+  
   const [seller, setSeller] = useState({});
-  const [selectedOption, setSelectedOption] = useState('');
+  
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [paymentMethod, setPaymentMethod] = React.useState('');
   const [isCredit, setIsCredit] = React.useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   
   const [searchError, setSearchError] = useState(false);
-  const [productList, setProductList] = useState([]);
+  
   const [manualClientData, setManualClientData] = useState({ name: '', identification: '', address: '' });
   const [errorMessage, setErrorMessage] = useState('');
-  const [showMessage, setShowMessage] = useState(false);
-  const messageDuration = 5
+  
+ 
   const [limpiar,setLimpiar]= useState('')
+  
   
 
 
 
 
+const [modalOpen, setModalOpen] = useState(false);
+
+
+
+
+const quantityRef = useRef(null);
+const handleProductSelect = (selectedProduct) => {
+  // Actualizar los campos de productos con el producto seleccionado
+  setProduct({
+    description: selectedProduct.description || '',
+    price: selectedProduct.price || '',
+    barcode: selectedProduct.barcode || '',
+    name: selectedProduct.name || '',
+
+   
+  });
+
+  
+  setTimeout(() => {
+    quantityRef.current.focus();
+  }, 0);
+
+  // Cerrar el modal
+  setModalOpen(false);
+ 
+};
+
   useEffect(() => {
-    if (products.length === 0) {
+    if (products.length === 0 ) {
       setIsPopupOpen(false);
     }
   }, [products]);
@@ -191,6 +222,21 @@ const Pos = () => {
     }
     setSearchError(true);
   };
+
+
+  const resetForm = () => {
+   
+    setClient('')
+    setSeller('')
+    setProduct('')
+  };
+
+  const resetFormP = () => {
+   
+   
+    setProduct('')
+  };
+
 
   // eslint-disable-next-line consistent-return
   const handleSearchProduct = () => {
@@ -326,7 +372,7 @@ const Pos = () => {
   }, [querys, dispatch]);
 
   const openPopup = () => {
-    if (products.length > 0) {
+    if (products.length > 0  ) {
       setIsPopupOpen(true);
     }
   };
@@ -334,6 +380,7 @@ const Pos = () => {
     setIsPopupOpen(false);
   };
 
+ 
   const sumasPorItem = products.reduce((acc, item) => {
     if (acc[item.name]) {
       acc[item.name] += item.cantidad;
@@ -347,7 +394,61 @@ const Pos = () => {
   return (
     <>
     <GlobalStyle />
-   
+    <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+    <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            borderRadius: '8px',
+            boxShadow: 24,
+            p: 4,
+            backgroundColor:"#212B36"
+          }}
+        >
+
+<StyledTextField
+              label="Busqueda Productos"
+              onChange={(e) => setQueryp(e.target.value.toLowerCase())}
+            />
+          
+
+            {queryp.length  &&
+              Array.isArray(availableProducts.products) &&
+              availableProducts.products.length > 0 && (
+                <Table >
+                  {availableProducts.products.map((result, index) => (
+                    <TableRow
+                      key={result.id}
+                      onClick={() => handleProductSelect(result)}
+                    >
+                      <TableCell style={{color:"white"}}>{result.name}</TableCell>
+                      <TableCell style={{color:"white"}}>{result.description}</TableCell>
+                      <TableCell style={{color:"white"}}>{result.price}</TableCell>
+                    </TableRow>
+                  ))}
+                </Table>
+              )}
+{/* No existe Producto en inventario Stored */}
+<div style={{color:"white"}}>
+<ErrorMessage message={availableProducts.products.message} show={searchError} /></div>
+            {/* {query.length > 6 &&
+              (!Array.isArray(availableProducts) || availableProducts.length === 0) && (
+                <p>No se encontro Producto</p>
+              )} */}
+
+
+<Button style={{marginTop:10, backgroundColor:"transparent"}} variant="contained" onClick={() => setModalOpen(null)}>
+            x
+          </Button>
+
+  
+  </Box>
+</Modal>
+
 
     {/* resuman de pago */}
       <Modal open={isPopupOpen === true} onClose={() => setIsPopupOpen(null)}>
@@ -541,6 +642,8 @@ const Pos = () => {
                   })
                 }
               />
+
+<Button  onClick={resetForm}>Limpiar Form Cliente </Button>
             </Grid>
 
             <Box>
@@ -568,21 +671,26 @@ const Pos = () => {
         {/* Formulario de búsqueda y agregar productos */}
         <Grid container spacing={2} sx={{ marginBottom: 2 }}>
           <Grid item xs={12} md={3}>
-            <TextField
+            <Button
               label="Buscar Producto"
               ref={searchProductRef}
               variant="outlined"
               fullWidth
-              value={queryp}
-              onChange={(event) => setQueryp(event.target.value)}
-              onBlur={handleSearchProduct}
-            />
+              // value={queryp}
+              onClick={() => setModalOpen(true)} // Abrir el modal al hacer clic
+              // onChange={(event) => setQueryp(event.target.value)}
+              // onBlur={handleSearchProduct}
+            >Agregar Productos </Button>
             {/* Cantidad de venta supera inventario */}
             <ErrorMessage message={errorMessage} show={searchError} />
             {/* No existe Producto en inventario Stored */}
             <ErrorMessage message={availableProducts.products.message} show={searchError} />
-          </Grid>
+         
+            <Button onClick={resetFormP}>Limpiar Form Productos </Button>
 
+          </Grid>
+          
+       
           <Grid item xs={12} md={3}>
             <TextField 
             label="Descripción" 
@@ -597,6 +705,7 @@ const Pos = () => {
               label="Cantidad"
               type="number"
               variant="outlined"
+              ref={quantityRef}
               fullWidth
               value={productsQuantity}
               onChange={handleProductQuantityChange}
