@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 import { ShoppingCartOutlined } from '@ant-design/icons';
@@ -30,6 +31,48 @@ import { ButtonBar } from '../components/ButtonBar';
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
+
+  const [valoresDolar, setValoresDolar] = useState({});
+
+
+  useEffect(() => {
+    // Realiza la consulta inicial al cargar el componente
+    fetchDolarValue();
+
+    // Configura un intervalo para realizar consultas periódicas cada cierto tiempo
+    const interval = setInterval(fetchDolarValue, 60000); // Consulta cada 1 minuto
+
+    // Limpia el intervalo cuando el componente se desmonta
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const fetchDolarValue = async () => {
+    try {
+      const response = await fetch('https://expressjs-postgres-production-bd69.up.railway.app/api/consulta/dolar');
+      const data = await response.json();
+      
+      // Convertir los valores a números utilizando parseFloat
+      const bcv = data.bcv;
+      const enparalelovzla =data.enparalelovzla;
+      // ...
+
+      setValoresDolar({
+        bcv,
+        enparalelovzla,
+        // ...
+      });
+    } catch (error) {
+      console.error('Error al obtener los datos del dólar:', error);
+    }
+  };
+
+
+
+
+
+
   const theme = useTheme();
 
   return (
@@ -58,16 +101,21 @@ export default function DashboardAppPage() {
           </Grid>
           <hr/>
 
+
+
+
+
+
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
           {/* <MonetizationOnIcon style={{color:'green'}}/> */}
-            <AppWidgetSummary title="Tasa $ BCV " total={26.52} icon={'ant-design:dollar'} />
-    
+            <AppWidgetSummary title="Tasa $ BCV " total={valoresDolar.bcv} icon={'ant-design:dollar'} />
+
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
           {/* <MonetizationOnIcon style={{color:'red'}}/> */}
-            <AppWidgetSummary title="Tasa $ Paralela" total={1352831} color="info" icon={'ant-design:dollar'} />
+            <AppWidgetSummary title="Tasa $ Paralela" total={valoresDolar.enparalelovzla} color="info" icon={'ant-design:dollar'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
