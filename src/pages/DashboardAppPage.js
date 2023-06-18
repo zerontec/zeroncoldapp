@@ -40,7 +40,7 @@ export default function DashboardAppPage() {
     fetchDolarValue();
 
     // Configura un intervalo para realizar consultas periódicas cada cierto tiempo
-    const interval = setInterval(fetchDolarValue, 60000); // Consulta cada 1 minuto
+    const interval = setInterval(fetchDolarValue, 12 * 60 * 60 * 1000); // Consulta cada 12 horas
 
     // Limpia el intervalo cuando el componente se desmonta
     return () => {
@@ -50,7 +50,7 @@ export default function DashboardAppPage() {
 
   const fetchDolarValue = async () => {
     try {
-      const response = await fetch('https://expressjs-postgres-production-bd69.up.railway.app/api/consulta/dolar');
+      const response = await fetch('http://localhost:5040/api/consulta/dolar');
       const data = await response.json();
       
       // Convertir los valores a números utilizando parseFloat
