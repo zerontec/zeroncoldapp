@@ -1,6 +1,8 @@
 
 
 import axios from 'axios';
+import authHeader from '../services/auth-header';
+
 
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
@@ -14,8 +16,8 @@ const CREATE_PURCHASE = 'CREATE_PURCHASE';
 const GET_PURCHASES = 'GET_PURCHASES';
 const CREATE_PURCHASE_SUCCESS ='CREATE_PURCHASE_SUCCESS';
 const CREATE_PURCHASE_ERROR = 'CREATE_PURCHASE_ERROR';
-
-
+const DELETE_PURCHASE = 'DELETE_PURCHASE'
+const UPDATE_PURCHASE = 'UPDATE_PURCHASE'
 
 
 export const fetchPurchaseRequest = () => ({
@@ -36,7 +38,7 @@ export const fetchPurchases = (queryPu) => async(dispatch) => {
  
     dispatch(fetchPurchaseRequest());
     try {
-      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/purchase/search-query-p?q=${queryPu}`);
+      const response = await fetch(`${API_URL}api/purchase/search-query-p?q=${queryPu}`);
       const data = await response.json();
       dispatch(fetchPurchaseSuccess(data));
       return data
@@ -51,7 +53,7 @@ export const getAllPurchases= () => async(dispatch) =>  {
 
 
     try {
-      const resp = await axios.get(`${API_URL}api/invoice/all`);
+      const resp = await axios.get(`${API_URL}api/purchase/all-purchase`);
 
       dispatch({
         type: GET_PURCHASES,
@@ -84,6 +86,35 @@ export const createPurchase = (purchaseData) => async (dispatch) => {
     }
   };
   
+  export const deletePurchase = (id) => async (dispatch) => {
+    try {
+      await axios.delete(`${API_URL}api/seller/delete/${id}`,{ headers: authHeader() });
+  
+      dispatch({
+        type: DELETE_PURCHASE,
+        payload: { id },
+      });
+      return({message:"Eliminado con exito"})
+    } catch (err) {
+      return err.response;
+    }
+  };
+
+
+  export const updatePurchase = (id, data) => async (dispatch) => {
+    try {
+      const resp = await axios.put(`${API_URL}api/purchase/update/${id}`, data);
+  
+      dispatch({
+        type: UPDATE_PURCHASE,
+        payload: resp.data,
+      });
+  
+      return resp.data;
+    } catch (err) {
+      return err.response;
+    }
+  };
 
 
 
@@ -122,7 +153,21 @@ export default function purchaseReducer(state = initialState, action) {
     invoice: null,
   };
 
+  case UPDATE_PURCHASE:
+    return{
+    ...state,
+    purchases:action.payload
 
+
+    }
+
+
+  case DELETE_PURCHASE:
+    return{
+  
+      ...state
+    }
+  
 
     default:
       return state;
