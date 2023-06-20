@@ -1,8 +1,39 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import {Typography } from '@mui/material';
-import {Purchases } from '../sections/@dashboard/Purchases'
+import {Typography, Box } from '@mui/material';
+
+import { useNavigate } from 'react-router-dom';
+import { CreateSupplier } from '../components/CreateSupplier';
+
+
+const LinkBoxContainer = styled(Box)`
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap; /* Agrega la propiedad flex-wrap para que los elementos se envuelvan */
+`;
+
+const LinkBox = styled(Box)`
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const LinkText = styled.span`
+  font-size: 16px;
+  font-weight: bold;
+`;
 
 
 const FormTipo = styled.div`
@@ -16,19 +47,53 @@ const FormTipo = styled.div`
 `
 
 
-const PurchasePage = () => (
+const PurchasePage = () => {
+
+
+
+
+
+	const handleLinkClick = (link) => {
+	  navigate(link);
+	  console.log(`Redireccionando a ${link}`);
+	}
+
+	const navigate = useNavigate();
+  
+return(
     <>
     <FormTipo>
  <Typography style={{marginLeft:15, marginTop:10}} color="white" variant="h5" sx={{ marginBottom: 2 }}>
-          Resumen de Compra
+        Modulo Compras
         </Typography>
         </FormTipo>
 
-  <Purchases/>
+<CreateSupplier/>
+        <LinkBoxContainer>
+  
+
+  <LinkBox style={{ backgroundColor: '#00cc99' }} onClick={() => handleLinkClick('/dashboard/cargar-compras')}>
+	<LinkText>Cargar Compras</LinkText>
+  </LinkBox>
+
+  <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/lista-compras')}>
+	<LinkText>Lista de Compras</LinkText>
+  </LinkBox>
+
+  <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/lista-proveedores')}>
+	<LinkText>Lista de Proveedores</LinkText>
+  </LinkBox>
+
+
+ 
+</LinkBoxContainer>
+
+
+  {/* <Purchases/> */}
    
     </>
   );
-
+}
 export default PurchasePage;
 
 
