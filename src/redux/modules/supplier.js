@@ -13,6 +13,9 @@ const CREATE_SUPPLIER = 'CREATE_SUPPLIER';
 const GET_SUPPLIERS = 'GET_SUPPLIERS';
 const CREATE_SUPPLIER_SUCCESS ='CREATE_SUPPLIER_SUCCESS';
 const CREATE_SUPPLIER_ERROR = 'CREATE_SUPPLIER_ERROR';
+const DELETE_SUPPLIER = 'DELETE_SUPPLIER'
+const UPDATE_SUPPLIER ='UPDATE_SUPPLIER'
+
 
 
 
@@ -35,7 +38,7 @@ export const fetchSupliers = (query) => async(dispatch)=>  {
 
     dispatch(fetchSupplierRequest());
     try {
-      const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/supplier/search-query?q=${query}`);
+      const response = await fetch(`${API_URL}api/supplier/search-query?q=${query}`);
       const data = await response.json();
       dispatch(fetchSupplierSuccess(data));
     } catch (error) {
@@ -47,7 +50,7 @@ export const getAllSupplier =() => async(dispatch)=>  {
   
 
     try {
-      const resp = await axios.get(`${API_URL}api/supplier/all`);
+      const resp = await axios.get(`${API_URL}api/supplier/all-supplier`);
 
       dispatch({
         type: GET_SUPPLIERS,
@@ -82,6 +85,35 @@ export const createSuppliers = (supplierData) => async (dispatch) => {
     }
   
   
+
+    export const deleteSuppliert = (id) => async (dispatch) => {
+      try {
+        await axios.delete(`${API_URL}api/supplier/delete-supplier/${id}`);
+    
+        dispatch({
+          type: DELETE_SUPPLIER,
+          payload: { id },
+        });
+        return({message:"Eliminado con exito"})
+      } catch (err) {
+        return err.response;
+      }
+    };
+
+    export const updateSupplier = (id, data) => async (dispatch) => {
+      try {
+        const resp = await axios.put(`${API_URL}api/supplier/update-supplier/${id}`, data);
+    
+        dispatch({
+          type: UPDATE_SUPPLIER,
+          payload: resp.data,
+        });
+    
+        return resp.data;
+      } catch (err) {
+        return err.response;
+      }
+    };
 
 
 
@@ -144,7 +176,18 @@ export default function supplierReducer(state = initialState, action) {
     suppliers: null,
   };
 
+  case DELETE_SUPPLIER:
+    return{
+...state
 
+    }
+    case UPDATE_SUPPLIER:
+      return{
+      ...state,
+      suppliers:action.payload
+
+
+      }
 
     default:
       return state;
