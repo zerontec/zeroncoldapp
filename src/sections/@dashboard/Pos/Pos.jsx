@@ -19,6 +19,7 @@ import { fetchProducts } from '../../../redux/modules/products';
 import { createInvoices } from '../../../redux/modules/invoices';
 import { fetchSellers } from '../../../redux/modules/seller';
 import { ErrorMessage } from '../../../components/ErrorMessage';
+import { fDateTime } from '../../../utils/formatTime';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -132,21 +133,17 @@ const Pos = () => {
   const [paymentMethod, setPaymentMethod] = React.useState('');
   const [isCredit, setIsCredit] = React.useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  
   const [searchError, setSearchError] = useState(false);
-  
   const [manualClientData, setManualClientData] = useState({ name: '', identification: '', address: '' });
   const [errorMessage, setErrorMessage] = useState('');
-  
- 
   const [limpiar,setLimpiar]= useState('')
-  
-  
+  const [modalOpen, setModalOpen] = useState(false);
 
 
 
+  const dispatch = useDispatch();
 
-const [modalOpen, setModalOpen] = useState(false);
+
 
 
 
@@ -173,6 +170,9 @@ const handleProductSelect = (selectedProduct) => {
  
 };
 
+
+
+
   useEffect(() => {
     if (products.length === 0 ) {
       setIsPopupOpen(false);
@@ -190,7 +190,6 @@ const handleProductSelect = (selectedProduct) => {
     setSelectedDate(date);
   };
 
-  const dispatch = useDispatch();
 
   const searchProductRef = useRef(null);
   // aqui entro al estado de customer la el archivo desde customer entro a customers la variable que los obtiene
@@ -317,7 +316,8 @@ const handleProductSelect = (selectedProduct) => {
 
 
   // envio para crear Factura
-  
+  fDateTime(selectedDate)
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -389,6 +389,12 @@ const handleProductSelect = (selectedProduct) => {
     }
     return acc;
   }, {});
+
+
+
+
+
+
 
 
   return (
@@ -777,112 +783,3 @@ const handleProductSelect = (selectedProduct) => {
 
 export default Pos;
 
-// COMPONENTE DDDE COMPRA
-// import React, { useState } from 'react';
-// import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-// import styled from 'styled-components';
-
-// const FormContainer = styled(Grid)`
-// margin-bottom: 16px;
-// `;
-
-// const SummaryContainer = styled(Box)`
-// margin-top: 16px;
-// padding: 16px;
-// border: 1px solid #ccc;
-// border-radius: 4px;
-// `;
-
-// const Pos = () => {
-// const [provider, setProvider] = useState({});
-// const [invoice, setInvoice] = useState({});
-// const [product, setProduct] = useState({});
-// const [total, setTotal] = useState(0);
-
-// const handleSearchProvider = () => {
-//     // Agregar lógica para buscar al proveedor
-// };
-
-// const handleAddProduct = () => {
-//     // Agregar lógica para agregar un producto
-// };
-
-// return (
-//     <Box>
-//       <Typography variant="h5" sx={{ marginBottom: 2 }}>
-//         Carga de Compras
-//       </Typography>
-
-//       {/* Formulario de búsqueda y agregar proveedor */}
-//       <FormContainer container spacing={2} alignItems="flex-start">
-//         <Grid item xs={12} md={4}>
-//           <TextField
-//             label="Buscar Proveedor"
-//             variant="outlined"
-//             fullWidth
-//             onChange={handleSearchProvider}
-//           />
-//         </Grid>
-//         <Grid item xs={12} md={4}>
-//           <TextField label="Nombre" variant="outlined" fullWidth value={provider.name || ''} disabled />
-//           <TextField
-//             label="Identificación"
-//             variant="outlined"
-//             fullWidth
-//             value={provider.identification || ''}
-//             disabled
-//           />
-//           <TextField
-//             label="Dirección"
-//             variant="outlined"
-//             fullWidth
-//             value={provider.address || ''}
-//             disabled
-//           />
-//         </Grid>
-//       </FormContainer>
-
-//       {/* Formulario de datos de la factura */}
-//       <FormContainer container spacing={2} alignItems="flex-start">
-//         <Grid item xs={12} md={4}>
-//           <TextField label="Número de Factura" variant="outlined" fullWidth />
-//         </Grid>
-//         <Grid item xs={12} md={4}>
-//           <TextField label="Fecha de Factura" variant="outlined" fullWidth type="date" />
-//         </Grid>
-//       </FormContainer>
-
-//       {/* Resumen de la compra */}
-//       <SummaryContainer>
-//         <Typography variant="h6">Resumen de la Compra</Typography>
-//         <Typography>Total: {total}</Typography>
-//       </SummaryContainer>
-
-//       {/* Formulario de carga de producto */}
-//       <FormContainer container spacing={2} alignItems="flex-start">
-//         <Grid item xs={12} md={2}>
-//           <TextField label="Código" variant="outlined" fullWidth />
-//         </Grid>
-//         <Grid item xs={12} md={4}>
-//           <TextField label="Descripción" variant="outlined" fullWidth />
-//         </Grid>
-//         <Grid item xs={12} md={2}>
-//           <TextField label="Precio" variant="outlined" fullWidth />
-//         </Grid>
-//         <Grid item xs={12} md={2}>
-//           <TextField label="Costo" variant="outlined" fullWidth />
-//         </Grid>
-//         <Grid item xs={12} md={2}>
-//           <TextField label="Precio de Venta" variant="outlined" fullWidth />
-//         </Grid>
-//         <Grid item xs={12} md={4}>
-//           <Button variant="contained" onClick={handleAddProduct}>
-//             Agregar Producto
-//           </Button>
-//         </Grid>
-//       </FormContainer>
-//     </Box>
-// );
-// };
-
-// export default Pos;
