@@ -22,6 +22,9 @@ import UserSystemPage from './pages/UserSystemPages';
 import SellerPage from './pages/SellerPage';
 import SubModulePages from './pages/SubModulePages';
 import CustomerPages from './pages/Customerpages';
+import { Purchases } from './sections/@dashboard/Purchases';
+import { TablePurchases } from './sections/@dashboard/TablePurchases';
+import { TableSupplier } from './sections/@dashboard/TableSupplier';
 
 // ----------------------------------------------------------------------
 
@@ -55,6 +58,9 @@ export default function Router() {
         { path: 'vendedores', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <SellerPage /></ProtectedRoute> },
         { path: 'submodule', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <SubModulePages /></ProtectedRoute> },
         { path: 'clientes', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <CustomerPages /></ProtectedRoute> },
+        { path: 'cargar-compras', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <Purchases /></ProtectedRoute> },
+        { path: 'lista-compras', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <TablePurchases/></ProtectedRoute> },
+        { path: 'lista-proveedores', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <TableSupplier/></ProtectedRoute> },
       ],
     },
 
