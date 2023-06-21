@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import {Typography, Box } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
-import { CreateSupplier } from '../components/CreateSupplier';
+
 
 
 const LinkBoxContainer = styled(Box)`
@@ -68,7 +68,6 @@ return(
         </Typography>
         </FormTipo>
 
-<CreateSupplier/>
         <LinkBoxContainer>
   
 
@@ -82,6 +81,10 @@ return(
 
   <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/lista-proveedores')}>
 	<LinkText>Lista de Proveedores</LinkText>
+  </LinkBox>
+
+  <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/lista-proveedores')}>
+	<LinkText>Compras por Pagar </LinkText>
   </LinkBox>
 
 

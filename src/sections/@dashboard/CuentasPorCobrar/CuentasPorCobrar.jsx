@@ -19,6 +19,7 @@ import Swal from "sweetalert2";
 import Modal from "@mui/material/Modal";
 
 import { deleteCuenta, getAllCuentas, updateCuenta } from '../../../redux/modules/cuentasxcobrar';
+import { fDateTime } from '../../../utils/formatTime';
 
 
 const FormContainer = styled.form`
@@ -215,7 +216,7 @@ const CuentasPorCobrar = () => {
 	  };
 
 	
-
+	  fDateTime()
 
 
 	
@@ -247,7 +248,7 @@ const CuentasPorCobrar = () => {
 				  <strong>Monto:</strong> {selectedCuenta.montoCobrar}
 				</p>
 				<p>
-				  <strong>Fecha Vencimiento:</strong> {selectedCuenta.dueDate}
+				  <strong>Fecha Vencimiento:</strong> {fDateTime(selectedCuenta.dueDate)}
 				</p>
 			
 				<p>
