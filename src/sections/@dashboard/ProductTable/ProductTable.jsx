@@ -233,70 +233,70 @@ console.log(productos)
 	//   };
 	// const product = useSelector((state) => state.product);
 
-	const [products, setProducts] = useState(
-		productos.products.map((p) => ({
-		  ...p,
-		  selected: false,
-		  quantityToMove: 0, // Nuevo estado para la cantidad a mover
-		}))
-	  );;
+	// const [products, setProducts] = useState(
+	// 	productos.products.map((p) => ({
+	// 	  ...p,
+	// 	  selected: false,
+	// 	  quantityToMove: 0, // Nuevo estado para la cantidad a mover
+	// 	}))
+	//   );;
 
-	  const handleToggleSelect = (productId) => {
-		const updatedProducts = products.map((p) => {
-		  if (p.id === productId) {
-			return { ...p, selected: !p.selected };
-		  }
-		  return p;
-		});
-		setProducts(updatedProducts);
+	//   const handleToggleSelect = (productId) => {
+	// 	const updatedProducts = products.map((p) => {
+	// 	  if (p.id === productId) {
+	// 		return { ...p, selected: !p.selected };
+	// 	  }
+	// 	  return p;
+	// 	});
+	// 	setProducts(updatedProducts);
 	  
-		// Actualiza la cantidad a trasladar si el producto está seleccionado
-		const selectedProduct = updatedProducts.find((p) => p.id === productId);
-		if (selectedProduct && selectedProduct.selected) {
-		  setQuantityToMove(selectedProduct.quantity);
-		} else {
-		  setQuantityToMove(0);
-		}
-	  };
+	// 	// Actualiza la cantidad a trasladar si el producto está seleccionado
+	// 	const selectedProduct = updatedProducts.find((p) => p.id === productId);
+	// 	if (selectedProduct && selectedProduct.selected) {
+	// 	  setQuantityToMove(selectedProduct.quantity);
+	// 	} else {
+	// 	  setQuantityToMove(0);
+	// 	}
+	//   };
 	  
 
-	  const handleSubmitProduct = (e) => {
-		e.preventDefault();
+	//   const handleSubmitProduct = (e) => {
+	// 	e.preventDefault();
 	  
-		const selectedItems = selectedProducts.map((p) => ({
-		  id: p.id,
-		  quantity: p.quantity,
-		}));
-	  console.log(selectedItems)
+	// 	const selectedItems = selectedProducts.map((p) => ({
+	// 	  id: p.id,
+	// 	  quantity: p.quantity,
+	// 	}));
+	//   console.log(selectedItems)
 
-		// Realiza la solicitud POST al backend con los datos de los productos seleccionados
-		// ...
-			dispatch(moveInventory(selectedItems))
+	// 	// Realiza la solicitud POST al backend con los datos de los productos seleccionados
+	// 	// ...
+	// 		dispatch(moveInventory(selectedItems))
 
-			.then((response) => {
-				// setLoading(false);
-				Swal.fire("Movimiento creado con éxito!", "", "success");
+	// 		.then((response) => {
+	// 			// setLoading(false);
+	// 			Swal.fire("Movimiento creado con éxito!", "", "success");
 			
-			  })
-			  .catch((error) => {
-				console.log(error);
-				// setLoading(false);
+	// 		  })
+	// 		  .catch((error) => {
+	// 			console.log(error);
+	// 			// setLoading(false);
 				
-				Swal.fire(error.message);
-			  });
-		// Reinicia el estado de selección de productos después de enviarlos al backend
-		setSelectedProducts([]);
-	  };
+	// 			Swal.fire(error.message);
+	// 		  });
+	// 	// Reinicia el estado de selección de productos después de enviarlos al backend
+	// 	setSelectedProducts([]);
+	//   };
 
-	  const handleQuantityChange = (productId, quantity) => {
-		const updatedProducts = products.map((p) => {
-		  if (p.id === productId) {
-			return { ...p, quantityToMove: quantity };
-		  }
-		  return p;
-		});
-		setProducts(updatedProducts);
-	  };
+	//   const handleQuantityChange = (productId, quantity) => {
+	// 	const updatedProducts = products.map((p) => {
+	// 	  if (p.id === productId) {
+	// 		return { ...p, quantityToMove: quantity };
+	// 	  }
+	// 	  return p;
+	// 	});
+	// 	setProducts(updatedProducts);
+	//   };
 	  
 	return (
 
@@ -434,6 +434,7 @@ console.log(productos)
 					type="submit"
 					color="primary"
 					onClick={handleSubmit}
+					
 				  >
 					Guardar cambios
 				  </Button>
@@ -476,7 +477,8 @@ console.log(productos)
 			  </TableHead>
 			  <TableBody>
 				{" "}
-				{productos.products.filter((items) =>
+				 {Array.isArray(productos.products) &&
+				productos.products.filter((items) =>
 					items.barcode.toLowerCase().includes(searchTerm.toLowerCase())
 				  )
 				  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -488,13 +490,13 @@ console.log(productos)
 					  <TableCell align="left"> {items.price}</TableCell>
 					  <TableCell align="left"> {items.quantity}</TableCell>
 					  
-						<TableCell align="left" padding="checkbox"    checked={items.selected}
+						{/* <TableCell align="left" padding="checkbox"    checked={items.selected}
     onChange={() => handleToggleSelect(items.id)} >
           <Checkbox
             
           />
-        </TableCell>
-		
+        </TableCell> */}
+{/* 		
 		<TableCell align="left">
   {items.id ? (
     <TextField
@@ -505,7 +507,7 @@ console.log(productos)
       }
     />
   ) : null}
-</TableCell>
+</TableCell> */}
 
 {/* <TableCell align="left">
   {items.selected ? (
@@ -560,9 +562,9 @@ console.log(productos)
 					</TableRow>
 				  ))}{" "}
 			  </TableBody>
-			  <Button variant="contained" onClick={handleSubmitProduct}>
+			  {/* <Button variant="contained" onClick={handleSubmitProduct}>
         Enviar
-      </Button>
+      </Button> */}
 			</Table>
 			<TablePagination
 			  rowsPerPageOptions={[5,10, 100]}
