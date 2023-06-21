@@ -15,6 +15,9 @@
     "re-start": "rm -rf build node_modules && yarn install && yarn start",
     "re-build": "rm -rf build node_modules && yarn install && yarn build"
   },
+  "assets": [
+    "./assets2/fonts/"
+  ],
   "eslintConfig": {
     "extends": [
       "react-app"
@@ -45,6 +48,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.11.10",
+    "@react-pdf/renderer": "^3.1.12",
     "antd": "^5.6.1",
     "apexcharts": "^3.37.0",
     "axios": "^1.4.0",
@@ -53,6 +57,7 @@
     "date-fns": "^2.30.0",
     "history": "^5.3.0",
     "iconv-lite": "^0.6.3",
+    "jspdf": "^2.5.1",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "prop-types": "^15.8.1",
