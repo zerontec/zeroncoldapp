@@ -99,8 +99,6 @@ const Purchases = () => {
   const [numberinvoice, setNumberInvoice] = useState('');
   const [numberPurchase, setNumberpurchase] = useState('');
   const [porcentajeGanacia, setPorcentajeGanancia] = useState(0);
-  const [productPrice, setProductPrice] = useState(0);
-  
   const [searchError, setSearchError] = useState(false);
   const [products, setProducts] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
@@ -111,9 +109,7 @@ const Purchases = () => {
     description: '',
     barcode: '',
     productsPrices: '',
-
   });
-
   const [currency, setCurrency] = useState('Bs');
   const [currencys, setCurrencys] = useState('$');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -187,7 +183,11 @@ const Purchases = () => {
       costo: '',
       precioVenta: '',
       porcentajeGan: '',
+      
     });
+    setManualProductData({})
+
+
   };
 
   useEffect(() => {
@@ -276,12 +276,6 @@ const Purchases = () => {
     calculatePrice();
   };
 
-  const handleProductPrice =(event) =>{
-
-    setProductPrice('')
-
-  }
-
   const handleStatusChange = (event) => {
     setPaymentStatus(event.target.value);
   };
@@ -310,14 +304,6 @@ const Purchases = () => {
   // Agregar producto
   let updatedProducts = [];
   const handleAddProduct = () => {
-    //  if (product && productsQuantity > 0) {
-    //    if (productsQuantity > product.quantity) {
-    //      setErrorMessage("La cantidad de venta es mayor a la cantidad disponible del producto");
-    //      setSearchError(true);
-    //      setQueryp('')
-    //      setLimpiar('')
-    //      return;
-    //    }
     const updatedProduct = {
       ...product,
       barcode: product.barcode || manualProductData.barcode,
@@ -326,24 +312,23 @@ const Purchases = () => {
       price: parseFloat(productsPrice || manualProductData.productsPrice),
       name: product.name || manualProductData.name,
       description: product.description || manualProductData.description,
-
       subtotalP: productsQuantity * productsCosto,
     };
-    updatedProducts = [...products, updatedProduct];
-
+    
+     updatedProducts = [...products, updatedProduct];
+  
     setProducts(updatedProducts);
     setProduct({});
     setProductsQuantity(0);
-
+  
     const updatedSubtotal = updatedProducts.reduce((subtotal, product) => subtotal + product.subtotalP, 0);
     setSubtotal(updatedSubtotal);
-
+  
     // Enfocar nuevamente el campo de buscar producto después de agregar un producto
-    //  searchProductRef.current.focus();
+    // searchProductRef.current.focus();
     setQueryp('');
     setProductsQuantity(0);
   };
-
   const productoLista = products;
 
   console.log('aquiProductoList', productoLista);
@@ -652,9 +637,6 @@ const Purchases = () => {
           <Typography>Total: {total}</Typography>
           <Button onClick={resetFormP}>Limpiar Form Productos </Button>
         </SummaryContainer>
-
-
-
         <Button
               label="Buscar Producto"
               ref={searchProductRef}
@@ -665,7 +647,7 @@ const Purchases = () => {
               // onChange={(event) => setQueryp(event.target.value)}
               // onBlur={handleSearchProduct}
             >Agregar Productos </Button>
-        {/* <ErrorMessage message={availableProducts.products.message} show={searchError} /> */}
+        <ErrorMessage message={availableProducts.products.message} show={searchError} />
         {/* Formulario de carga de producto */}
 
         <FormContainer container spacing={2} alignItems="flex-start">
@@ -711,24 +693,6 @@ const Purchases = () => {
                   name: event.target.value,
                 })
               }
-
-
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    onClick={() => {
-                      setManualProductData({
-                        ...manualProductData,
-                       name: '',
-                      });
-                      setIsBarcodeDirty(false);
-                    }}
-                    edge="end"
-                  >
-                    {isBarcodeDirty}
-                  </IconButton>
-                ),
-              }}
             />
           </Grid>
           <Grid item xs={12} md={2}>
@@ -743,23 +707,6 @@ const Purchases = () => {
                   description: event.target.value,
                 })
               }
-
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    onClick={() => {
-                      setManualProductData({
-                        ...manualProductData,
-                        description: '',
-                      });
-                      setIsBarcodeDirty(false);
-                    }}
-                    edge="end"
-                  >
-                    {isBarcodeDirty}
-                  </IconButton>
-                ),
-              }}
             />
           </Grid>
           {/* <Grid item xs={12} md={2}>
@@ -809,27 +756,7 @@ const Purchases = () => {
               label="Precio de Venta"
               variant="outlined"
               type="number"
-              value={formValuesP.precioVenta || manualProductData.productsPrices || ''}
-              onChange={handleProductPrice
-              }
-
-              
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    onClick={() => {
-                      setManualProductData({
-                        ...manualProductData,
-                        productsPrices: '',
-                      });
-                      setIsBarcodeDirty(false);
-                    }}
-                    edge="end"
-                  >
-                    {isBarcodeDirty}
-                  </IconButton>
-                ),
-              }}
+              value={formValuesP.precioVenta}
               fullWidth
             />
           </Grid>
@@ -841,7 +768,7 @@ const Purchases = () => {
           </Grid>
           <Grid item xs={12} md={4}>
             <Button variant="contained" onClick={openPopup}>
-              Finalizar Venta
+              Finalizar Compra
             </Button>
           </Grid>
         </FormContainer>
@@ -870,9 +797,8 @@ const Purchases = () => {
                       <TableCell>{item.barcode || manualProductData.barcode}</TableCell>
                       <TableCell>{item.name || manualProductData.name}</TableCell>
                       <TableCell>{item.description || manualProductData.description}</TableCell>
-
-                      <TableCell>{productsPrice}</TableCell>
-                      <TableCell>{productsCosto}</TableCell>
+                      <TableCell>{item.price}</TableCell>
+                      <TableCell>{item.costo}</TableCell>
                       <TableCell>{item.cantidad}</TableCell>
                       <TableCell>{item.subtotalP}</TableCell>
                       <TableCell>
