@@ -278,7 +278,7 @@ const Purchases = () => {
 
   const handleProductPrice =(event) =>{
 
-    setProductPrice(productPrice)
+    setProductPrice('')
 
   }
 
@@ -809,13 +809,10 @@ const Purchases = () => {
               label="Precio de Venta"
               variant="outlined"
               type="number"
-              value={manualProductData.productsPrices || ''}
-              onChange={(e) =>
-                setManualProductData({
-                  ...manualProductData,
-                  productsPrices: e.target.value
-                })
+              value={formValuesP.precioVenta || manualProductData.productsPrices || ''}
+              onChange={handleProductPrice
               }
+
               
               InputProps={{
                 endAdornment: (
