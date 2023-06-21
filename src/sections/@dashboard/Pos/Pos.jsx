@@ -1,19 +1,14 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 
-// 0412-1110533 Yurbelis Fuentes   Habudy 0414-8653999
-/* eslint-disable import/no-unresolved */
-/* eslint-disable arrow-body-style */
 import React, { useState, useEffect, useRef } from 'react';
 import {TableHead,TableCell, TableBody,Table,TableRow,TableContainer, MenuItem, Select, FormControl, InputLabel, Box, Button, Grid, TextField, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+
+
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
+
 import { fetchCustomers, createCustomer } from '../../../redux/modules/customer';
 import { fetchProducts } from '../../../redux/modules/products';
 import { createInvoices } from '../../../redux/modules/invoices';
