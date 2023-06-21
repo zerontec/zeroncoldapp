@@ -3,7 +3,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable import/order */
 import React, { useState , useEffect} from 'react';
-import Swal from "sweetalert2";
+
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
@@ -19,20 +19,10 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography,
+
 } from '@mui/material';
-import styled from 'styled-components';
 
-const TableContainerStyled = styled(TableContainer)`
-  margin-top: 16px;
-  max-width: 800px;
- 
-`;
 
-const ActionsContainer = styled(Box)`
-  display: flex;
-  gap: 8px;
-`;
 
 
 const columns = [
