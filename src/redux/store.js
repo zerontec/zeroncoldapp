@@ -12,6 +12,7 @@ import purchaseReducer from './modules/purchase';
 import cuentasxcReducer from './modules/cuentasxcobrar';
 import userReducer from './modules/user';
 import dolarReducer from './modules/dolar';
+import devolutionReducer from './modules/devolucionV';
 
 
 // Combinar los reducers de tus módulos
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   purchase:purchaseReducer,
   cuentasxc:cuentasxcReducer,
   usuarios:userReducer,
-  dolar:dolarReducer
+  dolar:dolarReducer,
+  devolution:devolutionReducer
  
   // Otros módulos de Redux
 });
