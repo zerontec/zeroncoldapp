@@ -15,6 +15,7 @@ import { createInvoices } from '../../../redux/modules/invoices';
 import { fetchSellers } from '../../../redux/modules/seller';
 import { ErrorMessage } from '../../../components/ErrorMessage';
 import { fDateTime } from '../../../utils/formatTime';
+import { CreateDevolucion } from '../../../components/CreateDevolucion';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -82,14 +83,11 @@ const FormContainer = styled.form`
 const StyledBox = styled(Box)`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* width: 200px;
-  height: 200px;
-  border-radius: 10px;
-  margin: 10px; */
-  /* background-color: ${(props) => props.color}; */
-  color: #ffffff;
+  justify-content: right;
+  margin-top: 20;
+  
+
+ 
 `;
 
 const StyledTextField = styled(TextField)`
@@ -471,14 +469,14 @@ const handleProductSelect = (selectedProduct) => {
           </Typography>
 
           <Box sx={{ marginBottom: 2 }}>
-            <Typography variant="body1">SubTotal: {subtotal.toFixed(2)}</Typography>
-            <Typography variant="body1">Iva(16%): {(subtotal * 0.16).toFixed(2)}</Typography>
-            <Typography>
+            <Typography variant="h6">SubTotal: {subtotal.toFixed(2)}</Typography>
+            <Typography variant="h6">Iva(16%): {(subtotal * 0.16).toFixed(2)}</Typography>
+            <Typography variant="h6">
               Total: {currency}
               {(subtotal + subtotal * 0.16).toFixed(2)}
             </Typography>
-            <Typography variant="body1">Método de pago: {paymentMethod}</Typography>
-            <Typography variant="body1">A crédito: {isCredit ? 'Sí' : 'No'}</Typography>
+            <Typography variant="h6">Método de pago: {paymentMethod}</Typography>
+            <Typography variant="h6">A crédito: {isCredit ? 'Sí' : 'No'}</Typography>
           </Box>
 
           <Grid container spacing={2}>
@@ -492,9 +490,11 @@ const handleProductSelect = (selectedProduct) => {
                   onChange={handlePaymentMethodChange}
                   label="Método de pago"
                 >
-                  <MenuItem value="credit">Crédito</MenuItem>
-                  <MenuItem value="debit">Débito</MenuItem>
-                  <MenuItem value="cash">Efectivo</MenuItem>
+                  <MenuItem value="credito">Crédito</MenuItem>
+                  <MenuItem value="debit">Transferencia</MenuItem>
+                  <MenuItem value="cash">Efectivo $</MenuItem>
+                  <MenuItem value="pagoM">Pago Movil</MenuItem>
+                  <MenuItem value="cashB">Efectivo Bolivares</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -534,13 +534,21 @@ const handleProductSelect = (selectedProduct) => {
       </Modal>
 
       <Box>
+     
         <Typography variant="h5" sx={{ marginBottom: 2 }}>
           Facturación
         </Typography>
 
         <Typography variant="h5" sx={{ marginBottom: 2 }}>
           Tasa de el día {currencys}{' '}
+          
         </Typography>
+
+     
+
+        <CreateDevolucion/>
+       
+      <hr style={{color:'transparent', backgroundColor:'transparent'}}/>
         <FormContainer>
           {' '}
           {/* Formulario de búsqueda y agregar cliente */}
