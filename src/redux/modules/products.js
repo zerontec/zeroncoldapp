@@ -1,5 +1,6 @@
 
 import axios from 'axios'
+import authHeader from '../services/auth-header';
 
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
@@ -118,7 +119,7 @@ export const fetchProductRequest = () => ({
 
     export const deleteMultiplyProducts = (ids) => async (dispatch) => {
       try {
-        await axios.delete(`${API_URL}api/product/delete-multiply/`, ids);
+        await axios.delete(`${API_URL}api/product/delete-multiply`, { data:ids, headers: authHeader() });
     
         dispatch({
           type: DELETE_PRODUCTS,
@@ -219,7 +220,13 @@ try{
 
             sendProducts: action.payload,  
                     }
-  
+                    case UPDATE_PRODUCT:
+                      return{
+                      ...state,
+                      products:action.payload
+              
+              
+                      }
   
       default:
         return state;
