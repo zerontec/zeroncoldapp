@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 import Modal from "@mui/material/Modal";
 import styled from "styled-components";
 import { deletePurchase, getAllPurchases, updatePurchase } from '../../../redux/modules/purchase';
-
+import { fDateTime } from '../../../utils/formatTime';
 
 
 
@@ -112,7 +112,7 @@ const TablePurchases = () => {
 	const [selectedPurchases, setSelectedPurchases] = useState([]);
 	
 	
-	
+	fDateTime()
 
 
 	const dispatch = useDispatch()
@@ -286,27 +286,32 @@ return(	<>
 	  onClose={() => setSelectedPurchase(null)}
 	>
 	  <Box
-		sx={{
-		  position: "absolute",
-		  top: "50%",
-		  left: "50%",
-		  transform: "translate(-50%, -50%)",
-		  width: 400,
-		  bgcolor: "background.paper",
-		  borderRadius: "8px",
-		  boxShadow: 24,
-		  p: 4,
-		}}
+		   sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            bgcolor: 'background.paper',
+            borderRadius: '8px',
+            boxShadow: 24,
+            p: 4,
+          }}
 	  >
 		{/* Aquí va el contenido del modal */}
 		{selectedPurchase && (
 		  <>
 			<h2>{selectedPurchase.name}</h2>
 			<p>
-			  <strong>Nuemro de Compra:</strong> {selectedPurchase.purchaseNumber}
+			  <strong>Fecha de Compra:</strong> {  fDateTime(selectedPurchase.createdAt)}
 			</p>
 			<p>
-			  <strong>Nuemro de Factura:</strong> {selectedPurchase.invoiceNumber}
+			  <strong>Numero de Compra:</strong> {selectedPurchase.purchaseNumber}
+			</p>
+			<p>
+			  <strong>Numero de Factura:</strong> {selectedPurchase.invoiceNumber}
 			</p>
 			<p>
 			  <strong>Proveedor:</strong> {selectedPurchase.supplierName}
@@ -317,6 +322,20 @@ return(	<>
 			<p>
 			  <strong>Direccion:</strong> {selectedPurchase.supplierAddress}
 			</p>
+			<h3>Lista de Productos:</h3>
+    <ul>
+      {JSON.parse(selectedPurchase.productDetails).map((product) => (
+        <li key={product.barcode}>
+			<strong>Código:</strong> {product.barcode}<br />
+          <strong>Producto:</strong> {product.name}<br />
+          <strong>Descripción:</strong> {product.description}<br />
+          <strong>Cantidad:</strong> {product.cantidad}<br />
+          <strong>Precio:</strong> {product.price}<br />
+         
+        </li>
+      ))}
+    </ul>
+
 			<p>
 			  <strong>Total Compra:</strong> {selectedPurchase.totalAmount}
 			</p>

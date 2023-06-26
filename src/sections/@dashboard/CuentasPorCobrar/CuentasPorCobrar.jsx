@@ -71,11 +71,7 @@ const columns = [
 	  label: "Ver Data",
 	  minWidth: 50,
 	},
-	{
-	  id: "address",
-	  label: "Info Cliente",
-	  minWidth: 150,
-	},
+	
 	{	
 		id:"check",
 		label:"Acciones",
@@ -244,16 +240,34 @@ const CuentasPorCobrar = () => {
 			{selectedCuenta && (
 			  <>
 				<h2>Datos para Cobranza</h2>
+
+
+				<ul>
+
+				<h3>Información del Cliente:</h3>
+    <p>
+      <strong>Nombre:</strong> {selectedCuenta.clienteDataC.name}<br />
+      <strong>Dirección:</strong> {selectedCuenta.clienteDataC.address}<br />
+      <strong>Identificación:</strong> {selectedCuenta.clienteDataC.identification}<br />
+    </p>
+    </ul>
+	<p>
+				  <strong>Factura:</strong> {selectedCuenta.invoiceId}
+				</p>
+			
+
 				<p>
 				  <strong>Monto:</strong> {selectedCuenta.montoCobrar}
+				</p>
+				<p>
+				  <strong>Fecha Compra:</strong> {fDateTime(selectedCuenta.createdAt)}
 				</p>
 				<p>
 				  <strong>Fecha Vencimiento:</strong> {fDateTime(selectedCuenta.dueDate)}
 				</p>
 			
-				<p>
-				  <strong>Factura:</strong> {selectedCuenta.invoiceId}
-				</p>
+				
+
 				
 				<Button
 				  variant="contained"
@@ -439,8 +453,9 @@ const CuentasPorCobrar = () => {
 			  <TableBody>
 				{" "}
 				{cuentasxcobrar.cuentas.filter((items) =>
-					items.status.toLowerCase().includes(searchTerm.toLowerCase())
-				  )
+					items.invoiceId.toLowerCase().includes(searchTerm.toLowerCase())
+				  
+					)
 				  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 				  .map((items) => (
 						<TableRow key={items.id}>
@@ -477,14 +492,7 @@ const CuentasPorCobrar = () => {
 						  </Button>
 						</TableCell>
 
-						<TableCell className="tableCell">
-						  <Button
-							variant="contained"
-							onClick={() => setSelectedCliente(items.clienteDataC)}
-						  >
-							Ver Informacion Cliente
-						  </Button>
-						</TableCell>
+						
 						<TableCell className="tableCell">
 						  {/* <Link
 							to={`analisis/edit/${analisi.codigo}`}
