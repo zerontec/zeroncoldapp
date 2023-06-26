@@ -16,9 +16,15 @@ const navConfig = [
     path: '/dashboard/Administracion',
     icon: icon('ic_cart'),
   },
+  // {
+  //   title: 'facturacion',
+  //   path: '/dashboard/facturacion',
+  //   icon: icon('ic_cart'),
+  // },
+
   {
     title: 'facturacion',
-    path: '/dashboard/facturacion',
+    path: '/dashboard/facturacionA',
     icon: icon('ic_cart'),
   },
   {
