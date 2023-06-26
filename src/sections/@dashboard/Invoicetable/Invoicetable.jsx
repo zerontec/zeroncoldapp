@@ -22,6 +22,7 @@ import {
 
 } from '@mui/material';
 
+import { fDateTime } from '../../../utils/formatTime';
 
 
 
@@ -94,15 +95,26 @@ const InvoiceTable = () => {
     setPage(0);
   };
 
+  fDateTime()
 
   return (
 <>
  
 <Modal open={selectedInvoices !== null} onClose={() => setSelectedinvoices(null)}>
-    <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 400, bgcolor: "background.paper", borderRadius: "8px", boxShadow: 24, p: 4, }}>
-        {/* Aquí va el contenido del modal */}
-
-	
+    <Box   sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            bgcolor: 'background.paper',
+            borderRadius: '8px',
+            boxShadow: 24,
+            p: 4,
+          }}
+	>
            {selectedInvoices && (
         <>	<h2><strong>Numero Factura:</strong></h2>
             <h3>{selectedInvoices.invoiceNumber}</h3>
@@ -118,21 +130,45 @@ const InvoiceTable = () => {
                 <strong>Cliente:</strong>
                 {selectedInvoices.clienteData.name}
             </p>
-			<p>
-                <strong>Rif O Cedula:</strong>
+            <p>
+                <strong>Cedula o Rif:</strong>
                 {selectedInvoices.clienteData.identification}
             </p>
+          
+            <h3>Lista de Productos:</h3>
+    <ul>
+      {selectedInvoices.productoFactura.map((product) => (
+        <li key={product.barcode}>
+           <strong>Código :  </strong> {product.barcode}<br />
+           <strong>Producto: </strong> {product.name}<br />
+          <strong>Precio:    </strong> {product.price}<br />
+         
+          <strong>Cantidad:  </strong> {product.quantity}<br />
+          <strong>Subtotal:  </strong> {product.subtotal.toFixed(2)}<br />
+          <strong>Iva:  </strong> {product.iva.toFixed(2)  }<br />
+        </li>
+      ))}
+    </ul>
+           
 
-		
+    {/* <p>
+                <strong>Total productos: </strong>
+                {selectedInvoices.subtotal}
+            </p> */}
 
             <p>
-                <strong>Monto factura:</strong>
+                <strong>Total mas Iva : </strong>
                 {selectedInvoices.amount}
+            </p>
+
+            <p>
+                <strong>Fecha de Venta: </strong>
+                {fDateTime(selectedInvoices.createdAt)}
             </p>
 		
 			<p>
-                <strong>Fecha de Vencimiento:</strong>
-                {selectedInvoices.dueDate}
+                <strong>Fecha de Vencimiento: </strong>
+                {fDateTime(selectedInvoices.dueDate)}
             </p>
             <Button variant="contained" onClick={() => setSelectedinvoices(null)}>
                 Cerrar
