@@ -10,7 +10,7 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 
-import PosPage from './pages/PosPage';
+// import PosPage from './pages/PosPage';
 import PurchasePage from './pages/PurchasePages';
 import AdminPages from './pages/AdminPages';
 import InvoicePages from './pages/Invoices';
@@ -25,6 +25,7 @@ import CustomerPages from './pages/Customerpages';
 import { Purchases } from './sections/@dashboard/Purchases';
 import { TablePurchases } from './sections/@dashboard/TablePurchases';
 import { TableSupplier } from './sections/@dashboard/TableSupplier';
+import PosPageA from './pages/PospageA';
 
 // ----------------------------------------------------------------------
 
@@ -47,7 +48,7 @@ export default function Router() {
         {path:"user", element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <UserPage/></ProtectedRoute> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
-        { path: 'facturacion', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <PosPage /></ProtectedRoute> },
+        // { path: 'facturacion', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <PosPage /></ProtectedRoute> },
         { path: 'Compras', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <PurchasePage /></ProtectedRoute>  },
         { path: 'Administracion', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <AdminPages /></ProtectedRoute >},
         { path: 'invoice', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <InvoicePages /></ProtectedRoute> },
@@ -60,6 +61,7 @@ export default function Router() {
         { path: 'cargar-compras', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <Purchases /></ProtectedRoute> },
         { path: 'lista-compras', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <TablePurchases/></ProtectedRoute> },
         { path: 'lista-proveedores', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <TableSupplier/></ProtectedRoute> },
+        { path: 'facturacionA', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <PosPageA /></ProtectedRoute> },
       ],
     },
 
