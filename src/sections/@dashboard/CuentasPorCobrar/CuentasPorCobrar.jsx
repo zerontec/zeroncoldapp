@@ -452,7 +452,7 @@ const CuentasPorCobrar = () => {
 			  </TableHead>
 			  <TableBody>
 				{" "}
-				{cuentasxcobrar.cuentas.filter((items) =>
+				{Array.isArray(cuentasxcobrar.cuentas)&& cuentasxcobrar.cuentas.filter((items) =>
 					items.invoiceId.toLowerCase().includes(searchTerm.toLowerCase())
 				  
 					)

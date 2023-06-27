@@ -208,7 +208,7 @@ const InvoiceTable = () => {
             </TableHead>
             <TableBody>
               {" "}
-              {invoice.invoices.filter((items) =>
+              {Array.isArray(invoice.invoices) && invoice.invoices.filter((items) =>
                   items.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase())
                 )
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
