@@ -24,6 +24,18 @@ import { fDateTime } from '../../../utils/formatTime';
 
 
 
+const FormTipo = styled.div`
+  display: flex;
+  gap: 3rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 2rem;
+  background-color: #FF5722;
+  border-radius: 20px;
+  color: white;
+`
+
+
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -242,42 +254,16 @@ const handleEditClick = (purchase) => {
   const handleSearch = () => {
 	
   };
-//   const handleSubmitPurchase = (e) => {
-// 	e.preventDefault();
-  
-// 	const selectedItems = selectedPurchase.map((p) => ({
-// 	  id: p.id,
-// 	  quantity: p.quantity,
-// 	}));
-//   console.log(selectedItems)
-
-// 	// Realiza la solicitud POST al backend con los datos de los productos seleccionados
-// 	// ...
-// 		dispatch(moveInventory(selectedItems))
-
-// 		.then((response) => {
-// 			// setLoading(false);
-// 			Swal.fire("Movimiento creado con éxito!", "", "success");
-		
-// 		  })
-// 		  .catch((error) => {
-// 			console.log(error);
-// 			// setLoading(false);
-			
-// 			Swal.fire(error.message);
-// 		  });
-// 	// Reinicia el estado de selección de productos después de enviarlos al backend
-// 	setSelectedPurchase([]);
-//   };
-
 
 
 	
 return(	<>
 
-<Typography style={{marginLeft:15, marginTop:10}} color="black" variant="h5" sx={{ marginBottom: 2 }}>
+<FormTipo>
+<Typography style={{marginLeft:15, marginTop:10, color:"white"}} color="black" variant="h5" sx={{ marginBottom: 2 }}>
         Lista de Compras Realizadas
         </Typography>
+		</FormTipo>
        
 	<hr />
 	{/* Modal Ver Compra */}
@@ -500,9 +486,14 @@ return(	<>
 				  {column.label}{" "}
 				</TableCell>
 			  ))}{" "}
+
+			  
 			</TableRow>
 		  </TableHead>
+
+		  
 		  <TableBody>
+
 		  {Array.isArray(compras.purchases) &&
     compras.purchases
       .filter((items) =>
@@ -604,6 +595,8 @@ onChange={() => handleToggleSelect(items.id)} >
 		  onRowsPerPageChange={handleChangeRowsPerPage}
 		 />
 	  </TableContainer>
+
+	  <hr />
 	</Box>
   </>)
 };
