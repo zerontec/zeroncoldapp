@@ -26,6 +26,8 @@ import { Purchases } from './sections/@dashboard/Purchases';
 import { TablePurchases } from './sections/@dashboard/TablePurchases';
 import { TableSupplier } from './sections/@dashboard/TableSupplier';
 import PosPageA from './pages/PospageA';
+import ProductDPages from './pages/ProductDPages';
+import DevolutionPages from './pages/DevolutionsPages';
 
 // ----------------------------------------------------------------------
 
@@ -62,6 +64,9 @@ export default function Router() {
         { path: 'lista-compras', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <TablePurchases/></ProtectedRoute> },
         { path: 'lista-proveedores', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <TableSupplier/></ProtectedRoute> },
         { path: 'facturacionA', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <PosPageA /></ProtectedRoute> },
+        { path: 'productos-defectuosos', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <ProductDPages /></ProtectedRoute> },
+        { path: 'devoluciones-venta', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <DevolutionPages/></ProtectedRoute> },
+      
       ],
     },
 
