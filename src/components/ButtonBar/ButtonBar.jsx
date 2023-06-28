@@ -35,9 +35,9 @@ const ButtonBar = ({button1, button1Link, button2, button2Link, button3, button3
           {button2}
         </StyledButton> </Link>
 
-        <StyledButton variant="contained" href="/enlace3">
+        <Link to={button3Link} >     <StyledButton variant="contained" href="/enlace3">
          {button3}
-        </StyledButton>
+        </StyledButton></Link>
         {/* <StyledButton variant="contained" href="/enlace4">
           Reportes
         </StyledButton> */}
