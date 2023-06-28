@@ -85,10 +85,10 @@ const columns = [
     id: 'check',
     label: 'Exitencia',
   },
-//   {
-//     id: 'canti',
-//     label: 'cantidad trasladar',
-//   },
+  {
+    id: 'canti',
+    label: ' Defectuosos',
+  },
 ];
 
 const ProductTable = () => {
@@ -99,7 +99,7 @@ const ProductTable = () => {
   const [errors, setErrors] = useState({});
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [open, setOpen] = useState(false);
-
+const [loading, setloading] = useState(true);
 
   const [showPreview, setShowPreview] = useState(false);
   const [numPages, setNumPages] = useState(null);
@@ -310,6 +310,9 @@ const ProductTable = () => {
               <p>
                 <strong>Cantidad:</strong> {selectedProduct.quantity}
               </p>
+              <p>
+              <strong>Defectusos:</strong> {selectedProduct.defectuosos}
+            </p>
               <Button variant="contained" onClick={() => setSelectedProduct(null)}>
                 Cerrar
               </Button>
@@ -426,9 +429,11 @@ const ProductTable = () => {
                 ))}{' '}
               </TableRow>
             </TableHead>
+          
             <TableBody>
               {' '}
-              {Array.isArray(productos.products) &&
+  
+              {Array.isArray(productos.products) && productos.products.length > 0 ?(
                 productos.products
                   .filter((items) => items.name.toLowerCase().includes(searchTerm.toLowerCase()))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -446,7 +451,7 @@ const ProductTable = () => {
                       <TableCell align="left"> {items.description}</TableCell>
                       <TableCell align="left"> {items.price}</TableCell>
                       <TableCell align="left"> {items.quantity}</TableCell>
-
+                      <TableCell align="left"> {items.defectuosos}</TableCell>
                
                       <>
                         <TableCell className="tableCell">
@@ -470,9 +475,14 @@ const ProductTable = () => {
 
             
                     </TableRow>
-                  ))}{' '}
+                  ))
+                  ):(
+                    <TableRow>
+                    <TableCell colSpan={6}>No hay datos disponibles</TableCell>
+                  </TableRow>
+                )}
             </TableBody>
-        
+         
           </Table>
           <TablePagination
             rowsPerPageOptions={[5, 10, 100]}
