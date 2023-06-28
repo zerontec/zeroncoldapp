@@ -433,6 +433,7 @@ const Purchases = () => {
 
   return (
     <>
+    
       <Modal open={isPopupOpen === true} onClose={() => setIsPopupOpen(null)}>
         <Box
           sx={{
