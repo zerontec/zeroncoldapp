@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-expressions */
+
 import React, {useState,useEffect} from 'react';
 import styled from 'styled-components';
 
 import { useDispatch, useSelector } from "react-redux";
 
-
+import { useNavigate } from 'react-router-dom';
 
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -12,6 +13,7 @@ import Swal from "sweetalert2";
 import { Alert ,Button,	TextField,} from "@mui/material";
 import { getAllProduct, createProducts } from '../../../redux/modules/products';
 import { ProductTable } from '../ProductTable';
+
 
 
 
@@ -86,8 +88,8 @@ const Inventory = () => {
 
   
 	function validate(formInfo) {
-	  // eslint-disable-next-line prefer-const
-	  let errors = {};
+	
+	  const errors = {};
 	  formInfo.barcode
 		? (errors.barcode = "")
 		: (errors.barcode = "Ingrese un barcode");
@@ -148,6 +150,13 @@ const Inventory = () => {
 		});
 	};
   
+
+	const navigate = useNavigate();
+
+	const handleLinkClick = (link) => {
+	  navigate(link);
+	  console.log(`Redireccionando a ${link}`);
+	};
 	return (
 	  <>
 		<hr />
@@ -155,7 +164,14 @@ const Inventory = () => {
 		  <Button variant="contained" onClick={() => setSelectButton()}>
 			Crear Producto
 		  </Button>
+
+		<Button  onClick={() => handleLinkClick ('/dashboard/productos-defectuosos')}>
+			Productos Defectuosos
+		  </Button>
+
 		</Box>
+
+		
   
 		<ProductTable />
   
