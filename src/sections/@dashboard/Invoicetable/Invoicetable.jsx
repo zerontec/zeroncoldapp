@@ -99,6 +99,7 @@ const InvoiceTable = () => {
 
   return (
 <>
+<hr />
  
 <Modal open={selectedInvoices !== null} onClose={() => setSelectedinvoices(null)}>
     <Box   sx={{
@@ -208,9 +209,8 @@ const InvoiceTable = () => {
             </TableHead>
             <TableBody>
               {" "}
-              {Array.isArray(invoice.invoices) && invoice.invoices.filter((items) =>
-                  items.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase())
-                )
+              {Array.isArray(invoice.invoices) && invoice.invoices.length  > 0 ? ( invoice.invoices.filter((items) =>
+                  items.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase()))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((items) => (
                   <TableRow key={items.id}>
@@ -227,35 +227,17 @@ const InvoiceTable = () => {
                           Ver
                         </Button>
                       </TableCell>
-                      {/* <TableCell className="tableCell"> */}
-                        {/* <Link
-                          to={`analisis/edit/${analisi.codigo}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          <div className="viewButton">Editar</div>
-                        </Link> */}
-                        {/* <Button
-                          variant="contained"
-                          onClick={() => handleEditClick(analisi)}
-                        >
-                          Editar
-                        </Button>
-                      </TableCell> */}
-{/* 
-                      <TableCell className="tableCell">
-                        <div
-                          className="deleteButton"
-                          id={analisi.codigo}
-                          onClick={() => deleteHandler(analisi)}
-                        >
-                        <DeleteButton>Borrar</DeleteButton>
-                        </div>
-                      </TableCell> */}
+                      
                     </>
-                  </TableRow>
-                ))}{" "}
-            </TableBody>
-          </Table>
+                    </TableRow>
+         ))
+    ) : (
+      <TableRow>
+        <TableCell colSpan={6}>No hay datos disponibles</TableCell>
+      </TableRow>
+    )}
+  </TableBody>
+</Table>
           <TablePagination
             rowsPerPageOptions={[5,10, 100]}
             component="div"
@@ -268,7 +250,7 @@ const InvoiceTable = () => {
         </TableContainer>
       </Box>
 
-
+      <hr/>
 	</>
   );
 };
