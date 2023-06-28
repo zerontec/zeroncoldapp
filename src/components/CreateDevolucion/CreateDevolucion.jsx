@@ -39,6 +39,7 @@ const CreateDevolucion = () => {
   const [messageError, setMessageError] = useState({});
   const [loading, setLoading] = useState(false);
   const [devolutionData, setDevolutionData] = useState({
+    
     invoiceNumber: '',
     motivo: '',
     productos: [],
@@ -68,7 +69,7 @@ const CreateDevolucion = () => {
   const addProduct = () => {
     setDevolutionData((prevData) => ({
       ...prevData,
-      productos: [...prevData.productos, { barcode: '', cantidad: '' }],
+      productos: [...prevData.productos, {barcode: '', quantity: '' }],
     }));
   };
   const removeProduct = (index) => {
@@ -196,10 +197,12 @@ const CreateDevolucion = () => {
                     />
                     <TextField
                       label="Cantidad"
-                      name={`cantidad-${index}`}
-                      value={product.cantidad}
-                      onChange={(event) => handleProductChange(index, 'cantidad', event.target.value)}
+                      name={`quantity-${index}`}
+                      value={product.quantity}
+                      onChange={(event) => handleProductChange(index, 'quantity', event.target.value)}
                     />
+
+
                     <Button onClick={() => removeProduct(index)}>Quitar Producto</Button>
                   </div>
                 ))}
