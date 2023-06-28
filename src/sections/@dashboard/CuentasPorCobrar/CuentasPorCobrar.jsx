@@ -130,7 +130,7 @@ const CuentasPorCobrar = () => {
         id: selectedCuentaId,
       };
       dispatch(updateCuenta(selectedCuentaId, data));
-      Swal.fire('¨Producto Editado con Exito  !', 'You clicked the button!', 'success');
+      Swal.fire('Cuenta Editada con Exito  !', 'You clicked the button!', 'success');
       dispatch(getAllCuentas());
 
       handleCloseModal();
@@ -165,6 +165,7 @@ const CuentasPorCobrar = () => {
 
   return (
     <>
+    <hr/>
       {/* Modal Ver Analysis */}
       <Modal open={selectedCuenta !== null} onClose={() => setSelectedCuenta(null)}>
         <Box
@@ -349,27 +350,26 @@ const CuentasPorCobrar = () => {
           Buscar
         </Button>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }}>
-            <TableHead>
-              <TableRow>
-                {' '}
-                {columns.map((column) => (
-                  <TableCell key={column.id} align="left" minWidth={column.minWidth}>
-                    {' '}
-                    {column.label}{' '}
-                  </TableCell>
-                ))}{' '}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {' '}
-              {Array.isArray(cuentasxcobrar.cuentas) &&
-                cuentasxcobrar.cuentas
-                  .filter((items) => items.invoiceId.toLowerCase().includes(searchTerm.toLowerCase()))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((items) => (
-                    <TableRow key={items.id}>
-                      <TableCell align="left"> {items.status}</TableCell>
+        <Table sx={{ minWidth: 650 }}>
+  <TableHead>
+    <TableRow>
+      {columns.map((column) => (
+        <TableCell key={column.id} align="left" minWidth={column.minWidth}>
+          {column.label}
+        </TableCell>
+      ))}
+    </TableRow>
+
+
+  </TableHead>
+  <TableBody>
+    {Array.isArray(cuentasxcobrar.cuentas) && cuentasxcobrar.cuentas.length > 0 ? (
+      cuentasxcobrar.cuentas
+        .filter((items) => items.invoiceId.toLowerCase().includes(searchTerm.toLowerCase()))
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map((items) => (
+          <TableRow key={items.id}>
+            <TableCell align="left"> {items.status}</TableCell>
                       {/* <TableCell align="left"> {items.clienteData.name}</TableCell>
 					  <TableCell align="left"> {items.vendedorDataC.codigo}</TableCell> */}
                       <TableCell align="left"> {items.montoCobrar}</TableCell>
@@ -405,9 +405,14 @@ const CuentasPorCobrar = () => {
                         </TableCell>
                       </>
                     </TableRow>
-                  ))}{' '}
-            </TableBody>
-          </Table>
+         ))
+    ) : (
+      <TableRow>
+        <TableCell colSpan={6}>No hay datos disponibles</TableCell>
+      </TableRow>
+    )}
+  </TableBody>
+</Table>
           <TablePagination
             rowsPerPageOptions={[5, 10, 100]}
             component="div"
@@ -418,7 +423,11 @@ const CuentasPorCobrar = () => {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </TableContainer>
+      
+        <hr/>
       </Box>
+
+
     </>
   );
 };
