@@ -12,7 +12,7 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { Checkbox,Typography } from "@mui/material";
+import {Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -24,7 +24,16 @@ import { deleteSuppliert, getAllSupplier, updateSupplier } from '../../../redux/
 import { CreateSupplier } from '../../../components/CreateSupplier';
 
 
-
+const FormTipo = styled.div`
+  display: flex;
+  gap: 3rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 2rem;
+  background-color: #FF5722;
+  border-radius: 20px;
+  color: white;
+`
 
 const FormContainer = styled.form`
   display: flex;
@@ -52,16 +61,6 @@ const ActionsContainer = styled.div`
   justify-content: center;
   margin-top: 16px;
 `;
-
-const FormTipo = styled.div`
-  display: flex;
-  gap: 3rem;
-  width: 100%;
-  max-width: 1000px;
-  margin-bottom: 2rem;
-  background-color: rgb(255, 107, 107);
-  border-radius: 20px;
-`
 
 
 const columns = [
@@ -253,12 +252,12 @@ const handleEditClick = (supplier) => {
 	return(
 
 <>
-
- <Typography style={{marginLeft:15, marginTop:10}} color="black" variant="h5" sx={{ marginBottom: 2 }}>
+<FormTipo>
+ <Typography style={{color:"white",marginLeft:15, marginTop:10}} color="black" variant="h5" sx={{ marginBottom: 2 }}>
         Lista de Proveedores
-        </Typography>
+        </Typography></FormTipo>
        
-	
+		
 	{/* Modal Ver Compra */}
 	<Modal
 	  open={selectedSupplier !== null}
@@ -556,6 +555,7 @@ onChange={() => handleToggleSelect(items.id)} >
 		  onRowsPerPageChange={handleChangeRowsPerPage}
 		 />
 	  </TableContainer>
+	  <hr/>
 	</Box>
   </>
 
