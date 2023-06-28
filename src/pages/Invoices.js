@@ -31,7 +31,8 @@ button1={"Cuentas Por Cobrar"}
 button1Link={'/dashboard/cuentasxc'}
 button2={"Clientes"}
 button2Link={'/dashboard/clientes'}
-button3={"Reporte Ventas"}
+button3={"Devoluciones en Venta"}
+button3Link={'/dashboard/devoluciones-venta'}
            
 />
 
