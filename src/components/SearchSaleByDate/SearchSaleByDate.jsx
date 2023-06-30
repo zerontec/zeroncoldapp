@@ -110,49 +110,7 @@ const SearchSaleByDate = () => {
 	return (
 
 <>
-{/* <Container maxWidth="md">
-      <Typography variant="h4" component="h1" >
-        Búsqueda de Facturas por Rango de Fechas
-      </Typography>
-      <form >
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Fecha de inicio"
-              type="date"
-              value={startDate}
-              onChange={handleStartDateChange}
-              fullWidth
-         
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Fecha de fin"
-              type="date"
-              value={endDate}
-              onChange={handleEndDateChange}
-              fullWidth
-            
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSearch}
-         
-        >
-          Buscar
-        </Button>
-      </form>
-    </Container> */}
+
 	
 <Container>
 
@@ -195,7 +153,7 @@ Total Ventas {resp}
           />
         </Container>
   
-				{/* <InvoiceTable/> */}
+				
 </>
 
 	)
