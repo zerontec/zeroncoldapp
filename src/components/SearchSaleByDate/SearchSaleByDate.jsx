@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { Button, Typography, Container, Grid, TextField , Snackbar} from '@mui/material';
-import { searchInvoiceByDate } from '../../redux/modules/invoices';
+
+import { Button, Typography, Container,  TextField , Snackbar} from '@mui/material';
 
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
@@ -33,10 +32,7 @@ const SearchButton = styled(Button)`
     }
   }
 `;
-const StyledContainer = styled(Container)`
-  padding-top: 24px;
-  padding-bottom: 24px;
-`;
+
 
 const SearchSaleByDate = () => {
 	const [startDate, setStartDate] = useState("");
@@ -45,23 +41,11 @@ const SearchSaleByDate = () => {
     const [successMessage, setSuccessMessage] = useState("");
   	const[resp, setResp] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const dispatch = useDispatch();
+
 
   
-	const handleStartDateChange = (event) => {
-	  setStartDate(event.target.value);
-	};
-  
-	const handleEndDateChange = (event) => {
-	  setEndDate(event.target.value);
-	};
-  
-	const handleSearch = () => {
-	  // Realizar la lógica de búsqueda aquí
-	  console.log('Fecha de inicio:', startDate);
-	  console.log('Fecha de fin:', endDate);
-	};
-
+	
+	
 	
     const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -84,7 +68,7 @@ const SearchSaleByDate = () => {
 		  console.log(startDate,endDate);
 		  
 		  try {
-			const response = await axios.get(`${API_URL}api/report/daily-report/${startDate}/${endDate}`);
+			const response = await axios.get(`${API_URL_D}api/report/daily-report/${startDate}/${endDate}`);
 	
 			if (response) {
 			  setSuccessMessage("Venta para la fecha");
