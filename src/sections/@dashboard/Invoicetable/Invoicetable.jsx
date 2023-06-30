@@ -79,13 +79,7 @@ const InvoiceTable = () => {
     // Lógica para buscar facturas por el valor de búsqueda (searchQuery)
   };
 
-  const handleViewInvoice = (invoiceId) => {
-    // Lógica para ver los detalles de una factura con el ID proporcionado
-  };
-
-  const handlePageChange = (pageNumber) => {
-    // Lógica para cambiar de página en la tabla de facturas
-  };
+ 
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -146,11 +140,12 @@ const InvoiceTable = () => {
         <li key={product.barcode}>
            <strong>Código :  </strong> {product.barcode}<br />
            <strong>Producto: </strong> {product.name}<br />
-          <strong>Precio:    </strong> {product.price}<br />
-         
+          {/* <strong>Precio:    </strong> {product.prePSiIva.toFixed(2)}<br />
+          */}
           <strong>Cantidad:  </strong> {product.quantity}<br />
-          <strong>Subtotal:  </strong> {product.subtotal.toFixed(2)}<br />
-          <strong>Iva:  </strong> {product.iva.toFixed(2)  }<br />
+          <strong>Precio sin Iva:  </strong> {product. preProductoUndSinIva.toFixed(2)}<br />
+          {/* <strong>Subtotal:  </strong> {product.subtotal.toFixed(2)}<br />
+          <strong>Iva:  </strong> {product.iva.toFixed(2)  }<br /> */}
         </li>
       ))}
     </ul>
@@ -160,7 +155,14 @@ const InvoiceTable = () => {
                 <strong>Total productos: </strong>
                 {selectedInvoices.subtotal}
             </p> */}
-
+        <p>
+                <strong>Total Producto : </strong>
+                {selectedInvoices.totalProductosSinIva}
+            </p>
+            <p>
+                <strong>Iva 16%: </strong>
+                {selectedInvoices.ivaTotal}
+            </p>
             <p>
                 <strong>Total mas Iva : </strong>
                 {selectedInvoices.amount}
