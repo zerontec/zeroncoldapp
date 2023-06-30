@@ -23,6 +23,7 @@ import {
 } from '@mui/material';
 
 import { fDateTime } from '../../../utils/formatTime';
+import { SearchInvoiceByDate } from '../../../components/SearchInvoiceByDate';
 
 
 
@@ -96,6 +97,9 @@ const InvoiceTable = () => {
   };
 
   fDateTime()
+
+
+
 
   return (
 <>
@@ -182,6 +186,7 @@ const InvoiceTable = () => {
 {/* End Modal nalysis  */}
 
 <Box sx={{ m: 2 }}>
+ <div style={{marginLeft:70}}><SearchInvoiceByDate /></div>
         <TextField
           label="Buscar Facturas"
           value={searchTerm}
@@ -190,6 +195,8 @@ const InvoiceTable = () => {
         <Button variant="contained" onClick={handleSearch}>
           Buscar
         </Button>
+       
+  
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
