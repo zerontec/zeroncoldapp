@@ -28,6 +28,9 @@ import { TableSupplier } from './sections/@dashboard/TableSupplier';
 import PosPageA from './pages/PospageA';
 import ProductDPages from './pages/ProductDPages';
 import DevolutionPages from './pages/DevolutionsPages';
+import ReportPages from './pages/ReportPages';
+import CustomerPerfilPages from './pages/CustomerPerfilPage';
+import { CustomerPerfil } from './sections/@dashboard/CustomerPerfil';
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +69,9 @@ export default function Router() {
         { path: 'facturacionA', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <PosPageA /></ProtectedRoute> },
         { path: 'productos-defectuosos', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <ProductDPages /></ProtectedRoute> },
         { path: 'devoluciones-venta', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <DevolutionPages/></ProtectedRoute> },
-      
+        { path: 'reportes', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <ReportPages/></ProtectedRoute> },
+        { path: 'perfil-cliente/:id', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <CustomerPerfil/></ProtectedRoute> },
+        
       ],
     },
 

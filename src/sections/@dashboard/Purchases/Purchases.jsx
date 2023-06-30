@@ -96,6 +96,7 @@ const Purchases = () => {
   const [productsPrice, setProductsPrice] = useState(0);
   const [productCantidad, setProductCantidad] = useState(0);
   const [productsCosto, setProductsCosto] = useState(0);
+
   const [numberinvoice, setNumberInvoice] = useState('');
   const [numberPurchase, setNumberpurchase] = useState('');
   const [porcentajeGanacia, setPorcentajeGanancia] = useState(0);
@@ -269,23 +270,29 @@ const Purchases = () => {
 
   const handleProductCostoChange = (event) => {
     setProductsCosto(event.target.value);
-    calculatePrice();
+    // calculatePrice();
   };
+  const handlePrecioVenta = (event) => {
+
+
+    setProductsPrice(event.target.value)
+
+  }
   const handlePorcentajeGanancia = (event) => {
     setPorcentajeGanancia(event.target.value);
-    calculatePrice();
+    // calculatePrice();
   };
 
   const handleStatusChange = (event) => {
     setPaymentStatus(event.target.value);
   };
 
-  const calculatePrice = () => {
-    const cost = parseFloat(productsCosto);
-    const ganancia = parseFloat(porcentajeGanacia);
-    const precioVenta = cost + (cost * ganancia) / 100;
-    setProductsPrice(precioVenta);
-  };
+  // const calculatePrice = () => {
+  //   const cost = parseFloat(productsCosto);
+  //   const ganancia = parseFloat(porcentajeGanacia);
+  //   const precioVenta = cost + (cost * ganancia) / 100;
+  //   setProductsPrice(precioVenta);
+  // };
 
   const handlenumberInvoice = (event) => {
     setNumberInvoice(event.target.value);
@@ -758,6 +765,7 @@ const Purchases = () => {
               variant="outlined"
               type="number"
               value={formValuesP.precioVenta}
+              onChange={handlePrecioVenta}
               fullWidth
             />
           </Grid>
