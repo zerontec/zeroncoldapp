@@ -29,7 +29,7 @@ import PosPageA from './pages/PospageA';
 import ProductDPages from './pages/ProductDPages';
 import DevolutionPages from './pages/DevolutionsPages';
 import ReportPages from './pages/ReportPages';
-import CustomerPerfilPages from './pages/CustomerPerfilPage';
+
 import { CustomerPerfil } from './sections/@dashboard/CustomerPerfil';
 
 // ----------------------------------------------------------------------
