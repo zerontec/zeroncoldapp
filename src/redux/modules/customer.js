@@ -98,6 +98,23 @@ export const getAllCustomer= () => async(dispatch) =>  {
 };
 
 
+export const serachCustomeById =({id}) => async(dispatch)=>{
+
+  dispatch(fetchCustomersRequest());
+  try {
+    const response = await fetch(`${API_URL}api/customer/search/${id}`,{ headers: authHeader() }
+    );
+    const data = await response.json();
+    dispatch(fetchCustomersSuccess(data));
+    return response.data;
+  } catch (error) {
+    dispatch(fetchCustomersFailure(error.message));
+    return null
+  }
+};
+
+
+
 
   
 export const updateCustomer = (id, data) => async (dispatch) => {
