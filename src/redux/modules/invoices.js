@@ -1,20 +1,21 @@
 
 
 import axios from 'axios';
+import authHeader from '../services/auth-header';
+
 
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
-
-
 const FETCH_IVOICE_REQUEST = 'FETCH_IVOICE_REQUEST';
 const FETCH_IVOICE_SUCCESS = 'FETCH_IVOICE_SUCCESS';
 const FETCH_IVOICE_FAILURE = 'FETCH_IVOICE_FAILURE';
-
 const CREATE_INVOICE = 'CREATE_INVOICE';
 const GET_INVOICES = 'GET_INVOICES';
 const CREATE_INVOICE_SUCCESS = 'CREATE_INVOICE_SUCCESS';
 const CREATE_INVOICE_ERROR = 'CREATE_INVOICE_ERROR';
-
+const SEARCH_DATE_SUCCESS = "SEARCH_DATE_SUCCESS";
+// const SEARCH_DATE_REQUEST = "SEARCH_DATE_REQUEST";
+// const SEARCH_DATE_ERROR = "SEARCH_DATE_ERROR";
 export const fetchInvoiceRequest = () => ({
   type: FETCH_IVOICE_REQUEST,
 });
@@ -33,7 +34,7 @@ export const fetchInvoiceFailure = (error) => ({
 export const fetchInvoices = (query) => async (dispatch) => {
   dispatch(fetchInvoiceRequest());
   try {
-    const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/invoice/search-query?q=${query}`);
+    const response = await fetch(`http://localhost:5040/api/invoice/search-query?q=${query}`);
     const data = await response.json();
     dispatch(fetchInvoiceSuccess(data));
     return data;
@@ -57,6 +58,9 @@ export const fetchInvoices = (query) => async (dispatch) => {
   
 
 
+    
+
+
 export const createInvoices = (invoiceData) => async (dispatch) => {
   try {
     const { data } = await axios.post(`${API_URL}api/invoice/create`, invoiceData);
@@ -73,6 +77,50 @@ export const createInvoices = (invoiceData) => async (dispatch) => {
     // Aquí podrías enviar una notificación de error al usuario
   }
 };
+
+
+
+
+// eslint-disable-next-line func-names
+export const searchInvoiceByDate = (startDate, endDate) => async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}api/report/invoices-by-date-range/${startDate}/${endDate}`);
+    dispatch({
+      type: SEARCH_DATE_SUCCESS,
+      payload: response.data,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      // eslint-disable-next-line prefer-promise-reject-errors
+      return Promise.reject({ message: "No existen facturas para ese rango de fechas" });
+    }
+    throw error;
+  }
+};
+
+
+
+export const getClientPurchase =({id})=> async(dispatch)=>{
+
+ 
+  try {
+    const response = await axios.get(`${API_URL}api/report/client-stat/${id}`,{ headers: authHeader() }
+    );
+  
+    dispatch({
+      type: SEARCH_DATE_SUCCESS,
+      payload: response.data,
+    });
+    return response.data;
+  } catch (error) {
+    dispatch(fetchInvoiceFailure(error.message));
+    return null
+  }
+};
+
+
+
 
 export const initialState = {
   invoices: [],
@@ -104,7 +152,13 @@ export default function invoiceReducer(state = initialState, action) {
         invoice: null,
       };
 
-
+      case SEARCH_DATE_SUCCESS:
+        return{
+      
+          ...state,
+          invoices:action.payload
+      
+        }
      
 
     default:
