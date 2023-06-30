@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React , {useRef, useState, useEffect}from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import {
 	Table,
@@ -543,6 +544,9 @@ const Customer = () => {
                     <IconButton size="small" onClick={(event) => handleDeleteClick(event, user.id)}>
                       <Iconify icon="mdi:delete" />
                     </IconButton>
+                    <Link to={`/dashboard/perfil-cliente/${user.id}`} style={{ textDecoration: 'none' }}>
+                <button>Ver perfil</button>
+              </Link>
                   </Stack>
                 </TableCell>
               </TableRow>
