@@ -34,87 +34,10 @@ import { CreateDevolucion } from '../../../components/CreateDevolucion';
 import { SearchProduct } from '../../../components/SearchProduct';
 import { SearchCustomer } from '../../../components/SearchCustomer';
 
-const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'DIGIT-LCD';
-    src: url('public/assets2/font/DIGIT-LCD.ttf') format('truetype');
-   
-  }
-`;
-const StyledComponent = styled.div`
-  font-family: 'DIGIT-LCD', sans-serif;
-  /* Otros estilos */
-`;
 
-const SummaryContainer = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  margin-top: 16px;
-  padding: 40px;
 
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 15px;
-  color: white;
-  font-weight: 600;
-  background-color: #ff8000;
-  margin-bottom: 10px;
-  margin-top: 30px;
-  margin-right: 20px;
-  font-family: 'DIGIT-LCD';
-  background-image: linear-gradient(to bottom, #ff8000, #ffbf00);
-`;
 
-const SummaryContainerP = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  margin-top: 16px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 15px;
-  color: white;
-  font-weight: 600;
-  background-color: #27ae60;
-  margin-bottom: 10px;
-  margin-top: 30px;
-  margin-right: 20px;
 
-  & > * {
-    margin-right: 10px;
-  }
-`;
-
-const FormContainer = styled.form`
-  display: flex;
-  gap: 3rem;
-  width: 100%;
-  max-width: 1000px;
-  margin-bottom: 2rem;
-  background-color: #212f3d;
-  border-radius: 30px;
-`;
-
-const StyledBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  justify-content: right;
-  margin-top: 20;
-`;
-
-const StyledTextField = styled(TextField)`
-  && {
-    margin-top: 10px;
-    color: #ffffff;
-    text-align: center;
-
-    input {
-      text-align: center;
-
-      color: #919eab;
-    }
-  }
-`;
 
 // eslint-disable-next-line arrow-body-style
 const PosA = ({ handleCustomerSelect, handleSellerSelect}) => {
