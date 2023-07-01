@@ -13,7 +13,7 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Button,
+
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import {  serachCustomeById } from '../../../redux/modules/customer';
@@ -110,12 +110,18 @@ fDateTime()
 				
 				<strong>Cédula o Rif: {cliente.customers.identification}</strong> 
 			  </Typography>
-			  <Typography variant="body1">
+			 
 			  <Typography variant="body1">
 				
 				<strong>Direccion: {cliente.customers.address}</strong> 
 			  </Typography>
-				<strong>Fecha de Registro: {fDateTime( cliente.customers.createdAd)}</strong> 
+
+			  <Typography variant="body1">
+				<strong>Fecha de Registro: {fDateTime(cliente.customers.createdAt)}</strong> 
+			  </Typography>
+			   <Typography variant="body1">
+				
+				<strong>Total gastado: {compra.invoices. totalPurchases}</strong> 
 			  </Typography>
 			  {/* Agrega más datos del cliente según tus necesidades */}
 			</Box>
