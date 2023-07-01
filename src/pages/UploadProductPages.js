@@ -24,7 +24,7 @@ const UploadProductPages
 
 <FormTipo>
  <Typography style={{marginLeft:15, marginTop:10}} color="white" variant="h5" sx={{ marginBottom: 2 }}>
-          Inventario de productos
+      Carga Rapida de Productos
         </Typography>
         </FormTipo>
 
