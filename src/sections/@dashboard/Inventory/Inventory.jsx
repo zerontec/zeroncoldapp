@@ -169,6 +169,10 @@ const Inventory = () => {
 			Productos Defectuosos
 		  </Button>
 
+		  <Button  onClick={() => handleLinkClick ('/dashboard/cargar-productos')}>
+			Carga Rapida de Productos
+		  </Button>
+
 		</Box>
 
 		
