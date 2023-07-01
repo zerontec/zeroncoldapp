@@ -3,12 +3,14 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import { uploadMasi } from '../../../redux/modules/products';
 
 const UploadProductMasi = () => {
 
 const dispatch = useDispatch();
-
+const [loading, setLoading] = useState(false);
+const [messageError, setMessageError] = useState({});
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({
     name: '',
@@ -41,15 +43,26 @@ const dispatch = useDispatch();
 
   const handleUploadProducts = () => {
     // Aquí puedes enviar los productos al servidor para su carga masiva
-    
+  
 	dispatch(uploadMasi(products))
-
+  .then((response) => {
+    setLoading(false);
+    Swal.fire('Carga creada con éxito!', '', 'success');
 	setProducts([])
-
+  if (response.error) {
+    setMessageError(response.error);
+  }
 	console.log(products);
+  })
+.catch((error) => {
+  console.log(error);
+  setLoading(false);
 
-  };
-
+  setMessageError(error.message);
+  Swal.fire(error.message);
+});
+// Limpia el formulario después de la creación exitosa del proveedor
+};
   return (
     <div>
       <TableContainer>
