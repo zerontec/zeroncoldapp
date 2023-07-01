@@ -14,6 +14,7 @@ const UPDATE_PRODUCT ='UPDATE_PRODUCT'
 const DELETE_PRODUCT ='DELETE_PRODUCT'
 const MOVE_INVENTORY= 'MOVE_INVENTORY'
 const DELETE_PRODUCTS='DELETE_PRODUCTS,'
+const CREATE_PRODUCTS='CREATE_PRODUCTS'
 
 export const fetchProductRequest = () => ({
     type: FETCH_PRODUCT_REQUEST,
@@ -59,6 +60,24 @@ export const fetchProductRequest = () => ({
         throw error;
       }
     };
+
+    export const uploadMasi = (formInfo) => async (dispatch) => {
+      try {
+        const {data }= await axios.post(`${API_URL}api/product/upload`, formInfo);
+        dispatch({
+          type: CREATE_PRODUCTS,
+          payload: data,
+        });
+        return data;
+      } catch (error) {
+        if (error.response && error.response.status ) {
+          throw new Error("No se puedo cargar los porductos.");
+        }
+        throw error;
+      }
+    };
+   
+    
    
     
     
@@ -182,6 +201,12 @@ try{
           ...state,
           products: action.payload,
         };
+        case CREATE_PRODUCTS:
+          return {
+            ...state,
+            sendProducts: action.payload,
+          };
+    
   
         case FETCH_PRODUCT_REQUEST:
           return{
