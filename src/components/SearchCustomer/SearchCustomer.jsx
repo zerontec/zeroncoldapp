@@ -201,9 +201,9 @@ const TotalF = resultSubB + iva
 				onChange={(event) => setQuery(event.target.value)}
 				onBlur={handleSearchClient}
 			  />
-  
+				     <div style={{ color: 'white' }}>
 			  <ErrorMessage message={customers.customers.message} show={searchError} />
-  
+			  </div>
 			  <StyledTextField
 				style={{ marginTop: 10 }}
 				label="Agregar Vendedor"
@@ -212,7 +212,9 @@ const TotalF = resultSubB + iva
 				onChange={(event) => setQuerys(event.target.value)}
 				onBlur={handleSearchSeller}
 			  />
-  
+  	<div style={{ color: 'white' }}>
+			  <ErrorMessage message={availableSeller.message} show={searchError} />
+			  </div>
 			  <StyledTextField
 				label="Nombre vendedor"
 				variant="outlined"
@@ -222,7 +224,7 @@ const TotalF = resultSubB + iva
 				style={{ marginTop: 10 }}
 			  />
 			</Grid>
-  
+		
 			<Grid
 			  item
 			  xs={12}
