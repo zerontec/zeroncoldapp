@@ -32,6 +32,7 @@ import ReportPages from './pages/ReportPages';
 
 import { CustomerPerfil } from './sections/@dashboard/CustomerPerfil';
 import UploadProductPages from './pages/UploadProductPages';
+import { SellerPerfil } from './sections/@dashboard/SellerPerfil';
 
 // ----------------------------------------------------------------------
 
@@ -72,6 +73,7 @@ export default function Router() {
         { path: 'devoluciones-venta', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <DevolutionPages/></ProtectedRoute> },
         { path: 'reportes', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <ReportPages/></ProtectedRoute> },
         { path: 'perfil-cliente/:id', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <CustomerPerfil/></ProtectedRoute> },
+        { path: 'perfil-empleados/:id', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <SellerPerfil/></ProtectedRoute> },
         { path: 'cargar-productos', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <UploadProductPages/></ProtectedRoute> },
       ],
     },
