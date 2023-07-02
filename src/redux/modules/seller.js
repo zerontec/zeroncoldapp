@@ -12,6 +12,7 @@ const GET_SELLERS ='GET_SELLERS'
 const UPDATE_SELLER = 'UPDATE_SELLER'
 const DELETE_SELLER = 'DELETE_SELLER'
 const CREATE_SELLER_SUCCESS='CREATE_SELLER_SUCCESS'
+const GET_SELLERS_STATS='GET_SELLERS_STATS'
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
 
@@ -123,6 +124,38 @@ export const fetchSellerRequest = () => ({
   
   
 
+export const getSalesStats =({id}) => async(dispatch)=>{
+
+  try{
+
+    const resp =  await axios.get(`${API_URL}api/seller/seller-stast/${id}`,{ headers: authHeader() });
+    dispatch({
+      type: GET_SELLERS_STATS,
+      payload: resp.data,
+    });
+    return resp.data
+  } catch (err) {
+    return err.response;
+  }
+
+
+}
+
+
+export const serachSellerById =({id}) => async(dispatch)=>{
+
+  dispatch(fetchSellerRequest());
+  try {
+    const response = await fetch(`${API_URL}api/seller/find-one/${id}`,{ headers: authHeader() }
+    );
+    const data = await response.json();
+    dispatch(fetchSellerSuccess(data));
+    return response.data;
+  } catch (error) {
+    dispatch(fetchSellersFailure(error.message));
+    return null
+  }
+};
 
 
 
@@ -130,6 +163,7 @@ export const fetchSellerRequest = () => ({
   export const initialState = {
 
 vendedores: [],
+info:{},
 message: null,
 error:null,
 
@@ -139,6 +173,15 @@ error:null,
  export default function sellerReducer(state= initialState, action){
 
 switch(action.type){
+
+
+case GET_SELLERS_STATS:
+  return{
+
+    ...state,
+    info:action.payload
+
+  }
 
     case FETCH_SELLER_REQUEST:
         return {
