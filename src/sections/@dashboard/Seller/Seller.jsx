@@ -1,6 +1,8 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import {
   Table,
@@ -25,11 +27,16 @@ import {
   Box,
   Modal,
   Alert,
+  Checkbox,
+  TablePagination
 } from '@mui/material';
+
+import { Document, Page, pdfjs } from '@react-pdf/renderer';
 import { Icon as Iconify } from '@iconify/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSeller, updateSeller, deleteSeller, getAllSeller } from '../../../redux/modules/seller';
 import sentenceCase from '../../../utils/sentenceCase';
+import generatePDF from '../../../utils/generatePdf';
 
 const ActionsContainer = styled.div`
   display: flex;
@@ -67,6 +74,42 @@ const FormTipo = styled.div`
   border-radius: 20px;
 `;
 
+const columns = [
+  {
+    id: 'id',
+    label: 'Seleccion',
+    minWidth: 50,
+  },
+  {
+    id: 'name',
+    label: 'Codigo Barra',
+    minWidth: 100,
+  },
+  {
+    id: 'age',
+    label: 'Producto',
+    minWidth: 50,
+  },
+  {
+    id: 'gender',
+    label: 'descripcion',
+    minWidth: 50,
+  },
+  {
+    id: 'address',
+    label: 'precio',
+    minWidth: 150,
+  },
+  {
+    id: 'check',
+    label: 'Exitencia',
+  },
+  {
+    id: 'canti',
+    label: ' Defectuosos',
+  },
+];
+
 const Seller = () => {
   const [selected, setSelected] = useState([]);
 
@@ -81,8 +124,9 @@ const Seller = () => {
   const [loading, setLoading] = useState(false);
   const [selectButton, setSelectButton] = useState(null);
   const [messageError, setMessageError] = useState({});
-
+  const [selectedSeller, setSelectedSeller] = useState(null);
   const dispatch = useDispatch();
+  const [pdfContent, setPdfContent] = useState(null);
 
   const anchorRef = useRef(null);
 
@@ -175,6 +219,12 @@ const Seller = () => {
     }
   };
 
+
+  const handlePrintClick = () => {
+    window.print();
+  };
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
@@ -209,6 +259,15 @@ const Seller = () => {
     dispatch(getAllSeller());
   }, [dispatch]);
 
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = sellers.seller.sellers.map((user) => user.id);
@@ -217,6 +276,10 @@ const Seller = () => {
       setSelected([]);
     }
   };
+
+
+
+
 
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
@@ -307,33 +370,17 @@ const Seller = () => {
     });
   };
 
-  //   const handleDeleteMultipleClick = () => {
+  
 
-  //     Swal.fire({
-  // 		  title: "Estas Seguro",
-  // 		  text: "No podras revertir esta operacion !",
-  // 		  icon: "advertencia",
-  // 		  showCancelButton: true,
-  // 		  confirmButtonColor: "#3085d6",
-  // 		  cancelButtonColor: "#d33",
-  // 		  confirmButtonText: "Si, Borrar!",
-  // 		}).then((result) => {
-  // 		  if (result.isConfirmed) {
-  //     const seleccion = { ids: selected };
 
-  //     dispatch(deleteMultiplyUser(seleccion));
-  //     setSelected([]);
-  //     Swal.fire("El usuario ha sido borrado!");
+  const handleToggleSelect = (itemsId) => {
+    if (selectedSeller.includes(itemsId)) {
+      setSelectedSeller(selectedSeller.filter((id) => id !== itemsId));
+    } else {
+      setSelectedSeller([...selectedSeller, itemsId]);
+    }
+  };
 
-  //     setTimeout(() => {
-  //       window.location.reload();
-  //     }, 500);
-  //     } else {
-  //     Swal.fire("El usuario  Esta Seguro !");
-  //     }
-  //   });
-
-  //   };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -358,9 +405,9 @@ const Seller = () => {
     
 	filteredUsers = sellers.vendedores.seller.filter(
       (user) =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.codigo.toLowerCase().includes(searchTerm.toLowerCase())
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) 
+        // user.address.toLowerCase().includes(searchTerm.toLowerCase())
+        // user.identification.toLowerCase().includes(searchTerm.toLowerCase())
     );
   } else {
     filteredUsers = [];
@@ -556,6 +603,9 @@ const Seller = () => {
                     <IconButton size="small" onClick={(event) => handleDeleteClick(event, user.id)}>
                       <Iconify icon="mdi:delete" />
                     </IconButton>
+                    <Link to={`/dashboard/perfil-empleados/${user.id}`} style={{ textDecoration: 'none' }}>
+                <button>Ver perfil</button>
+              </Link>
                   </Stack>
                 </TableCell>
               </TableRow>
@@ -579,165 +629,9 @@ const Seller = () => {
           {startIndex + 1}-{Math.min(endIndex, filteredUsers.length)} of {filteredUsers.length}
         </Typography>
       </Box>
+     
+  </>)}
 
-      {/* {selected.length > 0 && (
-        <Card variant="outlined" sx={{ mt: 2, p: 2 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="subtitle1">{`${selected.length} selected`}</Typography>
-            <Button variant="outlined" color="error" size="small">
-              Delete Selected
-            </Button>
-          </Stack>
-        </Card>
-      )}
 
-      <Popover
-        open={editMode}
-        onClose={handleEditCancel}
-        anchorEl={anchorRef.current}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-      >
-        <Card variant="outlined" sx={{ p: 2 }}>
-          <Stack direction="row" spacing={2}>
-            <TextField
-              label="Name"
-              value={editData.name || ''}
-              onChange={(event) => setEditData({ ...editData, name: event.target.value })}
-            />
-            <TextField
-              label="Username"
-              value={editData.username || ''}
-              onChange={(event) => setEditData({ ...editData, username: event.target.value })}
-            />
-            <TextField
-              label="Email"
-              value={editData.email || ''}
-              onChange={(event) => setEditData({ ...editData, email: event.target.value })}
-            />
-            <FormControl>
-              <InputLabel>Role</InputLabel>
-              <Select
-                value={editData.role || ''}
-                onChange={(event) => setEditData({ ...editData, role: event.target.value })}
-              >
-                <MenuItem value="admin">Admin</MenuItem>
-                <MenuItem value="usergl">vendedor</MenuItem>
-                <MenuItem value="usertl">usertl</MenuItem>
-              </Select>
-            </FormControl>
-          </Stack>
-          <Box sx={{ mt: 2 }}>
-            <Button onClick={handleEditSave}>Save</Button>
-
-            <Button variant="outlined" color="error" onClick={handleEditCancel}>
-              Cancel
-            </Button>
-          </Box>
-        </Card>
-      </Popover> */}
-
-      <Modal open={selectButton !== null} onClose={() => setSelectButton(null)}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            borderRadius: '8px',
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          {/* Aquí va el contenido del modal */}
-          <form onSubmit={handleSubmit}>
-            <FormContainer>
-              <FieldContainer>
-                <TextField
-                  required
-                  label="Codigo	"
-                  name="codigo"
-                  type="text"
-                  id="codigo"
-                  value={formInfo.codigo}
-                  onChange={handleChange}
-                />{' '}
-                {errors.codigo && <span className="error-message"> {errors.codigo}</span>}
-                <TextField
-                  required
-                  label="Nombre"
-                  name="name"
-                  type="text"
-                  id="name"
-                  value={formInfo.name}
-                  onChange={handleChange}
-                />{' '}
-                {errors.name && <span className="error-message"> {errors.name}</span>}
-                <TextField
-                  required
-                  label="cedule"
-                  name="identification"
-                  type="text"
-                  id="name"
-                  value={formInfo.identification}
-                  onChange={handleChange}
-                />{' '}
-                {errors.identification && <span className="error-message"> {errors.identification}</span>}
-                <TextField
-                  required
-                  label="Direccion"
-                  name="address"
-                  id="address"
-                  value={formInfo.address}
-                  onChange={handleChange}
-                />{' '}
-                {errors.address && <span className="error-message"> {errors.address}</span>}
-                <TextField
-                  required
-                  label="Telf"
-                  name="telf"
-                  id="telf"
-                  value={formInfo.telf}
-                  onChange={handleChange}
-                />{' '}
-                {errors.telf && <span className="error-message"> {errors.telf}</span>}{' '}
-                {errors.roles && <span className="error-message"> {errors.roles}</span>}
-                {message && (
-                  <Alert severity="error" sx={{ mt: 2 }}>
-                    {' '}
-                    {messageError}{' '}
-                  </Alert>
-                )}{' '}
-              </FieldContainer>
-              <ActionsContainer>
-                <Button
-                  type="submit"
-                  onClick={handleSubmit}
-                  variant="contained"
-                  color="primary"
-                  disabled={!isFormValid} // Deshabilitar el botón si isFormValid es false
-                >
-                  {loading ? 'Cargando...' : 'Agregar Usuario'}
-                </Button>
-              </ActionsContainer>
-            </FormContainer>
-          </form>
-          <hr />
-          <Button variant="contained" onClick={() => setSelectButton(null)}>
-            Cerrar
-          </Button>
-        </Box>
-      </Modal>
-    </>
-  );
-};
 
 export default Seller;
