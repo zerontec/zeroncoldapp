@@ -66,7 +66,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect}) => {
   
 	const [selectedCustomer, setSelectedCustomer] = useState(null);
 	const [selectedSeller, setSelectedSeller] = useState(null);
-
+  
 
   useEffect(() => {
     if (queryp) {
@@ -107,7 +107,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect}) => {
 
 
 
-  const handleAddProduct = (product, productsQuantity, selectedProductPrice) => {
+  const handleAddProduct = (product, productsQuantity, selectedProductPrice, ) => {
     console.log('product', product);
 
     if (product && productsQuantity > 0) {
@@ -205,6 +205,7 @@ console.log("aqui Product", products)
 //     setSeller({});
 //   };
 
+console.log("en el otro manual client ", manualClientData)
 const handleSubmitInvoice = (event) => {
 	event.preventDefault();
   
@@ -228,9 +229,9 @@ const handleSubmitInvoice = (event) => {
 	  paymentMethod,
 	  dueDate: selectedDate,
 	  customer: {
-		identification: selectedCustomer.identification || manualClientData.identification,
-		name: selectedCustomer.name || manualClientData.name,
-		address: selectedCustomer.address || manualClientData.address,
+		identification:  manualClientData.identification || selectedCustomer.identification,
+		name:  manualClientData.name|| selectedCustomer.name ,
+		address:   manualClientData.address ||selectedCustomer.address,
 	  },
 	  seller: {
 		codigo: selectedSeller.codigo,
@@ -256,7 +257,6 @@ const handleSubmitInvoice = (event) => {
   
 
 
-
   useEffect(() => {
     if (products.length === 0) {
       setModalOpen(false);
@@ -267,7 +267,11 @@ const handleSubmitInvoice = (event) => {
   const handlePriceChange = (event) => {
     setSelectedProductPrice(event.target.value);
   };
+  const handleManualSelect =(customer)=>{
+		setManualClientData(customer)
 
+
+	  }
 
  // declaro aqui 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -426,12 +430,12 @@ const handleSubmitInvoice = (event) => {
         />
 
         <SearchCustomer
-          manualClientData={manualClientData}
-          setManualClientData={setManualClientData}
-          seller={seller}
-          setSeller={setSeller}
-		  subtotal={subtotal}
-		  client={client}
+        manualClientData={manualClientData}
+        setManualClientData={setManualClientData}
+        seller={seller}
+        setSeller={setSeller}
+		    subtotal={subtotal}
+		    client={client}
 		 
 		  handleCustomerSelect={handleCustomerSelect}
 		  handleSellerSelect={handleSellerSelect}
@@ -439,6 +443,7 @@ const handleSubmitInvoice = (event) => {
 		  selectedSeller={selectedSeller}
 		  setSelectedCustomer={setSelectedCustomer}
 		  selectedCustomer={selectedCustomer}
+      handleManualSelect={handleManualSelect}
         />
 
         <SearchProduct
