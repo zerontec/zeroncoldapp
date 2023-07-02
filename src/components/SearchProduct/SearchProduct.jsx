@@ -69,7 +69,7 @@ const StyledTextField = styled(TextField)`
     input {
       text-align: center;
 
-      color: #919eab;
+      color: white;
     }
   }
 `;
@@ -81,7 +81,7 @@ const SearchProduct = ({
   limpiar,
   setLimpiar,
   searchProductRef,
-  openModal  // la recibo como prosps
+  openModal,  // la recibo como prosps
 
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -96,6 +96,7 @@ const SearchProduct = ({
   const [searchError, setSearchError] = useState(false);
   const [product, setProduct] = useState({});
   const [productsQuantity, setProductsQuantity] = useState(0);
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -125,6 +126,7 @@ const SearchProduct = ({
   const resetFormP = () => {
     setProduct({});
     setProductsQuantity(0);
+    setSelectedProductPrice('');
   };
 
   const quantityRef = useRef(null);
@@ -178,6 +180,8 @@ const handleProductSelect = (product) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 400,
+            maxHeight: '80vh',
+            overflowY: 'auto',
             bgcolor: 'background.paper',
             borderRadius: '8px',
             boxShadow: 24,
@@ -185,8 +189,9 @@ const handleProductSelect = (product) => {
             backgroundColor: '#212B36',
           }}
         >
-          <TextField
+          <StyledTextField
             label="Buscar Productos"
+            style={{color:'white'}}
             onChange={(e) => setQueryp(e.target.value.toLowerCase())}
           />
           {queryp.length > 0 &&
@@ -234,14 +239,24 @@ const handleProductSelect = (product) => {
           <Button onClick={resetFormP}>Limpiar Form Productos</Button>
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        {/* <Grid item xs={12} md={3}>
           <TextField
             label="Descripción"
             variant="outlined"
             fullWidth
             value={product.description || ''}
           />
+        </Grid> */}
+          <Grid item xs={12} md={2}>
+          <TextField
+            label="Producto"
+            variant="outlined"
+            fullWidth
+            value={product.name}
+           
+          />
         </Grid>
+
 
         <Grid item xs={12} md={2}>
           <TextField
@@ -269,11 +284,11 @@ const handleProductSelect = (product) => {
           <Button
             variant="contained"
             onClick={() => handleAddProduct(product, productsQuantity, selectedProductPrice)}
-            disabled={!product || productsQuantity <= 0}
+            disabled={!product || productsQuantity <= 0 || !selectedProductPrice}
           >
             Agregar Producto
           </Button>
-          <Button variant="contained" onClick={openModal}>
+          <Button style={{marginTop:10}} variant="contained" onClick={openModal}>
             Finalizar Venta
           </Button>
         </Grid>
