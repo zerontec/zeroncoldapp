@@ -57,7 +57,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect}) => {
   const [queryp, setQueryp] = useState('');
   const [searchError, setSearchError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [manualClientData, setManualClientData] = useState({ name: '', identification: '', address: '' });
+  const [manualClientData, setManualClientData] = useState({ name: 'Leoberto Zeron', identification: '13995284', address: 'Bella vista san felix' });
   const dispatch = useDispatch();
   const [limpiar, setLimpiar] = useState('');
   const [selectedProductPrice, setSelectedProductPrice] = useState('');
@@ -205,7 +205,6 @@ console.log("aqui Product", products)
 //     setSeller({});
 //   };
 
-console.log("en el otro manual client ", manualClientData)
 const handleSubmitInvoice = (event) => {
 	event.preventDefault();
   
@@ -249,9 +248,9 @@ const handleSubmitInvoice = (event) => {
 	setProducts([]);
 	setProductsQuantity(0);
 	setIsModalOpen(null);
-	setManualClientData('');
-	setSelectedCustomer({});
-	setSelectedSeller({})
+	// setManualClientData('');
+	setSelectedCustomer('');
+	setSelectedSeller('')
 	setSubtotal(0)
   };
   
@@ -478,7 +477,7 @@ const handleSubmitInvoice = (event) => {
                   <TableRow>
                     <TableCell>Código</TableCell>
                     <TableCell>Producto</TableCell>
-                    <TableCell>Descripción</TableCell>
+                    {/* <TableCell>Descripción</TableCell> */}
                     <TableCell>Precio</TableCell>
                     <TableCell>Cantidad</TableCell>
                     <TableCell>Subtotal</TableCell>
@@ -490,7 +489,7 @@ const handleSubmitInvoice = (event) => {
                       <TableRow key={index}>
                       <TableCell>{item.barcode}</TableCell>
                       <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.description}</TableCell>
+                      {/* <TableCell>{item.description}</TableCell> */}
                       <TableCell>${item.price}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
                       <TableCell>${item.subtotal}</TableCell>
