@@ -120,6 +120,23 @@ export const getClientPurchase =({id})=> async(dispatch)=>{
 };
 
 
+export const getProductsBySeller=({id}) => async (dispatch) => {
+
+  try {
+    const response = await axios.get(`${API_URL}api/seller/seller-product-sales/${id}`,{ headers: authHeader() }
+    );
+  
+    dispatch({
+      type: SEARCH_DATE_SUCCESS,
+      payload: response.data,
+    });
+    return response.data;
+  } catch (error) {
+    dispatch(fetchInvoiceFailure(error.message));
+    return null
+  }
+};
+
 
 
 export const initialState = {
