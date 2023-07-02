@@ -104,7 +104,16 @@ const SearchCustomer = ({setSelectedCustomer,setSelectedSeller, manualClientData
 
 	const handleCustomerSelect = (customer) => {
 		setSelectedCustomer(customer);
+
+
+
 	  };
+
+	  const handleManualSelect =(customer)=>{
+		setManualClientData(customer)
+
+
+	  }
 	
 	  const handleSellerSelect = (seller) => {
 		setSelectedSeller(seller);
@@ -118,6 +127,7 @@ const SearchCustomer = ({setSelectedCustomer,setSelectedSeller, manualClientData
 
 		setClient(exactMatch);
 		handleCustomerSelect(exactMatch);
+		handleManualSelect(manualClientData)
 	  } else {
 		const partialMatch = customers.customers.find((customer) => customer.identification.includes(query));
 		setClient(partialMatch || {});
@@ -143,6 +153,9 @@ const SearchCustomer = ({setSelectedCustomer,setSelectedSeller, manualClientData
 	const resetForm = () => {
 	  setClient('');
 	  setSeller('');
+
+	  setManualClientData('')
+	  setQuerys('')
 	};
   
 	useEffect(() => {
@@ -159,7 +172,12 @@ const SearchCustomer = ({setSelectedCustomer,setSelectedSeller, manualClientData
   
 
 	SearchCustomer.propTypes = {
-		manualClientData: PropTypes.object.isRequired,
+		manualClientData: PropTypes.shape({
+			identification: PropTypes.string.isRequired,
+			address: PropTypes.string.isRequired,
+			name: PropTypes.string.isRequired
+
+		}).isRequired,
 		setManualClientData: PropTypes.func.isRequired,
 		// seller: PropTypes.object.isRequired,
 		// setSeller: PropTypes.func.isRequired,
@@ -181,7 +199,7 @@ const SearchCustomer = ({setSelectedCustomer,setSelectedSeller, manualClientData
 		}),
 	  };
 
-
+console.log("manual client data", manualClientData)
 
 const subtotalB = subtotal / 1.16 
 const resultSubB = subtotalB
@@ -244,7 +262,8 @@ const TotalF = resultSubB + iva
 				}}
 				value={client.name || manualClientData.name || ''}
 				onChange={(event) =>
-				  setManualClientData({
+				  setManualClientData
+				  ({
 					...manualClientData,
 					name: event.target.value,
 				  })
