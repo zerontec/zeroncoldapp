@@ -41,7 +41,7 @@ icon: icon('ic_user'),
 },
 {
 
-  title: 'vendedores',
+  title: 'Empleados',
   path:'/dashboard/vendedores',
   icon: icon('ic_user'),
   
