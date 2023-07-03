@@ -20,7 +20,7 @@ const StyledButton = styled(Button)`
 `;
 
 // eslint-disable-next-line arrow-body-style
-const ButtonBar = ({button1, button1Link, button2, button2Link, button3, button3Link }) => {
+const ButtonBar = ({button1, button1Link, button2, button2Link, button3, button3Link,button4, button4Link }) => {
   return (
     <Box display="flex" justifyContent="center">
       <ButtonContainer>
@@ -30,13 +30,19 @@ const ButtonBar = ({button1, button1Link, button2, button2Link, button3, button3
         {  button1}
         </StyledButton></Link> 
 
-  <Link to={button2Link} > <StyledButton variant="contained" href="/enlace2">
-         
-          {button2}
-        </StyledButton> </Link>
+ 
 
         <Link to={button3Link} >     <StyledButton variant="contained" href="/enlace3">
          {button3}
+        </StyledButton></Link>
+
+
+        <Link to={button2Link} > <StyledButton variant="contained" href="/enlace2">
+         
+         {button2}
+       </StyledButton> </Link>
+        <Link to={button4Link} >     <StyledButton variant="contained" href="/enlace4">
+         {button4}
         </StyledButton></Link>
         {/* <StyledButton variant="contained" href="/enlace4">
           Reportes
