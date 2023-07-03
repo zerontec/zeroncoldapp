@@ -365,7 +365,7 @@ const CuentasPorCobrar = () => {
   <TableBody>
     {Array.isArray(cuentasxcobrar.cuentas) && cuentasxcobrar.cuentas.length > 0 ? (
       cuentasxcobrar.cuentas
-        .filter((items) => items.invoiceId.toLowerCase().includes(searchTerm.toLowerCase()))
+      .filter((items) => items.invoiceId && items.invoiceId.toLowerCase().includes(searchTerm.toLowerCase()))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((items) => (
           <TableRow key={items.id}>
