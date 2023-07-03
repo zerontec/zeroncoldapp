@@ -26,14 +26,13 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 import { ModuleLinks } from '../components/ModuleLinks';
-import { ButtonBar } from '../components/ButtonBar';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
 
   const [valoresDolar, setValoresDolar] = useState({});
-
+const[dataDailySales, setDataDailySale]= useState({});
 
   useEffect(() => {
     // Realiza la consulta inicial al cargar el componente
@@ -50,7 +49,7 @@ export default function DashboardAppPage() {
 
   const fetchDolarValue = async () => {
     try {
-      const response = await fetch('https://expressjs-postgres-production-bd69.up.railway.app/api/consulta/dolar');
+      const response = await fetch('http://localhost:5040/api/consulta/dolar');
       const data = await response.json();
       
       // Convertir los valores a números utilizando parseFloat
@@ -69,7 +68,21 @@ export default function DashboardAppPage() {
   };
 
 
+const fetchDayliSales = async() => {
 
+    try{
+      const response = await fetch('http://localhost:5040/api/report/daily-sales');
+      const data = await response.json();
+      setDataDailySale(data);
+
+    }catch(error){
+
+      console.error('Error al obtener los datos del dólar:', error);
+
+    }
+
+
+}
 
 
 
@@ -107,25 +120,25 @@ export default function DashboardAppPage() {
 
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6}>
           {/* <MonetizationOnIcon style={{color:'green'}}/> */}
             <AppWidgetSummary title="Tasa $ BCV " total={valoresDolar.bcv} icon={'ant-design:dollar'} />
 
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={6}>
           {/* <MonetizationOnIcon style={{color:'red'}}/> */}
             <AppWidgetSummary title="Tasa $ Paralela" total={valoresDolar.enparalelovzla} color="info" icon={'ant-design:dollar'} />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-          {/* <AddShoppingCartIcon style={{color:"blue"}}/> */}
+          {/* <Grid item xs={12} sm={6} md={3}>
+          <AddShoppingCartIcon style={{color:"blue"}}/>
             <AppWidgetSummary title="Ventas de el dia " total={1723315} color="warning" icon={'ant-design:car'} />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} sm={6} md={3}>
+          {/* <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:shooping'} />
-          </Grid>
+          </Grid> */}
 
               
 
