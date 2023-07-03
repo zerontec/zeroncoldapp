@@ -67,6 +67,10 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect}) => {
 	const [selectedCustomer, setSelectedCustomer] = useState(null);
 	const [selectedSeller, setSelectedSeller] = useState(null);
   
+  
+  const [valoresDolar, setValoresDolar] = useState({});
+ 
+
 
   useEffect(() => {
     if (queryp) {
@@ -164,46 +168,6 @@ console.log("aqui Product", products)
 			  });
 
 
-// 	const handleSubmitInvoice = (event) => {
-//     event.preventDefault();
-
-// 	const selectedPrice = selectedProductPrice;
-// 	const productToAdd = {
-// 	  ...product,
-// 	  price: selectedPrice,
-// 	  quantity: productsQuantity,
-// 	  subtotal: selectedPrice * productsQuantity,
-// 	};
-// 	setProducts([...products, productToAdd]);
-
-//     const invoiceData = {
-//       credit: isCredit,
-//       paymentMethod,
-//       dueDate: selectedDate,
-//       customer: {
-//         identification: selectedCustomer.identification || manualClientData.identification,
-//         name: selectedCustomer.name || manualClientData.name,
-//         address: selectedCustomer.address || manualClientData.address,
-//       },
-//       seller: {
-//         codigo: selectedSeller.codigo,
-//         identification: selectedSeller.identification,
-//         name: selectedSeller.name,
-//       },
-//       productos:products
-//     };
-
-//     dispatch(createInvoices(invoiceData));
-
-//     setQuery('');
-//     setClient({});
-//     setProduct({});
-//     setProducts([]);
-//     setProductsQuantity(0);
-//     setIsModalOpen(null);
-//     setManualClientData('');
-//     setSeller({});
-//   };
 
 const handleSubmitInvoice = (event) => {
 	event.preventDefault();
@@ -288,6 +252,46 @@ const handleSubmitInvoice = (event) => {
   const iva = subtotal - resultSubB
   const TotalF = resultSubB + iva
 
+
+
+  useEffect(() => {
+    // Realiza la consulta inicial al cargar el componente
+    fetchDolarValue();
+
+    // Configura un intervalo para realizar consultas periódicas cada cierto tiempo
+    const interval = setInterval(fetchDolarValue, 12 * 60 * 60 * 1000); // Consulta cada 12 horas
+
+    // Limpia el intervalo cuando el componente se desmonta
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const fetchDolarValue = async () => {
+    try {
+      const response = await fetch('http://localhost:5040/api/consulta/dolar');
+      const data = await response.json();
+      
+      // Convertir los valores a números utilizando parseFloat
+      const bcv = data.bcv;
+      const enparalelovzla =data.enparalelovzla;
+      // ...
+
+      setValoresDolar({
+        bcv,
+        enparalelovzla,
+        // ...
+      });
+    } catch (error) {
+      console.error('Error al obtener los datos del dólar:', error);
+    }
+  };
+
+
+const priceDollar = subtotal / valoresDolar.bcv
+
+console.log("subTotal dolar ", priceDollar)
+console.log("dolaBCV", valoresDolar.bcv)
 
   return (
     <>
@@ -416,7 +420,7 @@ const handleSubmitInvoice = (event) => {
           Facturación
         </Typography>
         <Typography variant="h5" sx={{ marginBottom: 2 }}>
-          Tasa de el día {currencys}
+          Tasa de el día BCV {currencys} {valoresDolar.bcv} 
         </Typography>
 
         <CreateDevolucion />
@@ -493,6 +497,7 @@ const handleSubmitInvoice = (event) => {
                       <TableCell>${item.price}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
                       <TableCell>${item.subtotal}</TableCell>
+                      <TableCell>${priceDollar}</TableCell>
                       <TableCell>
                         <Button variant="contained" color="error" onClick={() => handleRemoveProduct(index)}>
                           Quitar
