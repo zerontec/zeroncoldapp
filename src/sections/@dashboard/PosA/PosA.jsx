@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable object-shorthand */
 import React, { useState, useEffect, useRef } from 'react';
 import {
@@ -272,11 +273,11 @@ const handleSubmitInvoice = (event) => {
 
   const fetchDolarValue = async () => {
     try {
-      const response = await fetch('http://localhost:5040/api/consulta/dolar');
+      const response = await fetch('https://expressjs-postgres-production-bd69.up.railway.app/api/consulta/dolar');
       const data = await response.json();
       
       // Convertir los valores a números utilizando parseFloat
-      const bcv = data.bcv;
+      const bcv =  data.bcv;
       const enparalelovzla =data.enparalelovzla;
       // ...
 
@@ -291,7 +292,8 @@ const handleSubmitInvoice = (event) => {
   };
 
 
-const priceDollar = subtotal / valoresDolar.bcv
+  const priceDollar = isNaN(subtotal) ? 0 : subtotal / valoresDolar.bcv;
+  // const priceDollar = valoresDolar.bcv ? subtotal / valoresDolar.bcv : 0;
 
 console.log("subTotal dolar ", priceDollar)
 console.log("dolaBCV", valoresDolar.bcv)
