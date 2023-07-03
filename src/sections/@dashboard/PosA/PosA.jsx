@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
-
+import Swal from 'sweetalert2';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -180,7 +180,7 @@ const handleSubmitInvoice = (event) => {
 	  subtotal: parseFloat(selectedPrice) * parseInt(productsQuantity, 10), // Calcular subtotal
 	};
 	setProducts([...products, productToAdd]);
-  
+
 	const productsData = products.map((product) => ({
 	  ...product,
 	  price: parseFloat(product.price), // Convertir a número
@@ -204,8 +204,9 @@ const handleSubmitInvoice = (event) => {
 	  productos: productsData, // Usar el array `productsData` con datos modificados
 	};
   
-	dispatch(createInvoices(invoiceData));
+	dispatch(createInvoices(invoiceData))
   
+  Swal.fire('¨Factura enviada  !', ' clicked el Botton!', 'success');
 	setQuery('');
 	setClient({});
 	setProduct({});
@@ -216,8 +217,10 @@ const handleSubmitInvoice = (event) => {
 	setSelectedCustomer('');
 	setSelectedSeller('')
 	setSubtotal(0)
-  };
-  
+
+
+ 
+}
 
 
   useEffect(() => {
@@ -485,7 +488,7 @@ console.log("dolaBCV", valoresDolar.bcv)
                     <TableCell>Precio</TableCell>
                     <TableCell>Cantidad</TableCell>
                     <TableCell>Subtotal</TableCell>
-                    <TableCell>Quitar</TableCell>
+                    <TableCell>Precio Dolar</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -494,9 +497,9 @@ console.log("dolaBCV", valoresDolar.bcv)
                       <TableCell>{item.barcode}</TableCell>
                       <TableCell>{item.name}</TableCell>
                       {/* <TableCell>{item.description}</TableCell> */}
-                      <TableCell>${item.price}</TableCell>
+                      <TableCell>{item.price}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
-                      <TableCell>${item.subtotal}</TableCell>
+                      <TableCell>{item.subtotal}</TableCell>
                       <TableCell>${priceDollar}</TableCell>
                       <TableCell>
                         <Button variant="contained" color="error" onClick={() => handleRemoveProduct(index)}>
