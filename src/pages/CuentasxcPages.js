@@ -5,7 +5,8 @@ import styled from 'styled-components';
 
 import { Grid, Container, Typography,  } from '@mui/material';
 import { CuentasPorCobrar } from '../sections/@dashboard/CuentasPorCobrar';
-import { BackButton } from '../components/BackButton';
+
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 const FormTipo = styled.div`
   display: flex;
@@ -26,11 +27,11 @@ const CuentasxPages = () => (
          Cuentas Por Cobrar
         </Typography>
         </FormTipo>
-<BackButton/>
+
 
 <CuentasPorCobrar/>
 
-   
+   <FloatingButtonComponent/>
     </>
   );
 
