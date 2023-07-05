@@ -26,6 +26,7 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 import { ModuleLinks } from '../components/ModuleLinks';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 // ----------------------------------------------------------------------
 
@@ -315,6 +316,7 @@ const fetchDayliSales = async() => {
          Modulos de Administracion
         </Typography>
       <ModuleLinks/>
+      <FloatingButtonComponent/>
     </>
   );
 }

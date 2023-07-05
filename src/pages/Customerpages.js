@@ -3,6 +3,7 @@ import { Grid, Container, Typography,  } from '@mui/material';
 import styled from 'styled-components';
 import { Customer } from '../sections/@dashboard/Customer';
 import { BackButton } from '../components/BackButton';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 const FormTipo = styled.div`
   display: flex;
@@ -22,9 +23,11 @@ const CustomerPages = () => (
           Clientes
         </Typography>
       </FormTipo>
-   <BackButton/>
+
 <hr/>
 <Customer/>
+
+<FloatingButtonComponent/>
 
     </>
   );
