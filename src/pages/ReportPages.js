@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {  Button,Typography,Container,  Grid,TextField } from '@mui/material';
 import { SearchInvoiceByDate } from '../components/SearchInvoiceByDate';
 import { SearchSaleByDate } from '../components/SearchSaleByDate';
-
+import { BackButton } from '../components/BackButton';
 
 const StyledTextField = styled(TextField)`
   && {
@@ -36,7 +36,7 @@ const ReportPages = () => (
         </Typography>
         </FormTipo>
 
-
+<BackButton/>
 
 
 <StyledContainer>

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {Typography, Box } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
+import { BackButton } from '../components/BackButton';
 
 
 
@@ -67,6 +68,7 @@ return(
         Modulo Compras
         </Typography>
         </FormTipo>
+<BackButton/>
 
         <LinkBoxContainer>
   

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import InvoiceTable from '../sections/@dashboard/Invoicetable/Invoicetable';
 import { ButtonBar } from '../components/ButtonBar';
 import { CreateDevolucion } from '../components/CreateDevolucion';
+import { BackButton } from '../components/BackButton';
 
 const FormTipo = styled.div`
   display: flex;
@@ -27,6 +28,8 @@ const InvoicePages = () => (
          Lista de facturas
         </Typography>
         </FormTipo>
+<BackButton/>
+
         <CreateDevolucion/>
 <ButtonBar 
 button1={"Cuentas Por Cobrar"}
