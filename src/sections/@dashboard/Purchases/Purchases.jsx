@@ -30,6 +30,7 @@ import { fetchProducts } from '../../../redux/modules/products';
 import { createPurchase, fetchPurchases } from '../../../redux/modules/purchase';
 import { ErrorMessage } from '../../../components/ErrorMessage';
 import { CreateSupplier } from '../../../components/CreateSupplier';
+import { BackButton } from '../../../components/BackButton';
 
 
 const FormContainer = styled(Grid)`
@@ -574,6 +575,8 @@ const Purchases = () => {
   
   </Box>
 </Modal>
+
+<BackButton/>
 
       <Box>
         <Typography variant="h5" sx={{ marginBottom: 2 }}>

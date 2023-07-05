@@ -489,11 +489,7 @@ const Customer = () => {
         </Box>
       </Modal>
 
-      <FormTipo>
-        <Typography style={{ color: 'white', marginLeft: 10 }} variant="h4" gutterBottom>
-          Clientes
-        </Typography>
-      </FormTipo>
+  
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={() => setSelectButton()}>
           Nuevo Cliente
