@@ -14,6 +14,7 @@ import userReducer from './modules/user';
 import dolarReducer from './modules/dolar';
 import devolutionReducer from './modules/devolucionV';
 import productdReducer from './modules/productosD';
+import notaReducer from './modules/notasC';
 
 
 // Combinar los reducers de tus módulos
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   usuarios:userReducer,
   dolar:dolarReducer,
   devolution:devolutionReducer,
-  productd:productdReducer
+  productd:productdReducer,
+  notasc:notaReducer
  
   // Otros módulos de Redux
 });
