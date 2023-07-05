@@ -393,6 +393,18 @@ const [loading, setloading] = useState(true);
                       })
                     }
                   />
+                       <TextField
+                    label="Cantidad"
+                    name="quantity"
+                    value={selectedProductEdit.quantity}
+                    onChange={(e) =>
+                      setSelectedProductEdit({
+                        ...selectedProductEdit,
+                        quantity: e.target.value,
+                      })
+                    }
+                  />
+
 
                   <br />
                 </FieldContainer>
