@@ -298,10 +298,10 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
       },
 
       seller: {
-        codigo: selectedSeller.codigo || '0005' ,
+        codigo: selectedSeller.codigo || '001' ,
     
-        identification: selectedSeller.identification || '13558852' ,
-        name:  selectedSeller.name || 'Daniel' ,
+        identification: selectedSeller.identification || '25937952' ,
+        name:  selectedSeller.name || 'Daniel Garcia' ,
       },
 
       
