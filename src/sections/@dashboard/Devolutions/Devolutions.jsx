@@ -20,7 +20,7 @@ import Box from '@mui/material/Box';
 import { Checkbox } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
-
+import {Link} from 'react-router-dom'
 import { fDate } from '../../../utils/formatTime';
 import { deleteDevolution, getAllDevolution, updateDevolution } from '../../../redux/modules/devolucionV';
 
@@ -438,6 +438,12 @@ const Devolutions = () => {
 			<Button variant="contained" onClick={handleSearch}>
 			  Buscar
 			</Button>
+		<Link to='/dashboard/notas-credito'>	<Button style={{marginLeft:10}} variant="contained" onClick={handleSearch}>
+			Notas de Credito Generadas
+			</Button></Link>
+
+						
+
 			<TableContainer component={Paper}>
 			  <Table sx={{ minWidth: 650 }}>
 				<TableHead>

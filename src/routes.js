@@ -33,6 +33,7 @@ import ReportPages from './pages/ReportPages';
 import { CustomerPerfil } from './sections/@dashboard/CustomerPerfil';
 import UploadProductPages from './pages/UploadProductPages';
 import { SellerPerfil } from './sections/@dashboard/SellerPerfil';
+import NotasCreditoPages from './pages/NotasCreditoPages';
 
 // ----------------------------------------------------------------------
 
@@ -75,6 +76,7 @@ export default function Router() {
         { path: 'perfil-cliente/:id', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <CustomerPerfil/></ProtectedRoute> },
         { path: 'perfil-empleados/:id', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <SellerPerfil/></ProtectedRoute> },
         { path: 'cargar-productos', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <UploadProductPages/></ProtectedRoute> },
+        { path: 'notas-credito', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <NotasCreditoPages/></ProtectedRoute> },
       ],
     },
 
