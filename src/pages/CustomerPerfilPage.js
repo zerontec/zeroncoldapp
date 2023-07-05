@@ -3,6 +3,7 @@ import { Grid, Container, Typography,  } from '@mui/material';
 import styled from 'styled-components';
 
 import  {CustomerPerfil } from '../sections/@dashboard/CustomerPerfil';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 const FormTipo = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const CustomerPerfilPages = () => (
         </Typography>
         </FormTipo> */}
 
-
+<FloatingButtonComponent/>
 
     </>
   );

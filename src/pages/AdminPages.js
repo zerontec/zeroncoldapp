@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Grid, Container, Typography,  } from '@mui/material';
 
 import { ModuleLinks } from '../components/ModuleLinks';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 
 
@@ -13,7 +14,7 @@ const AdminPages = () => (
          Panel Administración 
         </Typography>
 <ModuleLinks/>
-   
+   <FloatingButtonComponent/>
     </>
   );
 
