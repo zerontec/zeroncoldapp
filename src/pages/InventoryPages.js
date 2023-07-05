@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {  Typography,  } from '@mui/material';
 import { Inventory } from '../sections/@dashboard/Inventory';
 import { BackButton } from '../components/BackButton';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 
 const FormTipo = styled.div`
@@ -27,10 +28,11 @@ const InventoryPages = () => (
         </Typography>
         </FormTipo>
 
-<BackButton/>
+
 
 <Inventory/>
    
+   <FloatingButtonComponent/>
     </>
   );
 

@@ -7,6 +7,7 @@ import InvoiceTable from '../sections/@dashboard/Invoicetable/Invoicetable';
 import { ButtonBar } from '../components/ButtonBar';
 import { CreateDevolucion } from '../components/CreateDevolucion';
 import { BackButton } from '../components/BackButton';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 const FormTipo = styled.div`
   display: flex;
@@ -47,7 +48,7 @@ button4Link={'/dashboard/vendedores'}
 
         <InvoiceTable/>
 
-   
+   <FloatingButtonComponent/>
     </>
   );
 

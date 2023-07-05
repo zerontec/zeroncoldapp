@@ -4,6 +4,7 @@ import {  Typography,  } from '@mui/material';
 
 import { ProductD } from '../sections/@dashboard/ProductD';
 import { BackButton } from '../components/BackButton';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 const FormTipo = styled.div`
   display: flex;
@@ -25,9 +26,11 @@ const ProductDPages = () => (
           Inventario de productos Defectuosos
         </Typography>
         </FormTipo>
-<BackButton/>
+
 
     <ProductD/>
+
+    <FloatingButtonComponent/>
    
     </>
   );
