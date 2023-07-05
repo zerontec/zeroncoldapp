@@ -168,8 +168,11 @@ const handleProductSelect = (product) => {
   setSearchResults([]);
   
   setModalOpen(false);
- 
+ setQueryp('')
 };
+
+
+
   return (
     <>
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
