@@ -3,6 +3,7 @@ import { Typography,  } from '@mui/material';
 import styled from 'styled-components';
 
 import { SubModule } from '../sections/@dashboard/SubModule'
+import { BackButton } from '../components/BackButton';
 
 
 const FormTipo = styled.div`
@@ -21,9 +22,11 @@ const SubModulePages =()=> (
 <>
 <FormTipo>
  <Typography style={{marginLeft:15, marginTop:10}} color="white" variant="h5" sx={{ marginBottom: 2 }}>
-        usuarios de el Sistema 
+        Usuarios de el Sistema 
         </Typography>
         </FormTipo>
+<BackButton/>
+
 <SubModule/>
 
 </>
