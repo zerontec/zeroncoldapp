@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Container, Typography,  } from '@mui/material';
 import styled from 'styled-components';
 import { Customer } from '../sections/@dashboard/Customer';
+import { BackButton } from '../components/BackButton';
 
 const FormTipo = styled.div`
   display: flex;
@@ -16,13 +17,13 @@ const FormTipo = styled.div`
 
 const CustomerPages = () => (
     <>
-{/* <FormTipo>
-<Typography variant="h4" sx={{ mb: 5 }}>
-        Clientes
+    <FormTipo>
+        <Typography style={{ color: 'white', marginLeft: 10 }} variant="h4" gutterBottom>
+          Clientes
         </Typography>
-        </FormTipo> */}
-   
-
+      </FormTipo>
+   <BackButton/>
+<hr/>
 <Customer/>
 
     </>

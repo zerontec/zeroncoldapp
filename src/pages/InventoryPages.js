@@ -3,6 +3,7 @@ import React, { } from 'react';
 import styled from 'styled-components';
 import {  Typography,  } from '@mui/material';
 import { Inventory } from '../sections/@dashboard/Inventory';
+import { BackButton } from '../components/BackButton';
 
 
 const FormTipo = styled.div`
@@ -26,7 +27,7 @@ const InventoryPages = () => (
         </Typography>
         </FormTipo>
 
-
+<BackButton/>
 
 <Inventory/>
    
