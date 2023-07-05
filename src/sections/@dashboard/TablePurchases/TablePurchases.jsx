@@ -21,7 +21,7 @@ import Modal from "@mui/material/Modal";
 import styled from "styled-components";
 import { deletePurchase, getAllPurchases, updatePurchase } from '../../../redux/modules/purchase';
 import { fDateTime } from '../../../utils/formatTime';
-import { BackButton } from '../../../components/BackButton';
+import { FloatingButtonComponent } from '../../../components/FloatingButtonComponent';
 
 
 
@@ -265,7 +265,7 @@ return(	<>
         Lista de Compras Realizadas
         </Typography>
 		</FormTipo>
-		<BackButton/>
+		
        
 	<hr />
 	{/* Modal Ver Compra */}
@@ -601,6 +601,8 @@ onChange={() => handleToggleSelect(items.id)} >
 
 	  <hr />
 	</Box>
+
+	<FloatingButtonComponent/>
   </>)
 };
 

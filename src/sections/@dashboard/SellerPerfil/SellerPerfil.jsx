@@ -24,6 +24,7 @@ import { getSalesStats, serachSellerById } from '../../../redux/modules/seller';
 
 import { fDate, fDateTime } from '../../../utils/formatTime';
 import { getProductsBySeller } from '../../../redux/modules/invoices';
+import { FloatingButtonComponent } from '../../../components/FloatingButtonComponent';
 
 const columns = [
 	{
@@ -219,7 +220,7 @@ fDateTime()
            />
         </TableContainer>
 
-
+        <FloatingButtonComponent/>
 		  </>
 		{/* // )} */}
 	  </StyledContainer>

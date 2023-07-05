@@ -22,7 +22,7 @@ import styled from "styled-components";
 import { deletePurchase, getAllPurchases, updatePurchase } from '../../../redux/modules/purchase';
 import { deleteSuppliert, getAllSupplier, updateSupplier } from '../../../redux/modules/supplier';
 import { CreateSupplier } from '../../../components/CreateSupplier';
-import { BackButton } from '../../../components/BackButton';
+import { FloatingButtonComponent } from '../../../components/FloatingButtonComponent';
 
 
 const FormTipo = styled.div`
@@ -257,7 +257,7 @@ const handleEditClick = (supplier) => {
  <Typography style={{color:"white",marginLeft:15, marginTop:10}} color="black" variant="h5" sx={{ marginBottom: 2 }}>
         Lista de Proveedores
         </Typography></FormTipo>
-		<BackButton/>
+	
        
 		
 	{/* Modal Ver Compra */}
@@ -559,6 +559,8 @@ onChange={() => handleToggleSelect(items.id)} >
 	  </TableContainer>
 	  <hr/>
 	</Box>
+
+	<FloatingButtonComponent/>
   </>
 
 	)

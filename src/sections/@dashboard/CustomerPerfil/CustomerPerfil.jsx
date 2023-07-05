@@ -22,6 +22,7 @@ import { getClientPurchase } from '../../../redux/modules/invoices';
 // import { getCustomerPurchases } from 'tu_accion_para_obtener_compras_de_cliente';
 
 import { fDate, fDateTime } from '../../../utils/formatTime';
+import { FloatingButtonComponent } from '../../../components/FloatingButtonComponent';
 
 const columns = [
 	{
@@ -190,7 +191,7 @@ fDateTime()
            />
         </TableContainer>
 
-
+<FloatingButtonComponent/>
 		  </>
 		{/* // )} */}
 	  </StyledContainer>

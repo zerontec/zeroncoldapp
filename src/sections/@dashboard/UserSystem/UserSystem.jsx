@@ -30,7 +30,8 @@ import { Icon as Iconify } from '@iconify/react';
 import { useDispatch, useSelector } from 'react-redux';
 import {createUser, getAllUsers, deleteUser, updateUser, deleteMultiplyUser } from '../../../redux/modules/user';
 import sentenceCase from '../../../utils/sentenceCase';
-import { BackButton } from '../../../components/BackButton';
+
+import { FloatingButtonComponent } from '../../../components/FloatingButtonComponent';
 
 
 
@@ -561,7 +562,7 @@ const UserSystem = () => {
           <Typography style={{color:"white" , marginLeft:10}} variant="h4" gutterBottom>
             Usuarios de el sistema
           </Typography></FormTipo>
-<BackButton/>
+
 <hr/>
  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         
@@ -819,7 +820,7 @@ const UserSystem = () => {
 			</Button>
 		  </Box>
 		</Modal>
-
+<FloatingButtonComponent/>
     </>
   );
 };
