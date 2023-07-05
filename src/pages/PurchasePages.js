@@ -5,6 +5,7 @@ import {Typography, Box } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 import { BackButton } from '../components/BackButton';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 
 
@@ -68,7 +69,7 @@ return(
         Modulo Compras
         </Typography>
         </FormTipo>
-<BackButton/>
+
 
         <LinkBoxContainer>
   
@@ -93,7 +94,7 @@ return(
  
 </LinkBoxContainer>
 
-
+<FloatingButtonComponent/>
   {/* <Purchases/> */}
    
     </>

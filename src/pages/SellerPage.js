@@ -8,6 +8,7 @@ import {
 
 import { Seller } from '../sections/@dashboard/Seller'
 import { BackButton } from '../components/BackButton';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 const FormTipo = styled.div`
   display: flex;
@@ -31,10 +32,12 @@ const SellerPage =() => (
           Vendedores
         </Typography>
       </FormTipo>
-<BackButton/>
+
 <hr/>
 
 <Seller/>
+
+<FloatingButtonComponent/>
 </>
 
 
