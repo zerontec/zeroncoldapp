@@ -212,7 +212,9 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
   const [paymentAmounts, setPaymentAmounts] = useState({
     cash: 0,
     transfer: 0,
-    credit: 0,
+   divisas: 0,
+    seller:0,
+    panama:0,
   });
 
   const handlePaymentAmountChange = (method, newAmount) => {
@@ -430,9 +432,11 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
                   onChange={handlePaymentMethodChange}
                   label="Método de pago"
                 >
-                  <MenuItem value="cash">Efectivo $</MenuItem>
+                  <MenuItem value="cash">Efectivo Bs </MenuItem>
                   <MenuItem value="transfer">Transferencia</MenuItem>
-                  <MenuItem value="credit">Crédito</MenuItem>
+                  <MenuItem value="divisas">Efectivo Divisas</MenuItem>
+                  <MenuItem value="seller">Seller</MenuItem>
+                  <MenuItem value="panama">Banesco Panama</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -442,7 +446,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
                 <TextField
                   fullWidth
                   type="number"
-                  label="Efectivo $"
+                  label="Efectivo Bs"
                   value={paymentAmounts.cash}
                   onChange={(e) => handlePaymentAmountChange('cash', e.target.value)}
                   disabled={isCredit || remainingAmounts < 0}
@@ -462,18 +466,46 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
               </Grid>
             )}
 
-            {paymentMethod.includes('credit') && (
+            {paymentMethod.includes('divisas') && (
               <Grid item xs={12}>
                 <TextField
                   fullWidth
                   type="number"
-                  label="Crédito"
-                  value={paymentAmounts.credit}
-                  onChange={(e) => handlePaymentAmountChange('credit', e.target.value)}
+                  label="Divisas"
+                  value={paymentAmounts.divisas}
+                  onChange={(e) => handlePaymentAmountChange('divisas', e.target.value)}
                   disabled={isCredit || remainingAmounts < 0}
                 />
               </Grid>
             )}
+             {paymentMethod.includes('seller') && (
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Seller"
+                  value={paymentAmounts.seller}
+                  onChange={(e) => handlePaymentAmountChange('seller', e.target.value)}
+                  disabled={isCredit || remainingAmounts < 0}
+                />
+              </Grid>
+            )}
+              {paymentMethod.includes('panama') && (
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Banesco Panama"
+                  value={paymentAmounts.panama}
+                  onChange={(e) => handlePaymentAmountChange('panama', e.target.value)}
+                  disabled={isCredit || remainingAmounts < 0}
+                />
+              </Grid>
+            )}
+
+
+
+
 
             <Grid item xs={12}>
               <FormControl fullWidth>
