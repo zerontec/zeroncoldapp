@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {  Typography,  } from '@mui/material';
 
 import { UploadProductMasi } from '../sections/@dashboard/UploadProductMasi';
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 
 const FormTipo = styled.div`
@@ -32,6 +33,7 @@ const UploadProductPages
 
 <UploadProductMasi/>
    
+   <FloatingButtonComponent/>
     </>
   );
 

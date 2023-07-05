@@ -3,8 +3,7 @@ import { Typography,  } from '@mui/material';
 import styled from 'styled-components';
 
 import { SubModule } from '../sections/@dashboard/SubModule'
-import { BackButton } from '../components/BackButton';
-
+import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
 
 const FormTipo = styled.div`
   display: flex;
@@ -25,10 +24,11 @@ const SubModulePages =()=> (
         Usuarios de el Sistema 
         </Typography>
         </FormTipo>
-<BackButton/>
+
 
 <SubModule/>
 
+<FloatingButtonComponent/>
 </>
 
 
