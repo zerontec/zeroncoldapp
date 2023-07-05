@@ -37,6 +37,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSeller, updateSeller, deleteSeller, getAllSeller } from '../../../redux/modules/seller';
 import sentenceCase from '../../../utils/sentenceCase';
 import generatePDF from '../../../utils/generatePdf';
+import { BackButton } from '../../../components/BackButton';
 
 const ActionsContainer = styled.div`
   display: flex;
@@ -64,15 +65,7 @@ const FieldContainer = styled.div`
   }
 `;
 
-const FormTipo = styled.div`
-  display: flex;
-  gap: 3rem;
-  width: 100%;
-  max-width: 1000px;
-  margin-bottom: 2rem;
-  background-color: rgb(255, 87, 34);
-  border-radius: 20px;
-`;
+
 
 const columns = [
   {
@@ -548,11 +541,8 @@ const Seller = () => {
         </Box>
       </Modal>
 
-      <FormTipo>
-        <Typography style={{ color: 'white', marginLeft: 10 }} variant="h4" gutterBottom>
-          Vendedores
-        </Typography>
-      </FormTipo>
+    
+
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={() => setSelectButton()}>
           Nuevo Vendedor

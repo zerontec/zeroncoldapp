@@ -21,6 +21,7 @@ import Modal from "@mui/material/Modal";
 import styled from "styled-components";
 import { deletePurchase, getAllPurchases, updatePurchase } from '../../../redux/modules/purchase';
 import { fDateTime } from '../../../utils/formatTime';
+import { BackButton } from '../../../components/BackButton';
 
 
 
@@ -264,6 +265,7 @@ return(	<>
         Lista de Compras Realizadas
         </Typography>
 		</FormTipo>
+		<BackButton/>
        
 	<hr />
 	{/* Modal Ver Compra */}
@@ -310,13 +312,14 @@ return(	<>
 			</p>
 			<h3>Lista de Productos:</h3>
     <ul>
-      {JSON.parse(selectedPurchase.productDetails).map((product) => (
+      {(selectedPurchase.productDetails).map((product) => (
         <li key={product.barcode}>
 			<strong>Código:</strong> {product.barcode}<br />
           <strong>Producto:</strong> {product.name}<br />
           <strong>Descripción:</strong> {product.description}<br />
           <strong>Cantidad:</strong> {product.cantidad}<br />
-          <strong>Precio:</strong> {product.price}<br />
+		  <strong>precio de Compra :</strong> {product.costo}<br />
+          <strong>Precio para venta:</strong> {product.price}<br />
          
         </li>
       ))}
