@@ -33,8 +33,9 @@ import {
   
   import sentenceCase from '../../../utils/sentenceCase';
 	import { createCustomer, deleteCustomer, getAllCustomer, updateCustomer } from '../../../redux/modules/customer';
-
-  const ActionsContainer = styled.div`
+  import { FloatingButtonComponent } from '../../../components/FloatingButtonComponent';
+ 
+ const ActionsContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 16px;
@@ -706,6 +707,8 @@ const Customer = () => {
           </Button>
         </Box>
       </Modal>
+
+      <FloatingButtonComponent/>
     </>
   );
 };

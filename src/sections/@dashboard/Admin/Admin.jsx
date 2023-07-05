@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { FloatingButtonComponent } from '../../../components/FloatingButtonComponent';
 
 // Estilos personalizados
 const AdminContainer = styled(Box)`
@@ -21,6 +22,7 @@ const ButtonContainer = styled(Box)`
 `;
 
 const Admin = () => (
+  <>
     <AdminContainer>
       <Typography variant="h4" color="primary" sx={{ marginBottom: '2rem' }}>
         Panel de Administración
@@ -36,6 +38,8 @@ const Admin = () => (
         {/* Agrega más botones para otras funcionalidades de administración */}
       </ButtonContainer>
     </AdminContainer>
+<FloatingButtonComponent/>
+</>
   );
 
 export default Admin;
