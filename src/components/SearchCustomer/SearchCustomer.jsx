@@ -85,7 +85,7 @@ const StyledTextField = styled(TextField)`
     }
   }`;
 
-const SearchCustomer = ({setSelectedCustomer,setSelectedSeller, manualClientData, setManualClientData, seller, setSeller, subtotal }) => {
+const SearchCustomer = ({nformattedValue,setSelectedCustomer,setSelectedSeller, manualClientData, setManualClientData, seller, setSeller, subtotal }) => {
 	
 
 	const [query, setQuery] = useState('');
@@ -101,6 +101,11 @@ const SearchCustomer = ({setSelectedCustomer,setSelectedSeller, manualClientData
   
 	const dispatch = useDispatch();
   
+
+	console.log('Numericvalue en Customer', nformattedValue)
+
+console.log("subt total en customer")
+
 
 	const handleCustomerSelect = (customer) => {
 		setSelectedCustomer(customer);
@@ -205,6 +210,9 @@ const subtotalB = subtotal / 1.16
 const resultSubB = subtotalB
 const iva = subtotal - resultSubB
 const TotalF = resultSubB + iva
+
+const totalB = TotalF * parseFloat(nformattedValue)
+
 
 	return (
 	  <>
@@ -313,10 +321,10 @@ const TotalF = resultSubB + iva
 					<Typography style={{ fontFamily: 'DIGIT-LCD', fontSize: 20 }}>Subtotal: {resultSubB.toFixed(2) }</Typography>
 					<Typography style={{ fontFamily: 'DIGIT-LCD', fontSize: 20 }}>Iva(16%): {iva.toFixed(2)}</Typography>
 					<Typography style={{ fontFamily: 'DIGIT-LCD', fontSize: 20 }}>
-					  Total: {currency} {TotalF.toFixed(2)}
+					  Total: {currencys} {TotalF.toFixed(2)}
 					</Typography>
-					<Typography>Moneda: {currency}</Typography>
-					<Typography>Monto en: {currencys}</Typography>
+					<Typography>Total: {currency} {totalB.toFixed(2)}</Typography>
+					<Typography>Total en:{currencys}   </Typography>
 				  </SummaryContainer>
 				</Grid>
 			  </Grid>
