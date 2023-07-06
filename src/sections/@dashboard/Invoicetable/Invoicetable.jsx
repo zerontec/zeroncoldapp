@@ -24,6 +24,7 @@ import {
 
 import { fDateTime } from '../../../utils/formatTime';
 import { SearchInvoiceByDate } from '../../../components/SearchInvoiceByDate';
+import { getAllNotas } from '../../../redux/modules/notasC';
 
 
 
@@ -50,7 +51,7 @@ const columns = [
 	},
 	{
 	  id: "address",
-	  label: "Acciones",
+	  label: "Afectada por Devolucion",
 	  minWidth: 150,
 	},
   ];
@@ -64,11 +65,13 @@ const InvoiceTable = () => {
   useEffect(() => {
     // Llamada a la API para obtener los datos de los pacientes y almacenarlos en el estado del componente.
     dispatch(getAllInvoices());
+    dispatch(getAllNotas());
   }, [dispatch]);
 
 
   const invoice = useSelector((state) => state.invoice);
-
+  const creditNotes = useSelector((state) => state.notasc);
+  
   console.log(invoice)
   
   const [page, setPage] = useState(0);
@@ -188,7 +191,12 @@ const InvoiceTable = () => {
 {/* End Modal nalysis  */}
 
 <Box sx={{ m: 2 }}>
- <div style={{marginLeft:70}}><SearchInvoiceByDate /></div>
+ <div style={{marginLeft:70}}>
+  
+  
+  <SearchInvoiceByDate /></div>
+  
+  
         <TextField
           label="Buscar Facturas"
           value={searchTerm}
@@ -218,34 +226,50 @@ const InvoiceTable = () => {
             </TableHead>
             <TableBody>
               {" "}
-              {Array.isArray(invoice.invoices) && invoice.invoices.length  > 0 ? ( invoice.invoices.filter((items) =>
-                  items.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase()))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((items) => (
-                  <TableRow key={items.id}>
-                    <TableCell align="left"> {items.invoiceNumber}</TableCell>
-                    <TableCell align="left"> {items.date}</TableCell>
-                    <TableCell align="left"> {items.clienteData.identification}</TableCell>
-                    <TableCell align="left"> {items.amount}</TableCell>
-                    <>
+              {Array.isArray(invoice.invoices) && invoice.invoices.length > 0 ? (
+        invoice.invoices
+          .filter((item) =>
+            item.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((item) => {
+            const affected = creditNotes.notas.some(
+              (note) => note.facturaAfectada === item.invoiceNumber
+            );
+
+            return (
+              <TableRow key={item.id}>
+                <TableCell align="left">{item.invoiceNumber}</TableCell>
+                <TableCell align="left">{item.date}</TableCell>
+                <TableCell align="left">{item.clienteData.identification}</TableCell>
+                <TableCell align="left">{item.amount}</TableCell>
+                <TableCell align="left">
+                  {affected ? 'Sí' : 'No'}
+                </TableCell>
+                {/* ... */}
+                <>
                       <TableCell className="tableCell">
                         <Button
                           variant="contained"
-                          onClick={() => setSelectedinvoices(items)}
+                          onClick={() => setSelectedinvoices(item)}
                         >
                           Ver
                         </Button>
                       </TableCell>
                       
                     </>
-                    </TableRow>
-         ))
-    ) : (
-      <TableRow>
-        <TableCell colSpan={6}>No hay datos disponibles</TableCell>
-      </TableRow>
-    )}
+              </TableRow>
+
+              
+            );
+          })
+      ) : (
+        <TableRow>
+          <TableCell colSpan={6}>No hay datos disponibles</TableCell>
+        </TableRow>
+      )}
   </TableBody>
+  
 </Table>
           <TablePagination
             rowsPerPageOptions={[5,10, 100]}
