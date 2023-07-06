@@ -50,7 +50,7 @@ const[dataDailySales, setDataDailySale]= useState({});
 
   const fetchDolarValue = async () => {
     try {
-      const response = await fetch('http://localhost:5040/api/consulta/dolar');
+      const response = await fetch('https://expressjs-postgres-production-bd69.up.railway.app/api/consulta/dolar');
       const data = await response.json();
       
       // Convertir los valores a números utilizando parseFloat
