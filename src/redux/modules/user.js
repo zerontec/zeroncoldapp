@@ -24,9 +24,9 @@ export const fetchUserRequest = () => ({
   type: FETCH_USER_REQUEST,
 });
 
-export const fetchUserSuccess = (customers) => ({
+export const fetchUserSuccess = (usuarios) => ({
   type: FETCH_USER_SUCCESS,
-  payload: customers,
+  payload: usuarios,
 });
 
 export const fetchUserFailure = (error) => ({
@@ -47,6 +47,23 @@ export const fetchUsers= (queryPu) => async(dispatch) => {
       throw error 
     }
   };
+
+
+  export const serachUsereById =({id}) => async(dispatch)=>{
+
+    dispatch(fetchUserRequest());
+    try {
+      const response = await fetch(`${API_URL}api/user/search/${id}`,{ headers: authHeader() }
+      );
+      const data = await response.json();
+      dispatch(fetchUserSuccess(data));
+      return response.data;
+    } catch (error) {
+      dispatch(fetchUserFailure(error.message));
+      return null
+    }
+  };
+
 
 
 export const getAllUsers= () => async(dispatch) =>  {
@@ -147,6 +164,30 @@ export const initialState = {
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     
+
+
+    case FETCH_USER_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+          error: null
+      };
+
+
+    case FETCH_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+          usuarios: action.payload
+      };
+
+
+    case FETCH_USER_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+          error: action.payload
+      };
     case GET_USERS:
       return {
         ...state,
@@ -156,7 +197,7 @@ export default function userReducer(state = initialState, action) {
       case CREATE_USER:
         return{
           ...state,
-          sendUsuarios:action.payload
+          customer:action.payload
     
         }
 
