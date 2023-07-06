@@ -26,6 +26,8 @@ import { fDateTime } from '../../../utils/formatTime';
 import { SearchInvoiceByDate } from '../../../components/SearchInvoiceByDate';
 import { getAllNotas } from '../../../redux/modules/notasC';
 
+import styled, { css } from 'styled-components';
+
 
 
 const columns = [
@@ -59,8 +61,20 @@ const InvoiceTable = () => {
 //   const [invoices, setInvoices] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
-
  const [selectedInvoices, setSelectedinvoices] = useState(null)
+
+
+ const TableRow = styled.tr`
+ ${({ affected }) =>
+   affected &&
+   css`
+     background-color: yellow;
+   `}
+`;
+
+
+
+
 
   useEffect(() => {
     // Llamada a la API para obtener los datos de los pacientes y almacenarlos en el estado del componente.
@@ -238,7 +252,7 @@ const InvoiceTable = () => {
             );
 
             return (
-              <TableRow key={item.id}>
+              <TableRow key={item.id} affected={affected}>
                 <TableCell align="left">{item.invoiceNumber}</TableCell>
                 <TableCell align="left">{item.date}</TableCell>
                 <TableCell align="left">{item.clienteData.identification}</TableCell>

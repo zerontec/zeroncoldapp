@@ -237,7 +237,7 @@ const Devolutions = () => {
 			id: selectedProductId,
 		  };
 		  dispatch(updateDevolution(selectedProductId, data));
-		  Swal.fire('¨Producto Editado con Exito  !', 'You clicked the button!', 'success');
+		  Swal.fire('¨Devolucion editada con Exito  !', 'You clicked the button!', 'success');
 		  dispatch(getAllDevolution());
 	
 		  handleCloseModal();
@@ -464,6 +464,7 @@ const Devolutions = () => {
 				  {Array.isArray(devoluciones.devolutions) && devoluciones.devolutions.length > 0 ?(
 					devoluciones.devolutions
 					  .filter((items) => items.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase()))
+					
 					  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 					  .map((items) => (
 	

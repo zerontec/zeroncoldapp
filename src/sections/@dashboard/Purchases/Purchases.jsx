@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import styled from 'styled-components';
 import Modal from '@mui/material/Modal';
-
+import Swal from "sweetalert2";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { fetchSupliers } from '../../../redux/modules/supplier';
@@ -364,8 +364,15 @@ const Purchases = () => {
 
       products: productoLista,
     };
-    dispatch(createPurchase(PurchaseData));
-
+    dispatch(createPurchase(PurchaseData))
+    
+    .then((response) => {
+		
+		  Swal.fire("Compra cargada  con éxito!", "", "success");
+		
+	
+		
+		
     setQuery('');
     setSupplier({});
     setProduct({});
@@ -380,6 +387,14 @@ const Purchases = () => {
     // setIsPopupOpen(null);
     // setManualClientData('');
     // setSeller({});
+  
+  })
+  .catch((error) => {
+    console.log(error);
+    
+    Swal.fire(error.message);
+  });
+  
   };
 
   const [isBarcodeDirty, setIsBarcodeDirty] = useState(false);
@@ -437,8 +452,13 @@ const Purchases = () => {
   };
   
 
-
+  const handleCloseModal = () => {
+    // Restablece los estados a sus valores iniciales
+ setQueryp('')
+  };
+  const closeModal = () => {
   
+  };
 
   return (
     <>
@@ -451,6 +471,8 @@ const Purchases = () => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 400,
+            maxHeight: '80vh',
+            overflowY: 'auto',
             bgcolor: 'background.paper',
             borderRadius: '8px',
             boxShadow: 24,
@@ -522,14 +544,16 @@ const Purchases = () => {
         </Box>
       </Modal>
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+      <Modal open={modalOpen} onClose={handleCloseModal}>
     <Box
           sx={{
             position: 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 400,
+            
+            maxHeight: '80vh',
+            overflowY: 'auto',width: 400,
             bgcolor: 'background.paper',
             borderRadius: '8px',
             boxShadow: 24,
