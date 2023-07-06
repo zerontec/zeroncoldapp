@@ -26,6 +26,7 @@ import {
  
   Box,Modal,Alert 
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { Icon as Iconify } from '@iconify/react';
 import { useDispatch, useSelector } from 'react-redux';
 import {createUser, getAllUsers, deleteUser, updateUser, deleteMultiplyUser } from '../../../redux/modules/user';
@@ -619,6 +620,9 @@ const UserSystem = () => {
                     <IconButton size="small" onClick={(event) => handleDeleteClick(event, user.id)}>
                       <Iconify icon="mdi:delete" />
                     </IconButton>
+                    <Link to={`/dashboard/perfil-usuario/${user.id}`} style={{ textDecoration: 'none' }}>
+                <button>Ver perfil</button>
+              </Link> 
                   </Stack>
                 </TableCell>
               </TableRow>
