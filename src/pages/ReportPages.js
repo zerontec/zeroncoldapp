@@ -55,14 +55,14 @@ const ReportPages = () => (
           {/* Componente de búsqueda de ventas por rango de fechas */}
           {/* Agrega los campos de entrada y el botón de búsqueda */}
           {/* Usa handleSalesSearch para manejar la búsqueda */}
-          <SearchSaleByDate/>
+          {/* <SearchSaleByDate/> */}
       
       
         </Grid>
         <Grid item xs={12} md={6}>
           {/* Componente para mostrar los resultados de búsqueda de facturas */}
           {/* Muestra los resultados almacenados en invoiceResults */}
-          <SearchSaleByDate/>
+          {/* <SearchSaleByDate/> */}
         </Grid>
         <Grid item xs={12} md={6}>
           {/* Componente para mostrar los resultados de búsqueda de ventas */}
