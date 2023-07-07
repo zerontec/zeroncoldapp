@@ -43,8 +43,10 @@ const CreateLoan = () => {
 	  
 	  amount: '',
 	  nota: '',
-	  productos: [],
+	 
 	});
+
+	
 
 	const [errors, setErrors] = useState({});
 
@@ -169,7 +171,7 @@ const CreateLoan = () => {
 			setLoading(false);
 			setSelectButton(null);
 			setMessageError(error.message);
-			Swal.fire(error.message);
+			// Swal.fire(error.message);
 		  });
 	  };
 	
@@ -177,7 +179,7 @@ const CreateLoan = () => {
 	  <>
 		<hr />
 		<Button variant="contained" onClick={() => setSelectButton()}>
-			Crear Deuda
+			Crear Prestamo
 		  </Button>
 		  <Modal open={selectButton !== null} onClose={() => setSelectButton(null)}>
 		  <Box
