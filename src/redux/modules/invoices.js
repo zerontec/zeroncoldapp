@@ -70,11 +70,14 @@ export const createInvoices = (invoiceData) => async (dispatch) => {
     });
     // Aquí podrías enviar una notificación de éxito al usuario
   } catch (error) {
-    dispatch({
-      type: CREATE_INVOICE_ERROR,
-      payload: error.response.data.message,
-    });
+    if (error.response && error.response.status ) {
+      throw new Error("No se puedo crear la factura");
+  
+    }
+    console.error(error)
+    throw error;
     // Aquí podrías enviar una notificación de error al usuario
+  
   }
 };
 
