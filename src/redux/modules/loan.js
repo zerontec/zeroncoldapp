@@ -14,6 +14,8 @@ const GET_LOANS = 'GET_LOANS';
 const CREATE_LOAN_SUCCESS = 'CREATE_LOAN_SUCCESS';
 const CREATE_LOAN_ERROR = 'CREATE_LOAN_ERROR';
 const SEARCH_DATE_SUCCESS = "SEARCH_DATE_SUCCESS";
+const UPDATE_LOAND = "UPDATE_LOAN"
+const DELETE_LOAN ="DELETE_LOAN"
 // const SEARCH_DATE_REQUEST = "SEARCH_DATE_REQUEST";
 // const SEARCH_DATE_ERROR = "SEARCH_DATE_ERROR";
 export const fetchLoanRequest = () => ({
@@ -102,9 +104,44 @@ export const searchLoanByDate = (startDate, endDate) => async (dispatch) => {
   }
 };
 
+export const updateLoand = (id, data) => async (dispatch) => {
+    try {
+      const resp = await axios.put(`${API_URL}api/loan/update/${id}`, data);
+  
+      dispatch({
+        type: UPDATE_LOAND,
+        payload: resp.data,
+      });
+  
+      return resp.data;
+    } catch (err) {
+      return err.response;
+    }
+  };
+
+
+  export const deleteUpload =(id) => async (dispatch)=> {
+
+try{
+    const resp = await axios.delete(`${API_URL}api/loan/delete/${id}`)
+    dispatch({
+    type:DELETE_LOAN,
+    payload:resp.data
+
+    });
+
+return resp.data;
+
+}catch(error){
+
+   return error.response
+
+}
+  
 
 
 
+  }
 
 export const getLoanBySeller=({id}) => async (dispatch) => {
 
@@ -162,6 +199,22 @@ export default function loanReducer(state = initialState, action) {
           loans:action.payload
       
         }
+        case UPDATE_LOAND:
+            return{
+            ...state,
+            loans:action.payload
+    
+    
+            }
+
+
+            case DELETE_LOAN:
+                return{
+
+
+                    ...state,
+                    
+                }
      
 
     default:
