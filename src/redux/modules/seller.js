@@ -13,6 +13,7 @@ const UPDATE_SELLER = 'UPDATE_SELLER'
 const DELETE_SELLER = 'DELETE_SELLER'
 const CREATE_SELLER_SUCCESS='CREATE_SELLER_SUCCESS'
 const GET_SELLERS_STATS='GET_SELLERS_STATS'
+const GET_SELLERS_DEBT ='GET_SELLERS_DEBT'
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
 
@@ -142,6 +143,29 @@ export const getSalesStats =({id}) => async(dispatch)=>{
 }
 
 
+export const getSellerDebt =({id})=> async(dispatch)=>{
+
+  try{
+
+    const resp =  await axios.get(`${API_URL}api/seller/seller/${id}/debt`,{ headers: authHeader() });
+    dispatch({
+      type: GET_SELLERS_DEBT,
+      payload: resp.data,
+    });
+    return resp.data
+  } catch (err) {
+    return err.response;
+  }
+
+
+
+
+
+
+}
+
+
+
 export const serachSellerById =({id}) => async(dispatch)=>{
 
   dispatch(fetchSellerRequest());
@@ -182,6 +206,14 @@ case GET_SELLERS_STATS:
     info:action.payload
 
   }
+  case GET_SELLERS_DEBT:
+  return{
+
+    ...state,
+    info:action.payload
+
+  }
+
 
     case FETCH_SELLER_REQUEST:
         return {
