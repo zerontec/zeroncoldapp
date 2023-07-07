@@ -1,11 +1,13 @@
 import { useState,  useEffect} from 'react';
-import { useDispatch, useSelector } from "react-redux";
 
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
+import { logout } from '../../../redux/modules/auth';
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +45,13 @@ useEffect(() => {
   }
 }, [usuario]);
 
-
+const dispatchar = useDispatch()
+const logoOut =() => {
+  dispatchar(logout()) 
+  window.location.reload()
+  
+  
+  }
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -109,17 +117,21 @@ useEffect(() => {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map((option) => (
+          {/* {MENU_OPTIONS.map((option) => (
             <MenuItem key={option.label} onClick={handleClose}>
               {option.label}
             </MenuItem>
-          ))}
+          ))} */}
+           <Link to={`/dashboard/perfil-usuario/${usuario.user.id}`} style={{ textDecoration: 'none' }}>
+          <MenuItem sx={{ m: 1 }}>
+          Perfil
+        </MenuItem></Link>
         </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
-          Logout
+        <MenuItem onClick={logoOut} sx={{ m: 1 }}>
+          Salir
         </MenuItem>
       </Popover>
     </>
