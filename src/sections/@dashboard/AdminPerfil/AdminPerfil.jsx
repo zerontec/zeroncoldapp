@@ -31,6 +31,7 @@ import { deleteUpload, getAllLoans, updateLoand } from '../../../redux/modules/l
 import { fDate, fDateTime } from '../../../utils/formatTime';
 import { FloatingButtonComponent } from '../../../components/FloatingButtonComponent';
 import { CreateLoan } from '../../../components/CreateLoan';
+import { CreateSeller } from '../../../components/CreateSeller';
 
 const columns = [
   {
@@ -320,8 +321,11 @@ const AdminPerfil = () => {
      <strong>Total gastado: {compra.invoices. totalPurchases}</strong>
    </Typography> */}
             {/* Agrega más datos del cliente según tus necesidades */}
-
+            <CreateSeller/>
             <CreateLoan />
+           
+           
+            
           </Box>
 
           <Typography variant="h5" component="h3">
