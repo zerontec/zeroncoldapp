@@ -34,10 +34,12 @@ import {
 import { Document, Page, pdfjs } from '@react-pdf/renderer';
 import { Icon as Iconify } from '@iconify/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSeller, updateSeller, deleteSeller, getAllSeller } from '../../../redux/modules/seller';
+import {  updateSeller, deleteSeller, getAllSeller, createSellers } from '../../../redux/modules/seller';
 import sentenceCase from '../../../utils/sentenceCase';
 import generatePDF from '../../../utils/generatePdf';
 import { BackButton } from '../../../components/BackButton';
+import { CreateSeller } from '../../../components/CreateSeller';
+
 
 const ActionsContainer = styled.div`
   display: flex;
@@ -221,7 +223,7 @@ const Seller = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
-    dispatch(createSeller(formInfo))
+    dispatch(createSellers(formInfo))
       .then((response) => {
         setLoading(false);
         Swal.fire('Vendedor creado con éxito!', '', 'success');
@@ -426,7 +428,7 @@ const Seller = () => {
 
   return (
     <>
-      {/* Modal para editar el análisis */}
+      {/* Modal para editar */}
       <Modal open={open} onClose={handleCloseModal}>
         <Box
           sx={{
@@ -544,9 +546,9 @@ const Seller = () => {
     
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={() => setSelectButton()}>
-          Nuevo Vendedor
-        </Button>
+     
+       <CreateSeller/>
+                  
       </Stack>
 
       <TextField label="Buscar" value={searchTerm} onChange={handleSearch} />
