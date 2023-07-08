@@ -497,11 +497,9 @@ return(	<>
 		  
 		  <TableBody>
 
-		  {Array.isArray(compras.purchases) &&
-    compras.purchases
-      .filter((items) =>
-        items.supplierName.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+		  {Array.isArray(compras.purchases) && compras.purchases.lenght > 0 ?(
+		compras.purchases	
+      .filter((items) =>items.supplierName.toLowerCase().includes(searchTerm.toLowerCase()))
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       .map((items) => (
         <TableRow key={items.id}>
@@ -511,36 +509,7 @@ return(	<>
           <TableCell align="left"> {items.supplierName}</TableCell>
           <TableCell align="left"> {items.supplierRif}</TableCell>
 				  
-					{/* <TableCell align="left" padding="checkbox"    checked={items.selected}
-onChange={() => handleToggleSelect(items.id)} >
-	  <Checkbox
-		
-	  />
-	</TableCell> */}
-	
-	{/* <TableCell align="left">
-{items.id ? (
-<TextField
-  type="number"
-  value={items.quantityToMove} // Usar el estado quantityToMove del producto
-  onChange={(e) =>
-	handleQuantityChange(items.id, Number(e.target.value)) // Llamar a una función de manejo de cambios de cantidad
-  }
-/>
-) : null}
-</TableCell> */}
 
-{/* <TableCell align="left">
-{items.selected ? (
-<TextField
-  type="number"
-  value={"" + items.quantityToMove} // Usar el estado quantityToMove del producto
-  onChange={(e) =>
-	handleQuantityChange(items.id, Number(e.target.value)) // Llamar a una función de manejo de cambios de cantidad
-  }
-/>
-) : null}
-</TableCell> */}
 				  <>
 					<TableCell className="tableCell">
 					  <Button
@@ -551,12 +520,7 @@ onChange={() => handleToggleSelect(items.id)} >
 					  </Button>
 					</TableCell>
 					<TableCell className="tableCell">
-					  {/* <Link
-						to={`analisis/edit/${analisi.codigo}`}
-						style={{ textDecoration: "none" }}
-					  >
-						<div className="viewButton">Editar</div>
-					  </Link> */}
+				
 					  <Button
 						variant="contained"
 						onClick={() => handleEditClick(items)}
@@ -582,11 +546,15 @@ onChange={() => handleToggleSelect(items.id)} >
 
 				  
 				</TableRow>
-			  ))}{" "}
+			  
+	  ))
+	  ):(
+	  <TableRow>
+		<TableCell colSpan={6}>No hay datos disponibles</TableCell>
+	  </TableRow>
+	  )}
 		  </TableBody>
-		  {/* <Button variant="contained" onClick={handleSubmitPurchase}>
-	Enviar
-  </Button> */}
+
 		</Table>
 		<TablePagination
 		  rowsPerPageOptions={[5,10, 100]}
