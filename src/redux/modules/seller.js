@@ -71,7 +71,7 @@ export const fetchSellerRequest = () => ({
     };
   
   
-  export const createSeller = (userData) => async (dispatch) => {
+  export const createSellers = (userData) => async (dispatch) => {
       try {
         const { data } = await axios.post(
           `${API_URL}api/seller/create-seller`,userData,{ headers: authHeader() }
