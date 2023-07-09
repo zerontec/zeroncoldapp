@@ -151,6 +151,18 @@ const InvoiceTable = () => {
                 {selectedInvoices.clienteData.identification}
             </p>
           
+            <p>
+                <strong>Codigo Vendedor:</strong>
+                {selectedInvoices.vendedorData?.codigo}
+               
+            </p>
+            <p>
+                <strong>Nombre Vendedor:</strong>
+                {selectedInvoices.vendedorData?.name}
+               
+            </p>
+
+
             <h3>Lista de Productos:</h3>
     <ul>
       {selectedInvoices.productoFactura.map((product) => (
