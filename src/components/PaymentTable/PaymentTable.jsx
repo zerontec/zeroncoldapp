@@ -136,8 +136,8 @@ const handleChangePage = (event, newPage) => {
             </TableHead>
             <TableBody>
               {" "}
-              {Array.isArray(abonos.payments) && abonos.payments.length > 0 ? (
-        abonos.payments
+              {Array.isArray(abonos?.payments) && abonos?.payments.length > 0 ? (
+        abonos?.payments
           .filter((item) =>
             item.seller?.name.toLowerCase().includes(searchTerm.toLowerCase())
           )
