@@ -260,6 +260,7 @@ console.log("paymenAmountSum", paymentAmountsSum)
 
 
 const [cashresEfe, setcashresEfe]= useState(0)
+const [cashresT, setcashresT]= useState(0)
 const [changeAmount, setChangeAmount] = useState(0);
 
   const [cashAmount, setCashAmount] = useState(0);
@@ -277,6 +278,19 @@ const [changeAmount, setChangeAmount] = useState(0);
         const retsDola = newAmountBs / nformattedValueParsed;
         const casResp = newAmountBs * nformattedValueParsed;
         setcashresEfe(casResp );
+  
+        const newRemainingAmounts = remainingAmounts - retsDola;
+        const newResultTotalBs = resultTotalBs - newAmountBs;
+  
+        setRemainingAmounts(newRemainingAmounts);
+        setResultTotalBs(newResultTotalBs);
+      }
+      if (method === 'transfer') {
+        const newAmountBs = parseFloat(newAmount) || 0;
+        const nformattedValueParsed = parseFloat(nformattedValue);
+        const retsDola = newAmountBs / nformattedValueParsed;
+        const casRespT = newAmountBs * nformattedValueParsed;
+        setcashresT(casRespT );
   
         const newRemainingAmounts = remainingAmounts - retsDola;
         const newResultTotalBs = resultTotalBs - newAmountBs;
@@ -312,6 +326,10 @@ const [changeAmount, setChangeAmount] = useState(0);
       updatedAmounts[selectedMethod] = cashresEfe
       
     }
+    if (selectedMethod === 'transfer') {
+      updatedAmounts[selectedMethod] = cashresT
+      
+    }
   
     updatePaymentSummary(updatedAmounts);
   };
@@ -333,7 +351,7 @@ const [changeAmount, setChangeAmount] = useState(0);
       if (value !== 0) {
         return {
           method: key,
-          amount: key === 'efectivoBs' ? cashresEfe || 0 : parseFloat(value) || 0,
+          amount: key === 'efectivoBs' ? cashresEfe || 0 : key === 'transfer' ? cashresT || 0 : parseFloat(value) || 0,
         };
       }
       return null;
@@ -378,6 +396,7 @@ const [changeAmount, setChangeAmount] = useState(0);
     setPaymentMethod('');
     setPaymentSummary([]);
    setcashresEfe('')
+   setcashresT('')
   };
 
   const handleSubmitInvoice = (event) => {
@@ -387,7 +406,8 @@ const [changeAmount, setChangeAmount] = useState(0);
 
     const updatedPaymentMethodsArray = paymentSummary.map((item) => ({
         method: item.method,
-        amount: item.method === 'efectivoBs' ? cashresEfe : item.amount,
+        amount: item.method === 'efectivoBs' ? (cashresEfe || 0) : (item.method === 'transfer' ? (cashresT || 0) : item.amount),
+
       }));
 
     const selectedPrice = selectedProductPrice;
