@@ -2,6 +2,7 @@
 import React, {useState,useEffect} from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
+import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
 
@@ -100,6 +101,9 @@ const SearchCustomer = ({nformattedValue,setSelectedCustomer,setSelectedSeller, 
 	const customers = useSelector((state) => state.customer);
   
 	const dispatch = useDispatch();
+  
+
+	const formatAmountB = (amount) => numeral(amount).format('0,0.00');
   
 
 	console.log('Numericvalue en Customer', nformattedValue)
@@ -323,8 +327,8 @@ const totalB = TotalF * parseFloat(nformattedValue)
 					<Typography style={{ fontFamily: 'DIGIT-LCD', fontSize: 20 }}>
 					  Total: {currencys} {TotalF.toFixed(2)}
 					</Typography>
-					<Typography>Total: {currency} {totalB.toFixed(2)}</Typography>
-					<Typography>Total en:{currencys}   </Typography>
+					<Typography>Total: {currency} { formatAmountB(totalB) }</Typography>
+					
 				  </SummaryContainer>
 				</Grid>
 			  </Grid>
