@@ -180,7 +180,7 @@ const handleChangePage = (event, newPage) => {
           <TablePagination
             rowsPerPageOptions={[5,10, 100]}
             component="div"
-			count={Array.isArray(abonos.payments) ? abonos.payments.length : 0}
+			count={Array.isArray(abonos?.payments) ? abonos.payments.length : 0}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
