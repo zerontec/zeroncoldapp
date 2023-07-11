@@ -24,6 +24,7 @@ import Modal from '@mui/material/Modal';
 import Swal from 'sweetalert2';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
+import numeral from 'numeral';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { parseInt } from 'lodash';
@@ -68,6 +69,10 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedSeller, setSelectedSeller] = useState(null);
   const [valoresDolar, setValoresDolar] = useState({});
+
+
+
+ 
 
   const showAlert = () => {
     Swal.fire({
@@ -143,6 +148,12 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
     }
   }, [valoresDolar]);
 
+console.log("numric value en postA", nformattedValue)
+
+
+
+// Agregar Productos a la lista 
+
   const handleAddProduct = (product, productsQuantity, selectedProductPrice) => {
     console.log('product', product);
 
@@ -154,6 +165,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
         // setErrorMessage('La cantidad de venta es mayor a la cantidad disponible del producto');
         setQueryp('');
         setLimpiar('');
+
         return;
       }
 
@@ -179,6 +191,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
     setQueryp('');
     setProductsQuantity(0);
     setSelectedProductPrice(0);
+    
   };
 
   console.log('aquieSelecte customer', selectedCustomer);
@@ -210,64 +223,172 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
   // METODOS DE PAGO
 
   const [paymentAmounts, setPaymentAmounts] = useState({
-    cash: 0,
+    efectivoBs: 0,
     transfer: 0,
-   divisas: 0,
-    seller:0,
+    divisas: 0,
+    zeller:0,
     panama:0,
   });
 
-  const handlePaymentAmountChange = (method, newAmount) => {
-    const updatedAmounts = {
-      ...paymentAmounts,
-      [method]: parseFloat(newAmount) || 0,
-    };
-
-    console.log('dentro, monto ', method, newAmount);
-
-    setPaymentAmounts(updatedAmounts);
-  };
-
   const paymentAmountsSum = Object.values(paymentAmounts).reduce((total, amount) => total + parseFloat(amount || 0), 0);
-  const remainingAmounts = TotalF - paymentAmountsSum;
-  console.log('ramainig', remainingAmounts);
+  // const remainingAmounts = TotalF - paymentAmountsSum;
+  // console.log('ramainig', remainingAmounts);
+console.log("paymenAmountSum", paymentAmountsSum)
+
+  // const [paymentAmountBs, setPaymentAmountBs] = useState(0);
+  
+
+  const [remainingAmounts, setRemainingAmounts] = useState(0);
+  const [resultTotalBs, setResultTotalBs] = useState(0);
+
+  // const newRemainingAmounts = TotalF - paymentAmountsSum;
+ 
+  // setRemainingAmounts(newRemainingAmounts);
+  // const remainBs = remainingAmounts * parseFloat (nformattedValue)
+  // setResultTotalBs(remainBs)
+  // // const resultTotalBs = remainBs;
+
+  useEffect(() => {
+    const newRemainingAmounts = TotalF - paymentAmountsSum;
+    setRemainingAmounts(newRemainingAmounts);
+    const remainBs = newRemainingAmounts * parseFloat(nformattedValue);
+    setResultTotalBs(remainBs);
+  }, [TotalF, paymentAmountsSum, nformattedValue]);
+  
+
+
+
+
+const [cashresEfe, setcashresEfe]= useState(0)
+const [changeAmount, setChangeAmount] = useState(0);
+
+  const [cashAmount, setCashAmount] = useState(0);
+  
+  const handlePaymentAmountChange = (method, newAmount) => {
+    setPaymentAmounts(prevAmounts => {
+      const updatedAmounts = {
+        ...prevAmounts,
+        [method]: newAmount || 0,
+      };
+  
+      if (method === 'efectivoBs') {
+        const newAmountBs = parseFloat(newAmount) || 0;
+        const nformattedValueParsed = parseFloat(nformattedValue);
+        const retsDola = newAmountBs / nformattedValueParsed;
+        const casResp = newAmountBs * nformattedValueParsed;
+        setcashresEfe(casResp );
+  
+        const newRemainingAmounts = remainingAmounts - retsDola;
+        const newResultTotalBs = resultTotalBs - newAmountBs;
+  
+        setRemainingAmounts(newRemainingAmounts);
+        setResultTotalBs(newResultTotalBs);
+      }
+  
+      updatePaymentSummary(updatedAmounts);
+  
+      return updatedAmounts;
+    });
+  };
+  const [paymentSummary, setPaymentSummary] = useState([]);
+
+
+
+
+ 
+
 
   const handlePaymentMethodChange = (event) => {
-    const selectedPaymentMethod = event.target.value;
-    setPaymentMethod(selectedPaymentMethod);
+    const selectedMethod = event.target.value;
+    setPaymentMethod(selectedMethod);
+  
+    const updatedAmounts = {
+      ...paymentAmounts,
+      [selectedMethod]: paymentAmounts[selectedMethod] || 0,
+    };
+  
+    // Si el método de pago es "cash", establece el valor en bolívares
+    if (selectedMethod === 'efectivoBs') {
+      updatedAmounts[selectedMethod] = cashresEfe
+      
+    }
+  
+    updatePaymentSummary(updatedAmounts);
   };
 
+  useEffect(() => {
+    updatePaymentSummary(paymentAmounts);
+  
+    // Calcula el cambio/vuelto
+    const cashAmount = parseFloat(paymentAmounts.efectivoBs) || 0;
+    console.log("cashAmount", cashAmount)
+    const paseDo = cashAmount * nformattedValue
+    const change = paseDo - resultTotalBs;
+  console.log("change",)
+    setChangeAmount(() => change); // Actualiza el estado usando un callback
+  }, [paymentAmounts, resultTotalBs]);
+  
+  const updatePaymentSummary = (amounts) => {
+    const updatedSummary = Object.entries(amounts).map(([key, value]) => {
+      if (value !== 0) {
+        return {
+          method: key,
+          amount: key === 'efectivoBs' ? cashresEfe || 0 : parseFloat(value) || 0,
+        };
+      }
+      return null;
+    }).filter(item => item !== null);
+
+    // Calcula el cambio/vuelto
+  const cashAmount = parseFloat(amounts.efectivoBs) || 0;
+  const change = cashAmount - resultTotalBs;
+  setChangeAmount(change);
+  
+    setPaymentSummary(updatedSummary);
+  };
+  
+
+
+
+
+    
+
+      const formatAmountB = (amount) => numeral(amount).format('0,0.00');
+  
+
+
+
+
   console.log('paymetodo', paymentMethod);
+
+
+
 
   const handleCloseModal = () => {
     // Restablece los estados a sus valores iniciales
     setIsModalOpen(false);
     setPaymentMethod('');
     setPaymentAmounts({
-      cash: '',
+      efectivoBs: '',
       transfer: '',
       credit: '',
     });
     setIsCredit(false);
     setSelectedDate(null);
+    setPaymentMethod('');
+    setPaymentSummary([]);
+   setcashresEfe('')
   };
 
   const handleSubmitInvoice = (event) => {
     event.preventDefault();
 
-    const paymentMethodsArray = [];
 
-    // Recorrer el objeto paymentMethods y construir el array de métodos de pago
-    for (const method in paymentAmounts) {
-      const amount = paymentAmounts[method];
-      const paymentMethodObj = {
-        method,
-        amount,
-      };
-      paymentMethodsArray.push(paymentMethodObj);
-    }
 
-    console.log('payMethoArray', paymentMethodsArray);
+    const updatedPaymentMethodsArray = paymentSummary.map((item) => ({
+        method: item.method,
+        amount: item.method === 'efectivoBs' ? cashresEfe : item.amount,
+      }));
 
     const selectedPrice = selectedProductPrice;
     const productToAdd = {
@@ -288,7 +409,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
 
     const invoiceData = {
       credit: isCredit,
-      metodoPago: paymentMethodsArray,
+      metodoPago: updatedPaymentMethodsArray,
       dueDate: selectedDate,
 
       customer: {
@@ -299,6 +420,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
 
       seller: {
         codigo: selectedSeller.codigo || '001' ,
+      
     
         identification: selectedSeller.identification || '25937952' ,
         name:  selectedSeller.name || 'Daniel Garcia' ,
@@ -365,7 +487,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
     setIsModalOpen(false);
     setPaymentMethod('');
     setPaymentAmounts({
-      cash: '',
+      efectivoBs: '',
       transfer: '',
       credit: '',
     });
@@ -386,9 +508,15 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
     };
   }, []);
 
+
+
+
   return (
     <>
-      <Modal open={isModalOpen} onClose={handleCloseModal}>
+      <Modal open={isModalOpen} onClose={handleCloseModal}   remainingAmounts={remainingAmounts}
+
+      
+  resultTotalBs={resultTotalBs}>
         <Box
           sx={{
             position: 'absolute',
@@ -409,16 +537,22 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
           </Typography>
 
           <Box sx={{ marginBottom: 2 }}>
-            <Typography variant="h6">SubTotal: {resultSubB.toFixed(2)}</Typography>
+            <Typography variant="h6">SubTotal: {resultSubB.toLocaleString('es-ES', {
+    minimumFractionDigits: 2,
+  })    }</Typography>
             <Typography variant="h6">Iva(16%): {iva.toFixed(2)}</Typography>
             <Typography variant="h6">
               Total: {currencys}
               {TotalF}
             </Typography>
           </Box>
-          <Typography variant="h7">
+          <Typography>
             Por cobrar : {currencys}
-            {remainingAmounts}
+            {formatAmountB(remainingAmounts)}
+          </Typography>
+          <Typography  >
+             Bs: 
+            {formatAmountB(resultTotalBs)}
           </Typography>
           <hr />
           <Grid container spacing={2}>
@@ -432,39 +566,44 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
                   onChange={handlePaymentMethodChange}
                   label="Método de pago"
                 >
-                  <MenuItem value="cash">Efectivo Bs </MenuItem>
+                  <MenuItem value="'efectivoBs'">Efectivo Bs </MenuItem>
                   <MenuItem value="transfer">Transferencia</MenuItem>
                   <MenuItem value="divisas">Efectivo Divisas</MenuItem>
-                  <MenuItem value="seller">Seller</MenuItem>
+                  <MenuItem value="zeller">Zeller</MenuItem>
                   <MenuItem value="panama">Banesco Panama</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
 
-            {paymentMethod.includes('cash') && (
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  type="number"
-                  label="Efectivo Bs"
-                  value={paymentAmounts.cash}
-                  onChange={(e) => handlePaymentAmountChange('cash', e.target.value)}
-                  disabled={isCredit || remainingAmounts < 0}
-                />
-              </Grid>
-            )}
-            {paymentMethod.includes('transfer') && (
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  type="number"
-                  label="Transferencia"
-                  value={paymentAmounts.transfer}
-                  onChange={(e) => handlePaymentAmountChange('transfer', e.target.value)}
-                  disabled={isCredit || remainingAmounts < 0}
-                />
-              </Grid>
-            )}
+            {paymentMethod.includes('efectivoBs') && (
+    <Grid item xs={12}>
+      <TextField
+        fullWidth
+        type="number"
+        label="Efectivo Bs"
+        // eslint-disable-next-line dot-notation
+        value={paymentAmounts['efectivoBs']}
+        onChange={(e) => handlePaymentAmountChange('efectivoBs', e.target.value)}
+        disabled={isCredit || remainingAmounts < 0}
+      />
+    </Grid>
+  )}
+
+  {paymentMethod.includes('transfer') && (
+    <Grid item xs={12}>
+      <TextField
+        fullWidth
+        type="number"
+        inputMode="decimal"
+        label="Transferencia"
+        // eslint-disable-next-line dot-notation
+        value={paymentAmounts['transfer']}
+        onChange={(e) => handlePaymentAmountChange('transfer', e.target.value)}
+        disabled={isCredit || remainingAmounts < 0}
+      />
+    </Grid>
+  )}
+
 
             {paymentMethod.includes('divisas') && (
               <Grid item xs={12}>
@@ -478,14 +617,14 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
                 />
               </Grid>
             )}
-             {paymentMethod.includes('seller') && (
+             {paymentMethod.includes('zeller') && (
               <Grid item xs={12}>
                 <TextField
                   fullWidth
                   type="number"
-                  label="Seller"
-                  value={paymentAmounts.seller}
-                  onChange={(e) => handlePaymentAmountChange('seller', e.target.value)}
+                  label="Zeller"
+                  value={paymentAmounts.zeller}
+                  onChange={(e) => handlePaymentAmountChange('zeller', e.target.value)}
                   disabled={isCredit || remainingAmounts < 0}
                 />
               </Grid>
@@ -504,9 +643,21 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
             )}
 
 
-
-
-
+{paymentSummary.length > 0 && (
+  <Box sx={{ marginTop: '24px' }}>
+    <Typography variant="h6">Resumen de Pago:</Typography>
+    {paymentSummary.map((item, index) => (
+      <Typography key={index}>
+        {item.method}: {currencys} {formatAmountB(item.amount)}
+      </Typography>
+    ))}
+    {/* {changeAmount > 0 && (
+      <Typography>
+        Cambio: {currencys} {changeAmount}
+      </Typography>
+    )} */}
+  </Box>
+)}
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <InputLabel id="credit-label">A crédito</InputLabel>
@@ -541,10 +692,10 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
           </Grid>
 
           <hr />
-
+{/* 
           <Button variant="contained" onClick={() => closeModal()}>
             X
-          </Button>
+          </Button> */}
         </Box>
       </Modal>
 
@@ -555,6 +706,7 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
+            maxHeight: '80vh',
             width: 400,
             bgcolor: 'background.paper',
             borderRadius: '8px',
@@ -665,11 +817,11 @@ const PosA = ({ handleCustomerSelect, handleSellerSelect }) => {
                       <TableCell>{item.name}</TableCell>
                       {/* <TableCell>{item.description}</TableCell> */}
                       <TableCell>$ {item.price}</TableCell>
-                      <TableCell>Bs {item.subtotalBsu ? item.subtotalBsu.toFixed(2) : ''}</TableCell>
+                      <TableCell>Bs {item.subtotalBsu ? formatAmountB(item.subtotalBsu) : ''}</TableCell>
 
                       <TableCell>{item.quantity}</TableCell>
                       <TableCell>S {item.subtotal}</TableCell>
-                      <TableCell>BS {item.subtotalBs ? item.subtotalBs.toFixed(2) : ''}</TableCell>
+                      <TableCell>BS {item.subtotalBs ? formatAmountB(item.subtotalBs) : ''}</TableCell>
                       <TableCell>
                         <Button variant="contained" color="error" onClick={() => handleRemoveProduct(index)}>
                           Quitar
