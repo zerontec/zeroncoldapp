@@ -134,7 +134,7 @@ export const searchLoanByDate = (startDate, endDate) => async (dispatch) => {
 
 export const updateLoand = (id, data) => async (dispatch) => {
     try {
-      const resp = await axios.put(`${API_URL_D}api/loan/update/${id}`, data);
+      const resp = await axios.put(`${API_URL}api/loan/update/${id}`, data);
   
       dispatch({
         type: UPDATE_LOAND,
@@ -150,7 +150,7 @@ export const updateLoand = (id, data) => async (dispatch) => {
 
   export const updatePayment = (id, data) => async (dispatch) => {
     try {
-      const resp = await axios.put(`${API_URL_D}api/loan/update-payment/${id}`, data);
+      const resp = await axios.put(`${API_URL}api/loan/update-payment/${id}`, data);
   
       dispatch({
         type: UPDATE_PAYMENT,
@@ -171,7 +171,7 @@ export const updateLoand = (id, data) => async (dispatch) => {
   export const deleteUpload =(id) => async (dispatch)=> {
 
 try{
-    const resp = await axios.delete(`${API_URL_D}api/loan/delete/${id}`)
+    const resp = await axios.delete(`${API_URL}api/loan/delete/${id}`)
     dispatch({
     type:DELETE_LOAN,
     payload:resp.data
