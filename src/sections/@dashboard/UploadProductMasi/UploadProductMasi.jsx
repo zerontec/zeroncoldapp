@@ -14,6 +14,7 @@ const [messageError, setMessageError] = useState({});
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({
     name: '',
+    description:'',
     quantity: '',
     price: '',
     barcode: ''
@@ -31,6 +32,7 @@ const [messageError, setMessageError] = useState({});
     setProducts((prevProducts) => [...prevProducts, newProduct]);
     setNewProduct({
       name: '',
+      description:'',
       quantity: '',
       price: '',
       barcode: ''
@@ -71,6 +73,7 @@ const [messageError, setMessageError] = useState({});
             <TableRow>
               <TableCell>Codigo</TableCell>
               <TableCell align="center">Producto</TableCell>
+              <TableCell align="center">Descripcion</TableCell>
               <TableCell align="center">Cantidad</TableCell>
               <TableCell align="center">Precio</TableCell>
               {/* <TableCell align="center"></TableCell> */}
@@ -81,6 +84,7 @@ const [messageError, setMessageError] = useState({});
               <TableRow key={index}>
                 <TableCell>{product.barcode}</TableCell>
                 <TableCell align="center">{product.name}</TableCell>
+                <TableCell align="center">{product.description}</TableCell>
                 <TableCell align="center">{product.quantity}</TableCell>
                 <TableCell align="center">{product.price}</TableCell>
                 <TableCell align="center">
@@ -104,22 +108,30 @@ const [messageError, setMessageError] = useState({});
         value={newProduct.name}
         onChange={handleInputChange}
       />
+         <TextField
+        name="description"
+        label="Descripcion"
+        value={newProduct.description}
+        onChange={handleInputChange}
+      />
    
       <TextField
         name="quantity"
         label="Cantidad"
+        type='number'
         value={newProduct.quantity}
         onChange={handleInputChange}
       />
       <TextField
         name="price"
         label="Precio"
+        type='number'
         value={newProduct.price}
         onChange={handleInputChange}
       />
       <Button variant="contained" color="primary" onClick={handleAddProduct} 
 	  startIcon={<AddIcon />}
-	  disabled={!newProduct.barcode || !newProduct.name || !newProduct.quantity || !newProduct.price}
+	  disabled={!newProduct.barcode || !newProduct.name ||!newProduct.description || !newProduct.quantity || !newProduct.price}
 	  >
         Agregar Producto
       </Button>
