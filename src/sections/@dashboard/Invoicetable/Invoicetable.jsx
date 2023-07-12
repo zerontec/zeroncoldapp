@@ -8,6 +8,7 @@ import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import { getAllInvoices } from '../../../redux/modules/invoices';
+import numeral from 'numeral';
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -73,6 +74,9 @@ const InvoiceTable = () => {
 `;
 
 
+
+const formatAmountB = (amount) => numeral(amount).format('0,0.00');
+  
 
 
 
@@ -178,6 +182,8 @@ const InvoiceTable = () => {
         </li>
       ))}
     </ul>
+
+ 
            
 
     {/* <p>
@@ -196,6 +202,19 @@ const InvoiceTable = () => {
                 <strong>Total mas Iva : </strong>
                 {selectedInvoices.amount}
             </p>
+
+
+            <h3>Metodo de Pago:</h3>
+    <ul>
+      {selectedInvoices.metodoPago.map((metodo) => (
+        <li key={metodo.amount}>
+           <strong>Instrumento:  </strong> {metodo?.method}<br />
+           <strong>Monto: </strong> {formatAmountB(metodo?.amount)}<br />
+        
+         
+        </li>
+      ))}
+    </ul>
 
             <p>
                 <strong>Fecha de Venta: </strong>
