@@ -38,7 +38,7 @@ export const fetchPurchases = (queryPu) => async(dispatch) => {
  
     dispatch(fetchPurchaseRequest());
     try {
-      const response = await fetch(`${API_URL}api/purchase/search-query-p?q=${queryPu}`);
+      const response = await fetch(`${API_URL}api/purchase/search-query-p?q=${queryPu}`,{ headers: authHeader() });
       const data = await response.json();
       dispatch(fetchPurchaseSuccess(data));
       return data
@@ -53,7 +53,7 @@ export const getAllPurchases= () => async(dispatch) =>  {
 
 
     try {
-      const resp = await axios.get(`${API_URL}api/purchase/all-purchase`);
+      const resp = await axios.get(`${API_URL}api/purchase/all-purchase`,{ headers: authHeader() });
 
       dispatch({
         type: GET_PURCHASES,
@@ -70,7 +70,7 @@ export const createPurchase = (purchaseData) => async (dispatch) => {
     try {
       const { data } = await axios.post(
         `${API_URL}api/purchase/create-purchase`,
-        purchaseData
+        purchaseData,{ headers: authHeader() }
       );
       dispatch({
         type: CREATE_PURCHASE_SUCCESS,
@@ -88,7 +88,7 @@ export const createPurchase = (purchaseData) => async (dispatch) => {
   
   export const deletePurchase = (id) => async (dispatch) => {
     try {
-      await axios.delete(`${API_URL}api/seller/delete/${id}`,{ headers: authHeader() });
+      await axios.delete(`${API_URL}api/purchase/delete-purchase/${id}`,{ headers: authHeader() });
   
       dispatch({
         type: DELETE_PURCHASE,
@@ -103,7 +103,7 @@ export const createPurchase = (purchaseData) => async (dispatch) => {
 
   export const updatePurchase = (id, data) => async (dispatch) => {
     try {
-      const resp = await axios.put(`${API_URL}api/purchase/update/${id}`, data);
+      const resp = await axios.put(`${API_URL}api/purchase/update/${id}`, data,{ headers: authHeader() });
   
       dispatch({
         type: UPDATE_PURCHASE,

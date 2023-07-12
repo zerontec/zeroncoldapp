@@ -43,10 +43,11 @@ export const fetchSellerRequest = () => ({
       dispatch(fetchSellerRequest());
       try {
         const response = await fetch(
-          `${API_URL}api/seller/search-query?q=${query}`
+          `${API_URL}api/seller/search-query?q=${query}`,{ headers: authHeader() }
         );
         const data = await response.json();
         dispatch(fetchSellerSuccess(data));
+        
       } catch (error) {
         dispatch(fetchSellersFailure(error.message));
       }

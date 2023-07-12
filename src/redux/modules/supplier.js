@@ -1,6 +1,7 @@
 
 
 import axios from 'axios';
+import authHeader from '../services/auth-header';
 
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
@@ -38,7 +39,7 @@ export const fetchSupliers = (query) => async(dispatch)=>  {
 
     dispatch(fetchSupplierRequest());
     try {
-      const response = await fetch(`${API_URL}api/supplier/search-query?q=${query}`);
+      const response = await fetch(`${API_URL}api/supplier/search-query?q=${query}`,{ headers: authHeader() });
       const data = await response.json();
       dispatch(fetchSupplierSuccess(data));
     } catch (error) {
@@ -50,7 +51,7 @@ export const getAllSupplier =() => async(dispatch)=>  {
   
 
     try {
-      const resp = await axios.get(`${API_URL}api/supplier/all-supplier`);
+      const resp = await axios.get(`${API_URL}api/supplier/all-supplier`,{ headers: authHeader() });
 
       dispatch({
         type: GET_SUPPLIERS,
@@ -67,7 +68,7 @@ export const createSuppliers = (supplierData) => async (dispatch) => {
     try {
       const { data } = await axios.post(
         `${API_URL}api/supplier/create-supplier`,
-        supplierData
+        supplierData,{ headers: authHeader() }
       );
       dispatch({
         type: CREATE_SUPPLIER_SUCCESS,
@@ -88,7 +89,7 @@ export const createSuppliers = (supplierData) => async (dispatch) => {
 
     export const deleteSuppliert = (id) => async (dispatch) => {
       try {
-        await axios.delete(`${API_URL}api/supplier/delete-supplier/${id}`);
+        await axios.delete(`${API_URL}api/supplier/delete-supplier/${id}`,{ headers: authHeader() });
     
         dispatch({
           type: DELETE_SUPPLIER,
@@ -102,7 +103,7 @@ export const createSuppliers = (supplierData) => async (dispatch) => {
 
     export const updateSupplier = (id, data) => async (dispatch) => {
       try {
-        const resp = await axios.put(`${API_URL}api/supplier/update-supplier/${id}`, data);
+        const resp = await axios.put(`${API_URL}api/supplier/update-supplier/${id}`, data,{ headers: authHeader() });
     
         dispatch({
           type: UPDATE_SUPPLIER,
