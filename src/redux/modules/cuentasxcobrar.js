@@ -2,6 +2,7 @@
 
 
 import axios from 'axios';
+import authHeader from '../services/auth-header';
 
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
@@ -39,7 +40,7 @@ export const fetchCuentasFailure = (error) => ({
 export const fetchCuentas = (query) => async (dispatch) => {
   dispatch(fetchCuentasRequest());
   try {
-    const response = await axios.get(`${API_URL}api/invoice/search-query?q=${query}`);
+    const response = await axios.get(`${API_URL}api/invoice/search-query?q=${query}`,{ headers: authHeader() });
     const data = await response.json();
     dispatch(fetchCuentasSuccess(data));
     return data;
@@ -51,7 +52,7 @@ export const fetchCuentas = (query) => async (dispatch) => {
 
   export const getAllCuentas = () => async (dispatch) => {
     try {
-      const resp = await axios.get(`${API_URL}api/account-receivable/all-account`);
+      const resp = await axios.get(`${API_URL}api/account-receivable/all-account`,{ headers: authHeader() });
   
       dispatch({ type: GET_CUENTAS, payload: resp.data });
   
@@ -68,7 +69,7 @@ export const fetchCuentas = (query) => async (dispatch) => {
 
 export const createCuenta = (invoiceData) => async (dispatch) => {
   try {
-    const { data } = await axios.post(`${API_URL}api/invoice/create`, invoiceData);
+    const { data } = await axios.post(`${API_URL}api/invoice/create`, invoiceData,{ headers: authHeader() });
     dispatch({
       type: CREATE_CUENTA_SUCCESS,
       payload: data,
@@ -85,7 +86,7 @@ export const createCuenta = (invoiceData) => async (dispatch) => {
 
 export const updateCuenta = (id, data) => async (dispatch) => {
     try {
-      const resp = await axios.put(`${API_URL}api/product/update/${id}`, data);
+      const resp = await axios.put(`${API_URL}api/product/update/${id}`, data,{ headers: authHeader() });
   
       dispatch({
         type: UPDATE_CUENTA,
@@ -105,7 +106,7 @@ export const updateCuenta = (id, data) => async (dispatch) => {
 
   export const deleteCuenta = (id) => async (dispatch) => {
     try {
-      await axios.delete(`${API_URL}api/product/delete/${id}`);
+      await axios.delete(`${API_URL}api/product/delete/${id}`,{ headers: authHeader() });
   
       dispatch({
         type: DELETE_CUENTA,

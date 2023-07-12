@@ -46,7 +46,8 @@ export const fetchCustomers = (query) =>async (dispatch) => {
   
     dispatch(fetchCustomersRequest());
     try {
-      const response = await fetch(`${API_URL}api/customer/search-query?q=${query}`
+      const response = await fetch(
+        `${API_URL}api/customer/search-query?q=${query}`,{ headers: authHeader() }
       );
       const data = await response.json();
       dispatch(fetchCustomersSuccess(data));
@@ -61,7 +62,7 @@ export const createCustomer = (formInfo) => async (dispatch) => {
   try {
     const response = await axios.post(
       `${API_URL}api/customer/create`,
-      formInfo
+      formInfo,{ headers: authHeader() }
     );
     dispatch({
       type: CREATE_CUSTOMER,
