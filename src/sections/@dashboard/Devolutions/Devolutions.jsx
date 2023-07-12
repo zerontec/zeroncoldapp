@@ -261,7 +261,10 @@ const Devolutions = () => {
 	  const isDeleteButtonDisabled = selectedProducts.length === 0;
 
  fDate();
-
+ function capitalizeFirstLetter(text) {
+	if (!text) return '';
+	return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 
 
 	  return (
@@ -299,7 +302,7 @@ const Devolutions = () => {
 				</p>
 			
 				<p>
-					<strong>Motivo:</strong> {selectedProduct.motivo}
+					<strong>Motivo:</strong> {capitalizeFirstLetter(selectedProduct.motivo)}
 				  </p>
 
 
@@ -307,11 +310,11 @@ const Devolutions = () => {
     <ul>
       
         <li >
-           <strong>Nombre :  </strong> {selectedProduct.customerData.name}<br />
-           <strong>Cedula o Rif: </strong> {selectedProduct.customerData.identification}<br />
+           <strong>Nombre :  </strong> {capitalizeFirstLetter(selectedProduct.customerData.name)}<br />
+           <strong>Cedula o Rif: </strong> {capitalizeFirstLetter(selectedProduct.customerData.identification)}<br />
           
          
-          <strong>Direccion:  </strong> {selectedProduct.customerData.address}<br />
+          <strong>Direccion:  </strong> {capitalizeFirstLetter(selectedProduct.customerData.address)}<br />
            <br />
         </li>
       
@@ -323,7 +326,7 @@ const Devolutions = () => {
       {selectedProduct.productoD.map((devolutions) => (
         <li key={devolutions.barcode}>
            <strong>Código :  </strong> {devolutions.barcode}<br />
-           <strong>Producto: </strong> {devolutions.name}<br />
+           <strong>Producto: </strong> {capitalizeFirstLetter(devolutions.name)}<br />
           
          
           <strong>Cantidad:  </strong> {devolutions.quantity}<br />
@@ -478,7 +481,7 @@ const Devolutions = () => {
 						  <TableCell align="left"> {items.numeroDevolucion}</TableCell>
 						  <TableCell align="left"> {fDate(items.fechaDevolucion)}</TableCell>
 						  <TableCell align="left"> {items.invoiceNumber}</TableCell>
-						  <TableCell align="left"> {items.motivo}</TableCell>
+						  <TableCell align="left"> {capitalizeFirstLetter(items.motivo)}</TableCell>
 						  <TableCell align="left"> {items.total}</TableCell>
 						  
 						  

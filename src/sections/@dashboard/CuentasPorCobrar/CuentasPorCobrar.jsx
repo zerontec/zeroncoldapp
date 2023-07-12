@@ -162,6 +162,10 @@ const CuentasPorCobrar = () => {
   };
 
   fDateTime();
+  function capitalizeFirstLetter(text) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 
   return (
     <>
@@ -189,9 +193,9 @@ const CuentasPorCobrar = () => {
               <ul>
                 <h3>Información del Cliente:</h3>
                 <p>
-                  <strong>Nombre:</strong> {selectedCuenta.clienteDataC.name}
+                  <strong>Nombre:</strong> {capitalizeFirstLetter(selectedCuenta.clienteDataC.name)}
                   <br />
-                  <strong>Dirección:</strong> {selectedCuenta.clienteDataC.address}
+                  <strong>Dirección:</strong> {capitalizeFirstLetter(selectedCuenta.clienteDataC.address)}
                   <br />
                   <strong>Identificación:</strong> {selectedCuenta.clienteDataC.identification}
                   <br />
@@ -369,7 +373,7 @@ const CuentasPorCobrar = () => {
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((items) => (
           <TableRow key={items.id}>
-            <TableCell align="left"> {items.status}</TableCell>
+            <TableCell align="left"> {capitalizeFirstLetter(items.status)}</TableCell>
                       {/* <TableCell align="left"> {items.clienteData.name}</TableCell>
 					  <TableCell align="left"> {items.vendedorDataC.codigo}</TableCell> */}
                       <TableCell align="left"> {items.montoCobrar}</TableCell>
