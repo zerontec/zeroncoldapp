@@ -187,7 +187,7 @@ const UserSystem = () => {
           };
           dispatch(updateUser(selectedUserId, data));
           Swal.fire(
-          "¨Usero Editado con Exito  !",
+          "¨Usuaro Editado con Exito  !",
           "You clicked the button!",
           "success"
           );
@@ -530,8 +530,8 @@ const UserSystem = () => {
     onChange={(e) => setSelectedUserEdit({ ...selectedUserEdit, role: e.target.value })}
   >
     <MenuItem value="admin">Admin</MenuItem>
-    <MenuItem value="usergl">Vendedor</MenuItem>
-    <MenuItem value="usertl">Usertl</MenuItem>
+    {/* <MenuItem value="vendedor">Vendedor</MenuItem> */}
+    <MenuItem value="facturacion">Facturacion</MenuItem>
   </Select>
 </FormControl>
 
@@ -695,8 +695,8 @@ const UserSystem = () => {
                 onChange={(event) => setEditData({ ...editData, role: event.target.value })}
               >
                 <MenuItem value="admin">Admin</MenuItem>
-                <MenuItem value="usergl">vendedor</MenuItem>
-                <MenuItem value="usertl">usertl</MenuItem>
+                {/* <MenuItem value="vendedor">vendedor</MenuItem> */}
+                <MenuItem value="facturacion">Facturacion</MenuItem>
               </Select>
             </FormControl>
           </Stack>
@@ -789,8 +789,8 @@ const UserSystem = () => {
     renderValue={(selected) => selected.join(', ')}
   >
     <MenuItem value="admin">admin</MenuItem>
-    <MenuItem value="usertl">usertl</MenuItem>
-    <MenuItem value="usergl">usergl</MenuItem>
+    {/* <MenuItem value="usertl">usertl</MenuItem> */}
+    <MenuItem value="facturacion">facturacion</MenuItem>
   </Select>
           
           {" "}
