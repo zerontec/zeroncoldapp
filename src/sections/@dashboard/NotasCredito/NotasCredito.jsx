@@ -252,6 +252,11 @@ const NotasCredito = () => {
 		// Lógica para realizar la búsqueda de pacientes en la API y actualizar el estado del componente con los resultados.
 	  };
 	fDateTime();
+
+	function capitalizeFirstLetter(text) {
+		if (!text) return '';
+		return text.charAt(0).toUpperCase() + text.slice(1);
+	  }
 	
 	//   const isDeleteButtonDisabled = selectedNota.length === 0;
 	
@@ -288,13 +293,13 @@ const NotasCredito = () => {
 				  </p>
 				  <h3>Datos de Cliente:</h3>
 				  <p>
-					<strong>Nombre:</strong> {selectedNota.clienteData.name}
+					<strong>Nombre:</strong> {capitalizeFirstLetter(selectedNota.clienteData.name)}
 				  </p>
 				  <p>
 					<strong>Identificacion:</strong> {selectedNota.clienteData.identification}
 				  </p>
 				  <p>
-					<strong>Direccion:</strong> {selectedNota.clienteData.address}
+					<strong>Direccion:</strong> {capitalizeFirstLetter(selectedNota.clienteData.address)}
 				  </p>
 				  {/* <p>
 					<strong>Cantidad:</strong> {selectedNota.quantity}

@@ -111,6 +111,10 @@ const Inventory = () => {
 	  return errors;
 	}
 
+function capitalizeFirstLetter(text) {
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
 	const handleChange = (event) => {
 	  const { name, value } = event.target;

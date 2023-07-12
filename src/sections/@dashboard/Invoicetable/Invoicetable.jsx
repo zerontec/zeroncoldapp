@@ -114,7 +114,10 @@ const formatAmountB = (amount) => numeral(amount).format('0,0.00');
   fDateTime()
 
 
-
+function capitalizeFirstLetter(text) {
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
   return (
 <>
@@ -144,11 +147,11 @@ const formatAmountB = (amount) => numeral(amount).format('0,0.00');
 				{selectedInvoices.credit ? 'Sí' : 'No'}
             </p>
                 <strong>Status:</strong>
-                {selectedInvoices.status}
+                { capitalizeFirstLetter(selectedInvoices.status)}
             </p>
 			<p>
                 <strong>Cliente:</strong>
-                {selectedInvoices.clienteData.name}
+                { capitalizeFirstLetter(selectedInvoices.clienteData.name)}
             </p>
             <p>
                 <strong>Cedula o Rif:</strong>
@@ -162,7 +165,7 @@ const formatAmountB = (amount) => numeral(amount).format('0,0.00');
             </p>
             <p>
                 <strong>Nombre Vendedor:</strong>
-                {selectedInvoices.vendedorData?.name}
+                { capitalizeFirstLetter(selectedInvoices.vendedorData?.name)}
                
             </p>
 
@@ -172,7 +175,7 @@ const formatAmountB = (amount) => numeral(amount).format('0,0.00');
       {selectedInvoices.productoFactura.map((product) => (
         <li key={product.barcode}>
            <strong>Código :  </strong> {product.barcode}<br />
-           <strong>Producto: </strong> {product.name}<br />
+           <strong>Producto: </strong> { capitalizeFirstLetter(product.name)}<br />
           {/* <strong>Precio:    </strong> {product.prePSiIva.toFixed(2)}<br />
           */}
           <strong>Cantidad:  </strong> {product.quantity}<br />
@@ -208,7 +211,7 @@ const formatAmountB = (amount) => numeral(amount).format('0,0.00');
     <ul>
       {selectedInvoices?.metodoPago?.map((metodo) => (
         <li key={metodo?.amount}>
-           <strong>Instrumento:  </strong> {metodo?.method}<br />
+           <strong>Instrumento:  </strong> {capitalizeFirstLetter(metodo?.method)}<br />
            <strong>Monto: </strong> {formatAmountB(metodo?.amount)}<br />
         
          
