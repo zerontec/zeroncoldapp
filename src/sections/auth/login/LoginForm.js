@@ -52,6 +52,12 @@ export default function LoginForm() {
  
   const { auth } = useSelector((state) => state);
   console.log("aqui auth", auth)
+  
+  if (auth.isLoggedIn && auth.user && auth.user.roles.includes('ROLE_FACTURACION')) {
+    return <Navigate to="/dashboard/facturacionA" />;
+  } if (auth.isLoggedIn && auth.user && auth.user.roles.includes('ROLE_ADMIN')) {
+    return <Navigate to="/dashboard" />;
+  }
 
 const {message} = auth;
 console.log(message)
