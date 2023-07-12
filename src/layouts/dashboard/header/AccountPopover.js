@@ -35,14 +35,17 @@ export default function AccountPopover() {
   const [roleShow, setRoleShow] = useState('')
 
 const usuario = useSelector((state)=> state.auth)
-console.log("el usuario ", usuario)
 
 useEffect(() => {
   if (usuario.user.roles.includes('ROLE_ADMIN')) {
     setRoleShow('Administrador');
-  } else {
-    setRoleShow('Usuario normal');
-  }
+  }   if (usuario.user.roles.includes('ROLE_FACTURACION')) {
+    setRoleShow('Facturacion');
+  } 
+  
+  // else {
+  //   setRoleShow('Usuario normal');
+  // }
 }, [usuario]);
 
 const dispatchar = useDispatch()
