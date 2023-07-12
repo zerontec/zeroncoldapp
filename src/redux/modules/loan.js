@@ -39,7 +39,7 @@ export const fetchLoanFailure = (error) => ({
 export const fetchLoans = (query) => async (dispatch) => {
   dispatch(fetchLoanRequest());
   try {
-    const response = await fetch(`http://localhost:5040/api/loan/search-query?q=${query}`);
+    const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/loan/search-query?q=${query}`,{ headers: authHeader() });
     const data = await response.json();
     dispatch(fetchLoanSuccess(data));
     return data;
@@ -115,7 +115,7 @@ export const createPayment = (data) => async (dispatch) => {
 // eslint-disable-next-line func-names
 export const searchLoanByDate = (startDate, endDate) => async (dispatch) => {
   try {
-    const response = await axios.get(`${API_URL}api/loan/invoices-by-date-range/${startDate}/${endDate}`);
+    const response = await axios.get(`${API_URL}api/loan/invoices-by-date-range/${startDate}/${endDate}`,{ headers: authHeader() });
     dispatch({
       type: SEARCH_DATE_SUCCESS,
       payload: response.data,
@@ -134,7 +134,7 @@ export const searchLoanByDate = (startDate, endDate) => async (dispatch) => {
 
 export const updateLoand = (id, data) => async (dispatch) => {
     try {
-      const resp = await axios.put(`${API_URL}api/loan/update/${id}`, data);
+      const resp = await axios.put(`${API_URL}api/loan/update/${id}`, data,{ headers: authHeader() });
   
       dispatch({
         type: UPDATE_LOAND,
@@ -150,7 +150,7 @@ export const updateLoand = (id, data) => async (dispatch) => {
 
   export const updatePayment = (id, data) => async (dispatch) => {
     try {
-      const resp = await axios.put(`${API_URL}api/loan/update-payment/${id}`, data);
+      const resp = await axios.put(`${API_URL}api/loan/update-payment/${id}`, data,{ headers: authHeader() });
   
       dispatch({
         type: UPDATE_PAYMENT,
@@ -171,7 +171,7 @@ export const updateLoand = (id, data) => async (dispatch) => {
   export const deleteUpload =(id) => async (dispatch)=> {
 
 try{
-    const resp = await axios.delete(`${API_URL}api/loan/delete/${id}`)
+    const resp = await axios.delete(`${API_URL}api/loan/delete/${id}`,{ headers: authHeader() })
     dispatch({
     type:DELETE_LOAN,
     payload:resp.data
@@ -194,7 +194,7 @@ return resp.data;
 export const getLoanBySeller=({id}) => async (dispatch) => {
 
   try {
-    const response = await axios.get(`${API_URL_D}api/loan/seller-product-sales/${id}`,{ headers: authHeader() }
+    const response = await axios.get(`${API_URL}api/loan/seller-product-sales/${id}`,{ headers: authHeader() }
     );
   
     dispatch({
@@ -212,7 +212,7 @@ export const getLoanBySeller=({id}) => async (dispatch) => {
 export const getAllPayment=() => async (dispatch) => {
 
   try {
-    const response = await axios.get(`${API_URL_D}api/loan/get-all-payment`,{ headers: authHeader() }
+    const response = await axios.get(`${API_URL}api/loan/get-all-payment`,{ headers: authHeader() }
     );
   
     dispatch({

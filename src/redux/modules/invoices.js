@@ -34,7 +34,7 @@ export const fetchInvoiceFailure = (error) => ({
 export const fetchInvoices = (query) => async (dispatch) => {
   dispatch(fetchInvoiceRequest());
   try {
-    const response = await fetch(`http://localhost:5040/api/invoice/search-query?q=${query}`);
+    const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/invoice/search-query?q=${query}`,{ headers: authHeader() });
     const data = await response.json();
     dispatch(fetchInvoiceSuccess(data));
     return data;
@@ -46,7 +46,7 @@ export const fetchInvoices = (query) => async (dispatch) => {
 
   export const getAllInvoices = () => async (dispatch) => {
     try {
-      const resp = await axios.get(`${API_URL}api/invoice/all`);
+      const resp = await axios.get(`${API_URL}api/invoice/all`,{ headers: authHeader() });
   
       dispatch({ type: GET_INVOICES, payload: resp.data });
   
@@ -63,7 +63,7 @@ export const fetchInvoices = (query) => async (dispatch) => {
 
 export const createInvoices = (invoiceData) => async (dispatch) => {
   try {
-    const { data } = await axios.post(`${API_URL}api/invoice/create`, invoiceData);
+    const { data } = await axios.post(`${API_URL}api/invoice/create`, invoiceData,{ headers: authHeader() });
     dispatch({
       type: CREATE_INVOICE_SUCCESS,
       payload: data,
@@ -87,7 +87,7 @@ export const createInvoices = (invoiceData) => async (dispatch) => {
 // eslint-disable-next-line func-names
 export const searchInvoiceByDate = (startDate, endDate) => async (dispatch) => {
   try {
-    const response = await axios.get(`${API_URL}api/report/invoices-by-date-range/${startDate}/${endDate}`);
+    const response = await axios.get(`${API_URL}api/report/invoices-by-date-range/${startDate}/${endDate}`,{ headers: authHeader() });
     dispatch({
       type: SEARCH_DATE_SUCCESS,
       payload: response.data,

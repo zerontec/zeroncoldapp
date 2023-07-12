@@ -46,7 +46,7 @@ export const fetchDevolution = (query) =>async (dispatch) => {
   
     dispatch(fetchDevolutionRequest());
     try {
-      const response = await fetch(`${API_URL}api/customer/search-query?q=${query}`
+      const response = await fetch(`${API_URL}api/customer/search-query?q=${query}`,{ headers: authHeader() }
       );
       const data = await response.json();
       dispatch(fetchDevolutionSuccess(data));
@@ -61,7 +61,7 @@ export const createDevolution = (formInfo) => async (dispatch) => {
   try {
     const response = await axios.post(
       `${API_URL}api/devolucion/create-devolucion`,
-      formInfo
+      formInfo,{ headers: authHeader() }
     );
     dispatch({
       type: CREATE_DEVOLUTIONS,
