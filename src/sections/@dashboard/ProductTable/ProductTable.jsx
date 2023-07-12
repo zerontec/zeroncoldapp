@@ -129,6 +129,13 @@ const [loading, setloading] = useState(true);
 
   const [selectedProducts, setSelectedProducts] = useState([]);
 
+
+  function capitalizeFirstLetter(text) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+
   const handleToggleSelect = (itemsId) => {
     if (selectedProducts.includes(itemsId)) {
       setSelectedProducts(selectedProducts.filter((id) => id !== itemsId));
@@ -459,8 +466,8 @@ const [loading, setloading] = useState(true);
                   onChange={() => handleToggleSelect(items.id)}
                 />
                       <TableCell align="left"> {items.barcode}</TableCell>
-                      <TableCell align="left"> {items.name}</TableCell>
-                      <TableCell align="left"> {items.description}</TableCell>
+                      <TableCell align="left"> {capitalizeFirstLetter (items.name)}</TableCell>
+                      <TableCell align="left"> {capitalizeFirstLetter(items.description)}</TableCell>
                       <TableCell align="left"> {items.price}</TableCell>
                       <TableCell align="left"> {items.quantity}</TableCell>
                       <TableCell align="left"> {items.defectuosos}</TableCell>

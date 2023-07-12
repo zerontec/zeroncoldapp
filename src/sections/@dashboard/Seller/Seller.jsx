@@ -426,6 +426,14 @@ const Seller = () => {
     setOpen(false);
   };
 
+
+  function capitalizeFirstLetter(text) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+
+
   return (
     <>
       {/* Modal para editar */}
@@ -579,7 +587,7 @@ const Seller = () => {
                 </TableCell> */}
                 <TableCell>
                   <Stack direction="row" alignItems="center" spacing={2}>
-                    <Avatar alt={user.name} src={user.avatar} />
+                    <Avatar alt={capitalizeFirstLetter(user.name)} src={user.avatar} />
                     <Typography variant="body2">{user.name}</Typography>
                   </Stack>
                 </TableCell>

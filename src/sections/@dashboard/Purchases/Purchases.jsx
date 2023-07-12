@@ -450,7 +450,10 @@ const Purchases = () => {
     setModalOpen(false);
    
   };
-  
+  function capitalizeFirstLetter(text) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 
   const handleCloseModal = () => {
     // Restablece los estados a sus valores iniciales
@@ -722,7 +725,7 @@ const Purchases = () => {
               variant="outlined"
               // style={{ marginTop: 10 }}
               type="text"
-              value={formValuesP.name || manualProductData.name || ''}
+              value={capitalizeFirstLetter(formValuesP.name) || capitalizeFirstLetter(manualProductData.name) || ''}
               onChange={(event) =>
                 setManualProductData({
                   ...manualProductData,
@@ -736,7 +739,7 @@ const Purchases = () => {
               label="Descripción"
               variant="outlined"
               // style={{ marginTop: 10 }}
-              value={formValuesP.description || manualProductData.description || ''}
+              value={capitalizeFirstLetter(formValuesP.description) || capitalizeFirstLetter(manualProductData.description) || ''}
               onChange={(event) =>
                 setManualProductData({
                   ...manualProductData,
