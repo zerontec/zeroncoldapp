@@ -1,11 +1,17 @@
+
+
 // component
 import SvgColor from '../../../components/svg-color';
+
 
 // ----------------------------------------------------------------------
 
 const icon = (name) => <SvgColor src={`/assets2/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
+
 const navConfig = [
+
+  
   {
     title: 'dashboard',
     path: '/dashboard/app',
@@ -15,6 +21,7 @@ const navConfig = [
     title: 'Administracion',
     path: '/dashboard/Administracion',
     icon: icon('ic_cart'),
+    
   },
   // {
   //   title: 'facturacion',
@@ -95,4 +102,15 @@ icon: icon('ic_user'),
   // },
 ];
 
+
+
+export const filterAllowedRoutes = (userRoles) => {
+  if (userRoles.includes('ROLE_ADMIN')) {
+    return navConfig; // Mostrar todas las rutas para el rol de administrador
+  } if (userRoles.includes('ROLE_FACTURACION')) {
+    return navConfig.filter((route) => route.path === '/dashboard/facturacionA');
+  } 
+    return []; // No se muestran rutas para otros roles
+  
+};
 export default navConfig;

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 import PropTypes from 'prop-types';
 import { useEffect , useState} from 'react';
 import { useLocation } from 'react-router-dom';
@@ -14,8 +15,10 @@ import useResponsive from '../../../hooks/useResponsive';
 import Logo from '../../../components/logo';
 import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
+
 //
 import navConfig from './config';
+// import {filterAllowedRoutes}from './config';
 import { Logout } from '../../../components/Logout';
 
 // ----------------------------------------------------------------------
@@ -44,14 +47,19 @@ export default function Nav({ openNav, onCloseNav }) {
   const [roleShow, setRoleShow] = useState('')
 
 const usuario = useSelector((state)=> state.auth)
-console.log("el usuario ", usuario)
+console.log("usuario", usuario)
+const allowedRoutes = usuario.user && usuario.user.roles && usuario.user.roles.includes('ROLE_ADMIN')
+
+? navConfig
+: navConfig.filter((route) => route.path === '/dashboard/facturacionA')
 
 useEffect(() => {
   if (usuario.user.roles.includes('ROLE_ADMIN')) {
     setRoleShow('Administrador');
-  } else {
-    setRoleShow('Usuario normal');
   }
+  if (usuario.user.roles.includes('ROLE_FACTURACION')) {
+    setRoleShow('Facturacion');
+  } 
 }, [usuario]);
 
   const isDesktop = useResponsive('up', 'lg');
@@ -92,7 +100,7 @@ useEffect(() => {
         </Link>
       </Box>
 
-      <NavSection data={navConfig} />
+      <NavSection data={allowedRoutes} />
 
       <Box sx={{ flexGrow: 1 }} />
 <Logout/>
