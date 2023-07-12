@@ -248,7 +248,10 @@ const handleEditClick = (supplier) => {
   };
 
 
-  
+  function capitalizeFirstLetter(text) {
+	if (!text) return '';
+	return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 
 	return(
 
@@ -283,13 +286,13 @@ const handleEditClick = (supplier) => {
 		  <>
 			<h2>{selectedSupplier.name}</h2>
 			<p>
-			  <strong>Nombre:</strong> {selectedSupplier.name}
+			  <strong>Nombre:</strong> {capitalizeFirstLetter(selectedSupplier.name)}
 			</p>
 			<p>
-			  <strong>Rif:</strong> {selectedSupplier.rif}
+			  <strong>Rif:</strong> {capitalizeFirstLetter(selectedSupplier.rif)}
 			</p>
 			<p>
-			  <strong>Direccion:</strong> {selectedSupplier.address}
+			  <strong>Direccion:</strong> {capitalizeFirstLetter(selectedSupplier.address)}
 			</p>
 			<p>
 			  <strong>Numero de Telefono:</strong> {selectedSupplier.phoneNumber}
@@ -467,9 +470,9 @@ const handleEditClick = (supplier) => {
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       .map((items) => (
         <TableRow key={items.id}>
-          <TableCell align="left"> {items.name}</TableCell>
-          <TableCell align="left"> {items.address}</TableCell>
-          <TableCell align="left"> {items.rif}</TableCell>
+          <TableCell align="left"> {capitalizeFirstLetter(items.name)}</TableCell>
+          <TableCell align="left"> {capitalizeFirstLetter(items.address)}</TableCell>
+          <TableCell align="left"> {capitalizeFirstLetter(items.rif)}</TableCell>
           <TableCell align="left"> {items.phoneNumber}</TableCell>
 
 					{/* <TableCell align="left" padding="checkbox"    checked={items.selected}

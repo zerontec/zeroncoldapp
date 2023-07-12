@@ -370,13 +370,13 @@ const UserSystem = () => {
 
     dispatch(deleteMultiplyUser(seleccion));
     setSelected([]);
-    Swal.fire("El usuario ha sido borrado!");
+    Swal.fire("los usuarios ha sido borrado!");
 	
     setTimeout(() => {
       window.location.reload();
     }, 500);
     } else {
-    Swal.fire("El usuario  Esta Seguro !");
+    Swal.fire("los usuarios  Estan Seguro !");
     }
   });
 
@@ -428,7 +428,10 @@ const UserSystem = () => {
 		});
 		setOpen(false);
 	  };
-
+    function capitalizeFirstLetter(text) {
+      if (!text) return '';
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
 
   return (
 
@@ -609,7 +612,7 @@ const UserSystem = () => {
                     <Typography variant="body2">{user.name}</Typography>
                   </Stack>
                 </TableCell>
-                <TableCell>{user.username}</TableCell>
+                <TableCell>{capitalizeFirstLetter(user.username)}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{sentenceCase(user.role)}</TableCell>
                 <TableCell>
@@ -652,7 +655,7 @@ const UserSystem = () => {
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Typography variant="subtitle1">{`${selected.length} selected`}</Typography>
             <Button variant="outlined" color="error" size="small" onClick={handleDeleteMultipleClick}>
-              Delete Selected
+             Borrar Seleccionados
             </Button>
           </Stack>
         </Card>

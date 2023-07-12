@@ -250,7 +250,10 @@ const handleEditClick = (purchase) => {
   };
 
 
-
+  function capitalizeFirstLetter(text) {
+	if (!text) return '';
+	return text.charAt(0).toUpperCase() + text.slice(1);
+  }
   
   const handleSearch = () => {
 	
@@ -302,13 +305,13 @@ return(	<>
 			  <strong>Numero de Factura:</strong> {selectedPurchase.invoiceNumber}
 			</p>
 			<p>
-			  <strong>Proveedor:</strong> {selectedPurchase.supplierName}
+			  <strong>Proveedor:</strong> {capitalizeFirstLetter(selectedPurchase.supplierName)}
 			</p>
 			<p>
-			  <strong>Rif:</strong> {selectedPurchase.supplierRif}
+			  <strong>Rif:</strong> {capitalizeFirstLetter(selectedPurchase.supplierRif)}
 			</p>
 			<p>
-			  <strong>Direccion:</strong> {selectedPurchase.supplierAddress}
+			  <strong>Direccion:</strong> {capitalizeFirstLetter(selectedPurchase.supplierAddress)}
 			</p>
 			<h3>Lista de Productos:</h3>
     <ul>
@@ -508,8 +511,8 @@ return(	<>
           <TableCell align="left"> {items.purchaseNumber}</TableCell>
           <TableCell align="left"> {items.invoiceNumber}</TableCell>
           <TableCell align="left"> {items.totalAmount}</TableCell>
-          <TableCell align="left"> {items.supplierName}</TableCell>
-          <TableCell align="left"> {items.supplierRif}</TableCell>
+          <TableCell align="left"> {capitalizeFirstLetter(items.supplierName)}</TableCell>
+          <TableCell align="left"> {capitalizeFirstLetter(items.supplierRif)}</TableCell>
 				  
 					{/* <TableCell align="left" padding="checkbox"    checked={items.selected}
 onChange={() => handleToggleSelect(items.id)} >
