@@ -40,7 +40,7 @@ export const fetchLoanFailure = (error) => ({
 export const fetchLoans = (query) => async (dispatch) => {
   dispatch(fetchLoanRequest());
   try {
-    const response = await fetch(`http://localhost:5040/api/loan/search-query?q=${query}`);
+    const response = await fetch(`https://expressjs-postgres-production-bd69.up.railway.app/api/loan/search-query?q=${query}`,{ headers: authHeader() });
     const data = await response.json();
     dispatch(fetchLoanSuccess(data));
     return data;
@@ -90,7 +90,7 @@ export const createPayment = (data) => async (dispatch) => {
 
   export const updatePayment = (id, data) => async (dispatch) => {
     try {
-      const resp = await axios.put(`${API_URL}api/loan/update-payment/${id}`, data);
+      const resp = await axios.put(`${API_URL}api/loan/update-payment/${id}`, data,{ headers: authHeader() });
   
       dispatch({
         type: UPDATE_PAYMENT,

@@ -35,7 +35,7 @@ export const fetchProductRequest = () => ({
   export const fetchProducts = (query) => async (dispatch) => {
     dispatch(fetchProductRequest());
     try {
-      const response = await fetch(`${API_URL}api/product/search-query?q=${query}`);
+      const response = await fetch(`${API_URL}api/product/search-query?q=${query}`,{ headers: authHeader() });
       const data = await response.json();
       dispatch(fetchProductSuccess(data));
       return data;
@@ -47,7 +47,7 @@ export const fetchProductRequest = () => ({
   
     export const createProducts = (formInfo) => async (dispatch) => {
       try {
-        const response = await axios.post(`${API_URL}api/product/create`, formInfo);
+        const response = await axios.post(`${API_URL}api/product/create`, formInfo,{ headers: authHeader() });
         dispatch({
           type: CREATE_PRODUCT,
           payload: response.data,
@@ -63,7 +63,7 @@ export const fetchProductRequest = () => ({
 
     export const uploadMasi = (formInfo) => async (dispatch) => {
       try {
-        const {data }= await axios.post(`${API_URL}api/product/upload`, formInfo);
+        const {data }= await axios.post(`${API_URL}api/product/upload`, formInfo,{ headers: authHeader() });
         dispatch({
           type: CREATE_PRODUCTS,
           payload: data,
@@ -90,7 +90,7 @@ export const fetchProductRequest = () => ({
   export const getAllProduct =() =>async (dispatch)=>{
     
      try {
-        const resp = await axios.get(`${API_URL}api/product/all `);
+        const resp = await axios.get(`${API_URL}api/product/all `,{ headers: authHeader() });
   
         dispatch({
           type: GET_ALL_PRODUCTS,
@@ -107,7 +107,7 @@ export const fetchProductRequest = () => ({
 
     export const updateProduct = (id, data) => async (dispatch) => {
       try {
-        const resp = await axios.put(`${API_URL}api/product/update/${id}`, data);
+        const resp = await axios.put(`${API_URL}api/product/update/${id}`, data,{ headers: authHeader() });
     
         dispatch({
           type: UPDATE_PRODUCT,
@@ -123,7 +123,7 @@ export const fetchProductRequest = () => ({
 
     export const deleteProduct = (id) => async (dispatch) => {
       try {
-        await axios.delete(`${API_URL}api/product/delete/${id}`);
+        await axios.delete(`${API_URL}api/product/delete/${id}`,{ headers: authHeader() });
     
         dispatch({
           type: DELETE_PRODUCT,

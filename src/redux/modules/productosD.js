@@ -31,7 +31,7 @@ export const fetchProductDFailure = (error) => ({
 export const fetchProductsD = (query) => async (dispatch) => {
   dispatch(fetchProductDRequest());
   try {
-    const response = await fetch(`${API_URL}api/product/search-query?q=${query}`);
+    const response = await fetch(`${API_URL}api/product/search-query?q=${query}`,{ headers: authHeader() });
     const data = await response.json();
     dispatch(fetchProductDSuccess(data));
     return data;
@@ -43,7 +43,7 @@ export const fetchProductsD = (query) => async (dispatch) => {
 
 export const createProductsD = (formInfo) => async (dispatch) => {
   try {
-    const response = await axios.post(`${API_URL}api/productos-defectuosos/create`, formInfo);
+    const response = await axios.post(`${API_URL}api/productos-defectuosos/create`, formInfo,{ headers: authHeader() });
     dispatch({
       type: CREATE_PRODUCTD,
       payload: response.data,
@@ -59,7 +59,7 @@ export const createProductsD = (formInfo) => async (dispatch) => {
 
 export const getAllProductD = () => async (dispatch) => {
   try {
-    const resp = await axios.get(`${API_URL}api/productos-defectuosos/all `);
+    const resp = await axios.get(`${API_URL}api/productos-defectuosos/all `,{ headers: authHeader() });
 
     dispatch({
       type: GET_ALL_PRODUCTDS,
@@ -73,7 +73,7 @@ export const getAllProductD = () => async (dispatch) => {
 
 export const updateProductD = (id, data) => async (dispatch) => {
   try {
-    const resp = await axios.put(`${API_URL}api/productos-defectuosos/update/${id}`, data);
+    const resp = await axios.put(`${API_URL}api/productos-defectuosos/update/${id}`, data,{ headers: authHeader() });
 
     dispatch({
       type: UPDATE_PRODUCTD,
@@ -88,7 +88,7 @@ export const updateProductD = (id, data) => async (dispatch) => {
 
 export const deleteProductD = (id) => async (dispatch) => {
   try {
-    await axios.delete(`${API_URL}api/productos-defectuosos/delete/${id}`);
+    await axios.delete(`${API_URL}api/productos-defectuosos/delete/${id}`,{ headers: authHeader() });
 
     dispatch({
       type: DELETE_PRODUCTD,
