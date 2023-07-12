@@ -1,4 +1,4 @@
-/* eslint-disable import/no-duplicates */
+
 import PropTypes from 'prop-types';
 import { useEffect , useState} from 'react';
 import { useLocation } from 'react-router-dom';
