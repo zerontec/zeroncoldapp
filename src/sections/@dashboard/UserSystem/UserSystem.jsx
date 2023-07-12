@@ -616,7 +616,7 @@ const UserSystem = () => {
                     <Typography variant="body2">{user.name}</Typography>
                   </Stack>
                 </TableCell>
-                <TableCell>{capitalizeFirstLetter(user.username)}</TableCell>
+                <TableCell>{user.username}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{sentenceCase(user.role)}</TableCell>
                 <TableCell>
