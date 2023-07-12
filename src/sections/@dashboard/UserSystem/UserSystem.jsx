@@ -433,6 +433,10 @@ const UserSystem = () => {
       return text.charAt(0).toUpperCase() + text.slice(1);
     }
 
+
+
+
+
   return (
 
     <>
@@ -740,7 +744,7 @@ const UserSystem = () => {
 					name="name"
 					type="text"
 					id="name"
-					value={formInfo.name}
+					value={capitalizeFirstLetter(formInfo.name)}
 					onChange={handleChange}
 				  />{" "}
 				  {errors.name && (

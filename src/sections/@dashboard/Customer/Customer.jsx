@@ -395,6 +395,13 @@ const Customer = () => {
 		setOpen(false);
 	  };
 
+    function capitalizeFirstLetter(text) {
+      if (!text) return '';
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+
+
 	return (
 <>
  {/* Modal para editar el análisis */}
@@ -525,8 +532,8 @@ const Customer = () => {
                 </TableCell> */}
                 <TableCell>
                   <Stack direction="row" alignItems="center" spacing={2}>
-                    <Avatar alt={user.name} src={user.avatar} />
-                    <Typography variant="body2">{user.name}</Typography>
+                    <Avatar alt={capitalizeFirstLetter(user.name)} src={user.avatar} />
+                    <Typography variant="body2">{capitalizeFirstLetter(user.name)}</Typography>
                   </Stack>
                 </TableCell>
                 {/* <TableCell>{user.codigo}</TableCell> */}
@@ -656,7 +663,7 @@ const Customer = () => {
                   name="name"
                   type="text"
                   id="name"
-                  value={formInfo.name}
+                  value={capitalizeFirstLetter(formInfo.name)}
                   onChange={handleChange}
                 />{' '}
                 {errors.name && <span className="error-message"> {errors.name}</span>}
@@ -675,7 +682,7 @@ const Customer = () => {
                   label="Direccion"
                   name="address"
                   id="address"
-                  value={formInfo.address}
+                  value={capitalizeFirstLetter(formInfo.address)}
                   onChange={handleChange}
                 />{' '}
                 {errors.address && <span className="error-message"> {errors.address}</span>}

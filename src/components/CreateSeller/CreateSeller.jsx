@@ -148,7 +148,10 @@ const dispatch = useDispatch();
   };
 
 
- 
+  function capitalizeFirstLetter(text) {
+	if (!text) return '';
+	return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 
 
 
@@ -206,7 +209,7 @@ const dispatch = useDispatch();
 					name="name"
 					type="text"
 					id="name"
-					value={sellerData.name}
+					value={capitalizeFirstLetter(sellerData.name)}
 					onChange={handleInputChange}
 				  />{" "}
 			{validationErrors.name && <span>{validationErrors.name}</span>}
@@ -225,7 +228,7 @@ const dispatch = useDispatch();
 					label="Direccion"
 					name="address"
 					id="address"
-					value={sellerData.address}
+					value={capitalizeFirstLetter(sellerData.address)}
 					onChange={handleInputChange}
 				  />{" "}
 				{validationErrors.address && <span>{validationErrors.address}</span>}
