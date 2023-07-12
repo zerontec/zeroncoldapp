@@ -206,8 +206,8 @@ const formatAmountB = (amount) => numeral(amount).format('0,0.00');
 
             <h3>Metodo de Pago:</h3>
     <ul>
-      {selectedInvoices.metodoPago.map((metodo) => (
-        <li key={metodo.amount}>
+      {selectedInvoices?.metodoPago?.map((metodo) => (
+        <li key={metodo?.amount}>
            <strong>Instrumento:  </strong> {metodo?.method}<br />
            <strong>Monto: </strong> {formatAmountB(metodo?.amount)}<br />
         
