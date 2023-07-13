@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+
 import styled from 'styled-components';
 
 import { Button, Typography, Container,  TextField , Snackbar} from '@mui/material';
+
+import authHeader from '../../redux/services/auth-header';
 
 const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
@@ -68,7 +71,7 @@ const SearchSaleByDate = () => {
 		  console.log(startDate,endDate);
 		  
 		  try {
-			const response = await axios.get(`${API_URL_D}api/report/daily-report/${startDate}/${endDate}`);
+			const response = await axios.get(`${API_URL_D}api/report/daily-report/${startDate}/${endDate}`,{ headers: authHeader() } );
 	
 			if (response) {
 			  setSuccessMessage("Venta para la fecha");
