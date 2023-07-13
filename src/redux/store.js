@@ -17,6 +17,7 @@ import productdReducer from './modules/productosD';
 import notaReducer from './modules/notasC';
 import loanReducer from './modules/loan';
 import paymentReducer from './modules/payments';
+import reportReducer from './modules/reports';
 
 
 // Combinar los reducers de tus módulos
@@ -35,7 +36,8 @@ const rootReducer = combineReducers({
   productd:productdReducer,
   notasc:notaReducer,
   loan:loanReducer,
-  payment:paymentReducer
+  payment:paymentReducer,
+  report:reportReducer
  
   // Otros módulos de Redux
 });

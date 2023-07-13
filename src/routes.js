@@ -35,6 +35,7 @@ import UploadProductPages from './pages/UploadProductPages';
 import { SellerPerfil } from './sections/@dashboard/SellerPerfil';
 import NotasCreditoPages from './pages/NotasCreditoPages';
 import { AdminPerfil } from './sections/@dashboard/AdminPerfil';
+import { TableClosure } from './components/TableClosure';
 
 // ----------------------------------------------------------------------
 
@@ -79,6 +80,7 @@ export default function Router() {
         { path: 'perfil-usuario/:id', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <AdminPerfil/></ProtectedRoute> },
         { path: 'cargar-productos', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <UploadProductPages/></ProtectedRoute> },
         { path: 'notas-credito', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <NotasCreditoPages/></ProtectedRoute> },
+        { path: 'cierres', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <TableClosure/></ProtectedRoute> },
       ],
     },
 
