@@ -56,7 +56,7 @@ const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
 	const [summary, setSummary] = useState(null);
 
 	const generateSummary = () => {
-	  axios.get(`${API_URL_D}api/dayli/sales-report`,{ headers: authHeader() })
+	  axios.get(`${API_URL}api/dayli/sales-report`,{ headers: authHeader() })
 		.then(response => {
 		  setSummary(response.data);
 
