@@ -599,13 +599,13 @@ const AdminPerfil = () => {
         <>
           <Box sx={{ marginBottom: '24px' }}>
             <Typography variant="h4" component="h1">
-              Perfil de Administrador:
+              PERFIL
             </Typography>
             <Typography variant="body1">
               <strong>Nombre: {usuarios.usuarios.name}</strong>
             </Typography>
             <Typography variant="body1">
-              <strong>Cédula o Rif: {usuarios.usuarios.username}</strong>
+              <strong>Username: {usuarios.usuarios.username}</strong>
             </Typography>
 
             <Typography variant="body1">

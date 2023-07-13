@@ -28,7 +28,7 @@ import { SearchInvoiceByDate } from '../../../components/SearchInvoiceByDate';
 import { getAllNotas } from '../../../redux/modules/notasC';
 
 import styled, { css } from 'styled-components';
-
+import { jsPDF } from "jspdf";
 
 
 const columns = [
@@ -60,9 +60,9 @@ const columns = [
   ];
 const InvoiceTable = () => {
 //   const [invoices, setInvoices] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const dispatch = useDispatch();
- const [selectedInvoices, setSelectedinvoices] = useState(null)
+const [searchQuery, setSearchQuery] = useState('');
+const dispatch = useDispatch();
+const [selectedInvoices, setSelectedinvoices] = useState(null)
 
 
  const TableRow = styled.tr`
@@ -119,122 +119,193 @@ function capitalizeFirstLetter(text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
+
+const generatePDF = () => {
+  if (!selectedInvoices) {
+    return;
+  }
+
+  const { invoiceNumber, credit, status, clienteData, vendedorData, productoFactura, totalProductosSinIva, ivaTotal, amount, metodoPago, createdAt } = selectedInvoices;
+
+  // Crear un nuevo documento PDF
+  // eslint-disable-next-line new-cap
+  const doc = new jsPDF();
+
+  // Agregar el número de factura
+  doc.setFontSize(16);
+  doc.text(`Número de Factura: ${invoiceNumber}`, 20, 20);
+
+  // Agregar la fecha de la factura
+  doc.setFontSize(12);
+  doc.text(`Fecha de Factura: ${fDateTime(createdAt)}`, 20, 30);
+
+  // Agregar los datos generales de la factura
+  doc.setFontSize(12);
+  doc.text(`Factura a crédito: ${credit ? 'Sí' : 'No'}`, 20, 40);
+  doc.text(`Estado: ${status}`, 20, 50);
+  doc.text(`Cliente: ${clienteData.name}`, 20, 60);
+  doc.text(`Cédula o Rif: ${clienteData.identification}`, 20, 70);
+  doc.text(`Código Vendedor: ${vendedorData?.codigo}`, 20, 80);
+  doc.text(`Nombre Vendedor: ${vendedorData?.name}`, 20, 90);
+
+  // Agregar la lista de productos
+  doc.setFontSize(14);
+  doc.text('Lista de Productos:', 20, 110);
+
+  let y = 120;
+  doc.setFontSize(12);
+  doc.text('Código', 20, y);
+  doc.text('Producto', 60, y);
+  doc.text('Cantidad', 120, y);
+  doc.text('Precio sin Iva', 160, y);
+
+  y += 10;
+  productoFactura.forEach((product) => {
+    doc.text(product.barcode.toString(), 20, y);
+    doc.text(product.name.toString(), 60, y);
+    doc.text(product.quantity.toString(), 120, y);
+    doc.text(product.preProductoUndSinIva.toFixed(2).toString(), 160, y);
+    y += 10;
+  });
+
+  // Agregar los totales
+  doc.setFontSize(12);
+  doc.text(`Total Producto: ${totalProductosSinIva.toString()}`, 20, y + 20);
+  doc.text(`Iva 16%: ${ivaTotal.toString()}`, 20, y + 30);
+  doc.text(`Total más Iva: ${amount.toString()}`, 20, y + 40);
+
+  // Agregar los métodos de pago
+  doc.setFontSize(14);
+  doc.text('Métodos de Pago:', 20, y + 60);
+
+  y += 70;
+  doc.setFontSize(12);
+  metodoPago.forEach((metodo, index) => {
+    doc.text(`Método ${index + 1}: ${metodo.method}`, 20, y + index * 10);
+    doc.text(`Monto: ${metodo.amount.toString()}`, 60, y + index * 10);
+  });
+
+  // Guardar el documento PDF
+  doc.save('factura.pdf');
+};
+
+
   return (
 <>
 <hr />
  
 <Modal open={selectedInvoices !== null} onClose={() => setSelectedinvoices(null)}>
-    <Box   sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            maxHeight: '80vh',
-            overflowY: 'auto',
-            bgcolor: 'background.paper',
-            borderRadius: '8px',
-            boxShadow: 24,
-            p: 4,
-          }}
-	>
-           {selectedInvoices && (
-        <>	<h2><strong>Numero Factura:</strong></h2>
-            <h3>{selectedInvoices.invoiceNumber}</h3>
-            <p>
-			<p>
-                <strong>Factura a credito:</strong>
-				{selectedInvoices.credit ? 'Sí' : 'No'}
-            </p>
-                <strong>Status:</strong>
-                { capitalizeFirstLetter(selectedInvoices.status)}
-            </p>
-			<p>
-                <strong>Cliente:</strong>
-                { capitalizeFirstLetter(selectedInvoices.clienteData.name)}
-            </p>
-            <p>
-                <strong>Cedula o Rif:</strong>
-                {selectedInvoices.clienteData.identification}
-            </p>
-          
-            <p>
-                <strong>Codigo Vendedor:</strong>
-                {selectedInvoices.vendedorData?.codigo}
-               
-            </p>
-            <p>
-                <strong>Nombre Vendedor:</strong>
-                { capitalizeFirstLetter(selectedInvoices.vendedorData?.name)}
-               
-            </p>
-
-
-            <h3>Lista de Productos:</h3>
-    <ul>
-      {selectedInvoices.productoFactura.map((product) => (
-        <li key={product.barcode}>
-           <strong>Código :  </strong> {product.barcode}<br />
-           <strong>Producto: </strong> { capitalizeFirstLetter(product.name)}<br />
-          {/* <strong>Precio:    </strong> {product.prePSiIva.toFixed(2)}<br />
-          */}
-          <strong>Cantidad:  </strong> {product.quantity}<br />
-          <strong>Precio sin Iva:  </strong> {product. preProductoUndSinIva.toFixed(2)}<br />
-          {/* <strong>Subtotal:  </strong> {product.subtotal.toFixed(2)}<br />
-          <strong>Iva:  </strong> {product.iva.toFixed(2)  }<br /> */}
-        </li>
-      ))}
-    </ul>
-
- 
-           
-
-    {/* <p>
-                <strong>Total productos: </strong>
-                {selectedInvoices.subtotal}
-            </p> */}
+  <Box
+    sx={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      maxHeight: '80vh',
+      overflowY: 'auto',
+      bgcolor: 'background.paper',
+      borderRadius: '8px',
+      boxShadow: 24,
+      p: 4,
+    }}
+  >
+    {selectedInvoices && (
+      <>
+        <h2>
+          <strong>Numero Factura:</strong>
+        </h2>
+        <h3>{selectedInvoices.invoiceNumber}</h3>
         <p>
-                <strong>Total Producto : </strong>
-                {selectedInvoices.totalProductosSinIva}
-            </p>
-            <p>
-                <strong>Iva 16%: </strong>
-                {selectedInvoices.ivaTotal}
-            </p>
-            <p>
-                <strong>Total mas Iva : </strong>
-                {selectedInvoices.amount}
-            </p>
+          <p>
+            <strong>Factura a credito:</strong>
+            {selectedInvoices.credit ? 'Sí' : 'No'}
+          </p>
+          <strong>Status:</strong>
+          {capitalizeFirstLetter(selectedInvoices.status)}
+        </p>
+        <p>
+          <strong>Cliente:</strong>
+          {capitalizeFirstLetter(selectedInvoices.clienteData.name)}
+        </p>
+        <p>
+          <strong>Cedula o Rif:</strong>
+          {selectedInvoices.clienteData.identification}
+        </p>
+        <p>
+          <strong>Codigo Vendedor:</strong>
+          {selectedInvoices.vendedorData?.codigo}
+        </p>
+        <p>
+          <strong>Nombre Vendedor:</strong>
+          {capitalizeFirstLetter(selectedInvoices.vendedorData?.name)}
+        </p>
 
+        <h3>Lista de Productos:</h3>
+        <ul>
+          {selectedInvoices.productoFactura.map((product) => (
+            <li key={product.barcode}>
+              <strong>Código: </strong> {product.barcode}
+              <br />
+              <strong>Producto: </strong> {capitalizeFirstLetter(product.name)}
+              <br />
+              <strong>Cantidad: </strong> {product.quantity}
+              <br />
+              <strong>Precio sin Iva: </strong>{' '}
+              {product.preProductoUndSinIva.toFixed(2)}
+            </li>
+          ))}
+        </ul>
 
-            <h3>Metodo de Pago:</h3>
-    <ul>
-      {selectedInvoices?.metodoPago?.map((metodo) => (
-        <li key={metodo?.amount}>
-           <strong>Instrumento:  </strong> {capitalizeFirstLetter(metodo?.method)}<br />
-           <strong>Monto: </strong> {formatAmountB(metodo?.amount)}<br />
-        
-         
-        </li>
-      ))}
-    </ul>
+        <p>
+          <strong>Total Producto: </strong>
+          {selectedInvoices.totalProductosSinIva}
+        </p>
+        <p>
+          <strong>Iva 16%: </strong>
+          {selectedInvoices.ivaTotal}
+        </p>
+        <p>
+          <strong>Total mas Iva: </strong>
+          {selectedInvoices.amount}
+        </p>
 
-            <p>
-                <strong>Fecha de Venta: </strong>
-                {fDateTime(selectedInvoices.createdAt)}
-            </p>
-		
-			<p>
-                <strong>Fecha de Vencimiento: </strong>
-                {fDateTime(selectedInvoices.dueDate)}
-            </p>
-            <Button variant="contained" onClick={() => setSelectedinvoices(null)}>
-                Cerrar
-            </Button>
-        </>
-        )}
-    </Box>
+        <h3>Metodo de Pago:</h3>
+        <ul>
+          {selectedInvoices?.metodoPago?.map((metodo) => (
+            <li key={metodo?.amount}>
+              <strong>Instrumento: </strong>
+              {capitalizeFirstLetter(metodo?.method)}
+              <br />
+              <strong>Monto: </strong>
+              {formatAmountB(metodo?.amount)}
+              <br />
+            </li>
+          ))}
+        </ul>
+
+        <p>
+          <strong>Fecha de Venta: </strong>
+          {fDateTime(selectedInvoices.createdAt)}
+        </p>
+
+        <p>
+          <strong>Fecha de Vencimiento: </strong>
+          {fDateTime(selectedInvoices.dueDate)}
+        </p>
+
+        <Button variant="contained" onClick={() => setSelectedinvoices(null)}>
+          Cerrar
+        </Button>
+
+        <Button variant="contained" onClick={generatePDF} style={{marginLeft:10, backgroundColor:'red'}}>
+          Generar PDF
+        </Button>
+      </>
+    )}
+  </Box>
 </Modal>
+
 
 {/* End Modal nalysis  */}
 
