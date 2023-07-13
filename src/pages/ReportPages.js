@@ -1,11 +1,13 @@
 
 import React, { } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import {  Button,Typography,Container,  Grid,TextField } from '@mui/material';
 import { SearchInvoiceByDate } from '../components/SearchInvoiceByDate';
 import { SearchSaleByDate } from '../components/SearchSaleByDate';
 
 import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
+import { SalesReport } from '../components/SalesReport';
 
 const StyledTextField = styled(TextField)`
   && {
@@ -55,7 +57,7 @@ const ReportPages = () => (
           {/* Componente de búsqueda de ventas por rango de fechas */}
           {/* Agrega los campos de entrada y el botón de búsqueda */}
           {/* Usa handleSalesSearch para manejar la búsqueda */}
-          {/* <SearchSaleByDate/> */}
+          <SalesReport/>
       
       
         </Grid>
@@ -70,9 +72,9 @@ const ReportPages = () => (
         </Grid>
         <Grid item xs={12} md={6}>
           {/* Otros botones para acceder a diferentes informes */}
-          <Button variant="contained">
-            Informe 1
-          </Button>
+     <Link to='/dashboard/cierres' >    <Button variant="contained">
+           Resumen de Cierres
+          </Button></Link>
           <Button variant="contained">
             Informe 2
           </Button>
