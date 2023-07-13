@@ -71,7 +71,7 @@ const SearchSaleByDate = () => {
 		  console.log(startDate,endDate);
 		  
 		  try {
-			const response = await axios.get(`${API_URL_D}api/report/daily-report/${startDate}/${endDate}`,{ headers: authHeader() } );
+			const response = await axios.get(`${API_URL}api/report/daily-report/${startDate}/${endDate}`,{ headers: authHeader() } );
 	
 			if (response) {
 			  setSuccessMessage("Venta para la fecha");
