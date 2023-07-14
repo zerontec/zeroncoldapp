@@ -39,9 +39,14 @@ const columns = [
 	  label: "Monto de Cierre",
 	  minWidth: 100,
 	},
+  {
+	  id: "name",
+	  label: "Total Ventas a Credito ",
+	  minWidth: 100,
+	},
 	{
 	  id: "age",
-	  label: "Cedula o Rif",
+	  label: "Resumen Metodos y cambio",
 	  minWidth: 50,
 	},
 
@@ -83,7 +88,7 @@ const generatePDF = () => {
   }
 
   reportes.reports.forEach((item) => {
-    const { date, totalSales, paymentTotals } = item;
+    const { date, totalSales, paymentTotals , creditSales} = item;
 
     // Verificar si paymentTotals es una cadena de texto válida
     if (typeof paymentTotals === 'string') {
@@ -110,6 +115,8 @@ const generatePDF = () => {
           // Agregar el contenido al PDF
           doc.text(`Fecha: ${date}`, textX, 50);
           doc.text(`Total de Ventas: $${formatAmountB(totalSales)}`, textX, 70);
+          
+          doc.text(`Total Ventas a Credito: $${formatAmountB(creditSales)}`, textX, 80);
 
           let yPos = 100;
           Object.entries(paymentTotalsObj).forEach(([method, amount]) => {
@@ -205,6 +212,9 @@ const generatePDF = () => {
                 <TableCell align="left">{item.date}</TableCell>
                 <TableCell align="left">
                   <strong>${formatAmountB(item.totalSales)}</strong>
+                </TableCell>
+                <TableCell align="left">
+                  <strong>${formatAmountB(item.creditSales)}</strong>
                 </TableCell>
                 {/* Renderizar paymentTotals */}
                 <TableCell align="left">
