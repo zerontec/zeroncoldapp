@@ -31,9 +31,14 @@ const columns = [
 	},
 	{
 	  id: "age",
-	  label: "Resumen Metodos de Pago",
+	  label: "Total Ventas a Credito ",
 	  minWidth: 50,
 	},
+	{
+		id: "age",
+		label: "Resumen Metodos de Pago",
+		minWidth: 50,
+	  },
 
   ];
 
@@ -46,7 +51,7 @@ const SalesReport = () => {
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [searchError, setSearchError] = useState(false);
 	const[errorMessage, setErrrorMessage]=useState({})
-const API_URL_D = "http://localhost:5040/";
+	const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
 	
 
@@ -56,7 +61,7 @@ const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
 	const [summary, setSummary] = useState(null);
 
 	const generateSummary = () => {
-	  axios.get(`${API_URL}api/dayli/sales-report`,{ headers: authHeader() })
+	  axios.get(`${API_URL}api/dayli/sales-report`)
 		.then(response => {
 		  setSummary(response.data);
 
@@ -96,7 +101,7 @@ const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
   
 	return (
 	  <div>
-		<Button variant="contained" onClick={generateSummary}>Generar Resumen</Button>
+		<Button variant="contained" onClick={generateSummary}>Generar Cierre</Button>
   
 	
 
@@ -120,35 +125,24 @@ const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
 		  </TableHead>
 		  <TableBody>
 	
-		  {summary && ( 
-    
-        <TableRow >
-          <TableCell align="left"> {summary.date}</TableCell>
-          <TableCell align="left"> ${formatAmountB( summary.totalSales)}</TableCell>
-  
+		  {summary && (
+  <TableRow>
+    <TableCell align="left">{summary.date}</TableCell>
+    <TableCell align="left">${summary.totalSales}</TableCell>
+	<TableCell align="left">${summary.creditSales}</TableCell>
+    <TableCell className="tableCell">
+      <ul>
+        {Object.entries(summary.paymentTotals).map(([method, amount]) => (
+          <li key={method}>
+            <strong>{method}: </strong>
+            { formatAmountB (amount)}
+          </li>
+        ))}
+      </ul>
+    </TableCell>
+  </TableRow>
+)}
 
-				  <>
-					<TableCell className="tableCell">
-					<ul>
-					{Object.entries(summary.paymentTotals).map(([method, amount]) => (
-					  <li key={method}>
-						<strong>{method}: </strong>{formatAmountB(amount)}
-					  </li>
-					))}
-				  </ul>
-					</TableCell>
-				
-				
-
-				  </>
-
-				  <div style={{ color: 'Black' }}>
-			  <ErrorMessage message={errorMessage} show={searchError} />
-			  </div>
-
-				  
-				</TableRow>
-		  )}
 		  </TableBody>
 		  {/* <Button variant="contained" onClick={handleSubmitPurchase}>
 	Enviar
