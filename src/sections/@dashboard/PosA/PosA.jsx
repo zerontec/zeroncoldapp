@@ -231,9 +231,7 @@ console.log("numric value en postA", nformattedValue)
   });
 
   const paymentAmountsSum = Object.values(paymentAmounts).reduce((total, amount) => total + parseFloat(amount || 0), 0);
-  // const remainingAmounts = TotalF - paymentAmountsSum;
-  // console.log('ramainig', remainingAmounts);
-console.log("paymenAmountSum", paymentAmountsSum)
+  console.log("paymenAmountSum", paymentAmountsSum)
 
   // const [paymentAmountBs, setPaymentAmountBs] = useState(0);
   
@@ -241,15 +239,10 @@ console.log("paymenAmountSum", paymentAmountsSum)
   const [remainingAmounts, setRemainingAmounts] = useState(0);
   const [resultTotalBs, setResultTotalBs] = useState(0);
 
-  // const newRemainingAmounts = TotalF - paymentAmountsSum;
- 
-  // setRemainingAmounts(newRemainingAmounts);
-  // const remainBs = remainingAmounts * parseFloat (nformattedValue)
-  // setResultTotalBs(remainBs)
-  // // const resultTotalBs = remainBs;
 
   useEffect(() => {
     const newRemainingAmounts = TotalF - paymentAmountsSum;
+    
     setRemainingAmounts(newRemainingAmounts);
     const remainBs = newRemainingAmounts * parseFloat(nformattedValue);
     setResultTotalBs(remainBs);
@@ -257,13 +250,20 @@ console.log("paymenAmountSum", paymentAmountsSum)
   
 
 
+ 
+
+
+
+
+
 
 
 const [cashresEfe, setcashresEfe]= useState(0)
 const [cashresT, setcashresT]= useState(0)
 const [changeAmount, setChangeAmount] = useState(0);
+const [changeAmountDolar, setChangeAmountDolar] = useState(0);
 
-  const [cashAmount, setCashAmount] = useState(0);
+
   
   const handlePaymentAmountChange = (method, newAmount) => {
     setPaymentAmounts(prevAmounts => {
@@ -272,18 +272,27 @@ const [changeAmount, setChangeAmount] = useState(0);
         [method]: newAmount || 0,
       };
   
+
+     
+
       if (method === 'efectivoBs') {
         const newAmountBs = parseFloat(newAmount) || 0;
+        console.log("newAmountBs", newAmountBs)
         const nformattedValueParsed = parseFloat(nformattedValue);
+        
         const retsDola = newAmountBs / nformattedValueParsed;
+        console.log("resDola", retsDola)
         const casResp = newAmountBs * nformattedValueParsed;
+       console.log("casResp ",casResp )
         setcashresEfe(casResp );
   
         const newRemainingAmounts = remainingAmounts - retsDola;
+       console.log("newRemainingAmounts",newRemainingAmounts)
         const newResultTotalBs = resultTotalBs - newAmountBs;
-  
-        setRemainingAmounts(newRemainingAmounts);
-        setResultTotalBs(newResultTotalBs);
+       console.log("newResultTotalBs",newResultTotalBs)
+        
+        // setRemainingAmounts(newRemainingAmounts);
+        // setResultTotalBs(newResultTotalBs);
       }
       if (method === 'transfer') {
         const newAmountBs = parseFloat(newAmount) || 0;
@@ -292,11 +301,11 @@ const [changeAmount, setChangeAmount] = useState(0);
         const casRespT = newAmountBs * nformattedValueParsed;
         setcashresT(casRespT );
   
-        const newRemainingAmounts = remainingAmounts - retsDola;
-        const newResultTotalBs = resultTotalBs - newAmountBs;
+        // const newRemainingAmounts = remainingAmounts - retsDola;
+        // const newResultTotalBs = resultTotalBs - newAmountBs;
   
-        setRemainingAmounts(newRemainingAmounts);
-        setResultTotalBs(newResultTotalBs);
+        // setRemainingAmounts(newRemainingAmounts);
+        // setResultTotalBs(newResultTotalBs);
       }
   
       updatePaymentSummary(updatedAmounts);
@@ -334,18 +343,44 @@ const [changeAmount, setChangeAmount] = useState(0);
     updatePaymentSummary(updatedAmounts);
   };
 
+
+
   useEffect(() => {
     updatePaymentSummary(paymentAmounts);
   
-    // Calcula el cambio/vuelto
-    const cashAmount = parseFloat(paymentAmounts.efectivoBs) || 0;
-    console.log("cashAmount", cashAmount)
-    const paseDo = cashAmount * nformattedValue
-    const change = paseDo - resultTotalBs;
-  console.log("change",)
-    setChangeAmount(() => change); // Actualiza el estado usando un callback
-  }, [paymentAmounts, resultTotalBs]);
+    const cashAmount = parseFloat(paymentAmounts[paymentMethod]) || 0;
+    const paseDo = cashAmount * parseFloat(nformattedValue);
+    const difference = TotalF - paymentAmountsSum;
   
+    if (difference === 0) {
+      setChangeAmount(0);
+    } else if (difference < 0) {
+      const change = Math.abs(difference);
+      console.log("change", change)
+      setChangeAmount(change);
+    } else {
+      const change = paseDo - resultTotalBs;
+      setChangeAmount(change);
+    }
+    if (paymentAmountsSum > TotalF) {
+        setRemainingAmounts(0)
+        setResultTotalBs(0)
+
+
+    }
+  
+    // if (paymentAmountsSum > TotalF) {
+    //   const difference = paymentAmountsSum - TotalF;
+    //   setPaymentAmounts(prevAmounts => ({
+    //     ...prevAmounts,
+    //     [paymentMethod]: prevAmounts[paymentMethod] - difference,
+    //   }));
+    // }
+  }, [paymentAmounts, resultTotalBs, TotalF, nformattedValue, paymentMethod, paymentAmountsSum]);
+  
+
+
+
   const updatePaymentSummary = (amounts) => {
     const updatedSummary = Object.entries(amounts).map(([key, value]) => {
       if (value !== 0) {
@@ -356,15 +391,13 @@ const [changeAmount, setChangeAmount] = useState(0);
       }
       return null;
     }).filter(item => item !== null);
-
-    // Calcula el cambio/vuelto
-  const cashAmount = parseFloat(amounts.efectivoBs) || 0;
-  const change = cashAmount - resultTotalBs;
-  setChangeAmount(change);
   
-    setPaymentSummary(updatedSummary);
+    if (updatedSummary.length > 0) {
+      setPaymentSummary(updatedSummary);
+    } else {
+      setPaymentSummary([]);
+    }
   };
-  
 
 
 
@@ -385,11 +418,19 @@ const [changeAmount, setChangeAmount] = useState(0);
   const handleCloseModal = () => {
     // Restablece los estados a sus valores iniciales
     setIsModalOpen(false);
-    setPaymentMethod('');
+    setPaymentMethod([]);
     setPaymentAmounts({
       efectivoBs: '',
       transfer: '',
-      credit: '',
+      zeller:'',
+      panama:'',
+      divisas: '',
+
+  
+    });
+    setPaymentAmounts({
+   
+  
     });
     setIsCredit(false);
     setSelectedDate(null);
@@ -402,14 +443,19 @@ const [changeAmount, setChangeAmount] = useState(0);
   const handleSubmitInvoice = (event) => {
     event.preventDefault();
 
-
-
-    const updatedPaymentMethodsArray = paymentSummary.map((item) => ({
+    let updatedPaymentMethodsArray = [];
+    let totalChange = 0;
+  
+    if (!isCredit) {
+      updatedPaymentMethodsArray = paymentSummary.map((item) => ({
         method: item.method,
         amount: item.method === 'efectivoBs' ? (cashresEfe || 0) : (item.method === 'transfer' ? (cashresT || 0) : item.amount),
-
       }));
-
+  
+      totalChange = changeAmount;
+    }
+  
+  
     const selectedPrice = selectedProductPrice;
     const productToAdd = {
       ...product,
@@ -429,8 +475,9 @@ const [changeAmount, setChangeAmount] = useState(0);
 
     const invoiceData = {
       credit: isCredit,
-      metodoPago: updatedPaymentMethodsArray,
+      metodoPago: isCredit ? [] : [...updatedPaymentMethodsArray, { method: 'change', amount: totalChange }],
       dueDate: selectedDate,
+      // change:totalChange,
 
       customer: {
         identification: manualClientData.identification || selectedCustomer.identification,
@@ -563,7 +610,7 @@ const [changeAmount, setChangeAmount] = useState(0);
             <Typography variant="h6">Iva(16%): {iva.toFixed(2)}</Typography>
             <Typography variant="h6">
               Total: {currencys}
-              {TotalF}
+              {TotalF.toFixed(2)}
             </Typography>
           </Box>
           <Typography>
@@ -671,11 +718,11 @@ const [changeAmount, setChangeAmount] = useState(0);
         {item.method}: {currencys} {formatAmountB(item.amount)}
       </Typography>
     ))}
-    {/* {changeAmount > 0 && (
+    {changeAmount > 0 && (
       <Typography>
-        Cambio: {currencys} {changeAmount}
+        Cambio : {currencys} {changeAmount.toFixed(2)}
       </Typography>
-    )} */}
+    )}
   </Box>
 )}
             <Grid item xs={12}>
@@ -836,12 +883,12 @@ const [changeAmount, setChangeAmount] = useState(0);
                       <TableCell>{item.barcode}</TableCell>
                       <TableCell>{item.name}</TableCell>
                       {/* <TableCell>{item.description}</TableCell> */}
-                      <TableCell>$ {item.price}</TableCell>
-                      <TableCell>Bs {item.subtotalBsu ? formatAmountB(item.subtotalBsu) : ''}</TableCell>
+                      <TableCell>$ {formatAmountB(item.price)}</TableCell>
+                      <TableCell>Bs {formatAmountB(item.subtotalBsu) ? formatAmountB(item.subtotalBsu) : ''}</TableCell>
 
                       <TableCell>{item.quantity}</TableCell>
-                      <TableCell>S {item.subtotal}</TableCell>
-                      <TableCell>BS {item.subtotalBs ? formatAmountB(item.subtotalBs) : ''}</TableCell>
+                      <TableCell>S {formatAmountB(item.subtotal)}</TableCell>
+                      <TableCell>BS {formatAmountB(item.subtotalBs) ? formatAmountB(item.subtotalBs) : ''}</TableCell>
                       <TableCell>
                         <Button variant="contained" color="error" onClick={() => handleRemoveProduct(index)}>
                           Quitar
