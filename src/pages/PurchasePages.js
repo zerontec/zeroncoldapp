@@ -86,7 +86,7 @@ return(
 	<LinkText>Lista de Proveedores</LinkText>
   </LinkBox>
 
-  <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/lista-proveedores')}>
+  <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/cuentasxp')}>
 	<LinkText>Compras por Pagar </LinkText>
   </LinkBox>
 
