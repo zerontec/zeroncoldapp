@@ -97,6 +97,12 @@ const columns = [
 		
 
 	},
+	{	
+		id:"check",
+		label:"Estatus",
+		
+
+	},
 	// {
 	// 	id:"canti",
 	// 	label:"cantidad trasladar"
@@ -204,13 +210,7 @@ const handleEditClick = (purchase) => {
 	setRowsPerPage(parseInt(event.target.value, 10));
 	setPage(0);
   };
-//   const [purchase, setPurchase] = useState(
-// 	compras.purchases.map((p) => ({
-// 	  ...p,
-// 	  selected: false,
-// 	  quantityToMove: 0, // Nuevo estado para la cantidad a mover
-// 	}))
-//   );;
+
 
   const handleSubmit = (e) => {
 	if (
@@ -428,20 +428,7 @@ return(	<>
 				  }
 				/>
 			  
-			  
-{/* 
-			  <TextField
-			   label= "Precio"
-			   name="price"
-				  value={selectedPurchaseEdit.price}
-				  onChange={(e) =>
-					setSelectedPurchaseEdit({
-					  ...selectedPurchaseEdit,
-					  price: e.target.value,
-					})
-				  }
-				/>
-				 */}
+
 			
 			 
 			 
@@ -514,43 +501,15 @@ return(	<>
           <TableCell align="left"> {capitalizeFirstLetter(items.supplierName)}</TableCell>
           <TableCell align="left"> {capitalizeFirstLetter(items.supplierRif)}</TableCell>
 				  
-					{/* <TableCell align="left" padding="checkbox"    checked={items.selected}
-onChange={() => handleToggleSelect(items.id)} >
-	  <Checkbox
-		
-	  />
-	</TableCell> */}
-	
-	{/* <TableCell align="left">
-{items.id ? (
-<TextField
-  type="number"
-  value={items.quantityToMove} // Usar el estado quantityToMove del producto
-  onChange={(e) =>
-	handleQuantityChange(items.id, Number(e.target.value)) // Llamar a una función de manejo de cambios de cantidad
-  }
-/>
-) : null}
-</TableCell> */}
-
-{/* <TableCell align="left">
-{items.selected ? (
-<TextField
-  type="number"
-  value={"" + items.quantityToMove} // Usar el estado quantityToMove del producto
-  onChange={(e) =>
-	handleQuantityChange(items.id, Number(e.target.value)) // Llamar a una función de manejo de cambios de cantidad
-  }
-/>
-) : null}
-</TableCell> */}
+		  <TableCell align="left"> {capitalizeFirstLetter(items.status)}</TableCell>
+				  
 				  <>
 					<TableCell className="tableCell">
 					  <Button
 						variant="contained"
 						onClick={() => setSelectedPurchase(items)}
 					  >
-						Ver
+						Ver Compra
 					  </Button>
 					</TableCell>
 					<TableCell className="tableCell">
