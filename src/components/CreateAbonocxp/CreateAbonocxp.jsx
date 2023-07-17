@@ -213,7 +213,7 @@ const CreateAbonocxp = ({ compraId }) => {
                   color="primary"
                   disabled={!isFormValid} // Deshabilitar el botón si isFormValid es false
                 >
-                  {loading ? 'Cargando...' : 'Crear Prestamo'}
+                  {loading ? 'Cargando...' : 'Agregar Abono '}
                 </Button>
               </ActionsContainer>
             </FormContainer>
