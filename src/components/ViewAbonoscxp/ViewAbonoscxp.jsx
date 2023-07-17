@@ -78,7 +78,7 @@ const ViewAbonoscxp = ({ compraId }) => {
 
   const handleVerPagos = async (compraId) => {
     try {
-      const response = await axios.post(`${API_URL_D}api/account-payable/get-all-pay`, { compraId });
+      const response = await axios.post(`${API_URL}api/account-payable/get-all-pay`, { compraId });
       setSelectedCuentaPagos(response.data);
       setSelectedCuenta(compraId);
     } catch (error) {
