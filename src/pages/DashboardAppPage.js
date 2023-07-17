@@ -27,13 +27,14 @@ import {
 } from '../sections/@dashboard/app';
 import { ModuleLinks } from '../components/ModuleLinks';
 import { FloatingButtonComponent } from '../components/FloatingButtonComponent';
+import { SalesRealTime } from '../components/SalesRealTime';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
 
   const [valoresDolar, setValoresDolar] = useState({});
-const[dataDailySales, setDataDailySale]= useState({});
+  const[dataDailySales, setDataDailySale]= useState({});
 
   useEffect(() => {
     // Realiza la consulta inicial al cargar el componente
@@ -69,21 +70,21 @@ const[dataDailySales, setDataDailySale]= useState({});
   };
 
 
-const fetchDayliSales = async() => {
+// const fetchDayliSales = async() => {
 
-    try{
-      const response = await fetch('http://localhost:5040/api/report/daily-sales');
-      const data = await response.json();
-      setDataDailySale(data);
+//     try{
+//       const response = await fetch('http://localhost:5040/api/report/daily-sales');
+//       const data = await response.json();
+//       setDataDailySale(data);
 
-    }catch(error){
+//     }catch(error){
 
-      console.error('Error al obtener los datos del dólar:', error);
+//       console.error('Error al obtener los datos del dólar:', error);
 
-    }
+//     }
 
 
-}
+// }
 
 
 
@@ -134,7 +135,8 @@ const fetchDayliSales = async() => {
 
           {/* <Grid item xs={12} sm={6} md={3}>
           <AddShoppingCartIcon style={{color:"blue"}}/>
-            <AppWidgetSummary title="Ventas de el dia " total={1723315} color="warning" icon={'ant-design:car'} />
+            <AppWidgetSummary title="Ventas de el dia "/>
+            <SalesRealTime/>
           </Grid> */}
 
           {/* <Grid item xs={12} sm={6} md={3}>
