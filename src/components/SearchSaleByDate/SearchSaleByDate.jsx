@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import styled from 'styled-components';
 
+import Swal from 'sweetalert2';
 import { Button, Typography, Container,  TextField , Snackbar} from '@mui/material';
 
 import authHeader from '../../redux/services/auth-header';
@@ -85,8 +86,19 @@ const SearchSaleByDate = () => {
 			console.log("response",response)
 		   
 		  } catch (error) {
+        if (error.response && error.response.status === 404) {
+          const errorMessage = error.response.data.message;
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: errorMessage,
+          });
+        } else {
+          console.error('Error al generar el resumen del cierre de ventas:', error);
+        }
 			setErrorMessage(error.message);
 		  }
+
 		} catch (error) {
 		  setErrorMessage(error.message);
 		}
