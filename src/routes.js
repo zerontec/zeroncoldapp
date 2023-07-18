@@ -37,6 +37,7 @@ import NotasCreditoPages from './pages/NotasCreditoPages';
 import { AdminPerfil } from './sections/@dashboard/AdminPerfil';
 import { TableClosure } from './components/TableClosure';
 import AccountPayablePages from './pages/AccountPayablePages';
+import ExpensesPages from './pages/ExpensesPage';
 
 // ----------------------------------------------------------------------
 
@@ -83,7 +84,7 @@ export default function Router() {
         { path: 'notas-credito', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <NotasCreditoPages/></ProtectedRoute> },
         { path: 'cuentasxp', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <AccountPayablePages/></ProtectedRoute> },
         { path: 'cierres', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <TableClosure/></ProtectedRoute> },
-      
+        { path: 'gastos', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <ExpensesPages/></ProtectedRoute> },
       ],
     },
 
