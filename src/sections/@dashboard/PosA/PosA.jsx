@@ -226,8 +226,9 @@ console.log("numric value en postA", nformattedValue)
     efectivoBs: 0,
     transfer: 0,
     divisas: 0,
-    zeller:0,
+    zelle:0,
     panama:0,
+    pagoMovil:0
   });
 
   const paymentAmountsSum = Object.values(paymentAmounts).reduce((total, amount) => total + parseFloat(amount || 0), 0);
@@ -260,6 +261,7 @@ console.log("numric value en postA", nformattedValue)
 
 const [cashresEfe, setcashresEfe]= useState(0)
 const [cashresT, setcashresT]= useState(0)
+const [cashrePM, setcashrePM]= useState(0)
 const [changeAmount, setChangeAmount] = useState(0);
 const [changeAmountDolar, setChangeAmountDolar] = useState(0);
 
@@ -299,6 +301,7 @@ const [changeAmountDolar, setChangeAmountDolar] = useState(0);
         const nformattedValueParsed = parseFloat(nformattedValue);
         const retsDola = newAmountBs / nformattedValueParsed;
         const casRespT = newAmountBs * nformattedValueParsed;
+        
         setcashresT(casRespT );
   
         // const newRemainingAmounts = remainingAmounts - retsDola;
@@ -307,6 +310,21 @@ const [changeAmountDolar, setChangeAmountDolar] = useState(0);
         // setRemainingAmounts(newRemainingAmounts);
         // setResultTotalBs(newResultTotalBs);
       }
+
+      if (method === 'pagoMovil') {
+        const newAmountBs = parseFloat(newAmount) || 0;
+        const nformattedValueParsed = parseFloat(nformattedValue);
+       
+        const casResPM = newAmountBs * nformattedValueParsed;
+        setcashrePM(casResPM );
+  
+        // const newRemainingAmounts = remainingAmounts - retsDola;
+        // const newResultTotalBs = resultTotalBs - newAmountBs;
+  
+        // setRemainingAmounts(newRemainingAmounts);
+        // setResultTotalBs(newResultTotalBs);
+      }
+  
   
       updatePaymentSummary(updatedAmounts);
   
@@ -337,6 +355,10 @@ const [changeAmountDolar, setChangeAmountDolar] = useState(0);
     }
     if (selectedMethod === 'transfer') {
       updatedAmounts[selectedMethod] = cashresT
+      
+    }
+    if (selectedMethod === 'pagoMovil') {
+      updatedAmounts[selectedMethod] = cashrePM
       
     }
   
@@ -386,7 +408,7 @@ const [changeAmountDolar, setChangeAmountDolar] = useState(0);
       if (value !== 0) {
         return {
           method: key,
-          amount: key === 'efectivoBs' ? cashresEfe || 0 : key === 'transfer' ? cashresT || 0 : parseFloat(value) || 0,
+          amount: key === 'efectivoBs' ? cashresEfe || 0 : key === 'transfer' ? cashresT || 0 : key === 'pagoMovil'? cashrePM || 0 : parseFloat(value) || 0,
         };
       }
       return null;
@@ -425,6 +447,7 @@ const [changeAmountDolar, setChangeAmountDolar] = useState(0);
       zeller:'',
       panama:'',
       divisas: '',
+      pagoMovil:''
 
   
     });
@@ -638,6 +661,7 @@ const [changeAmountDolar, setChangeAmountDolar] = useState(0);
                   <MenuItem value="divisas">Efectivo Divisas</MenuItem>
                   <MenuItem value="zeller">Zeller</MenuItem>
                   <MenuItem value="panama">Banesco Panama</MenuItem>
+                  <MenuItem value="pagoMovil">Pago Movil</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -651,6 +675,20 @@ const [changeAmountDolar, setChangeAmountDolar] = useState(0);
         // eslint-disable-next-line dot-notation
         value={paymentAmounts['efectivoBs']}
         onChange={(e) => handlePaymentAmountChange('efectivoBs', e.target.value)}
+        disabled={isCredit || remainingAmounts < 0}
+      />
+    </Grid>
+  )}
+
+{paymentMethod.includes('pagoMovil') && (
+    <Grid item xs={12}>
+      <TextField
+        fullWidth
+        type="number"
+        label="Pago Movil"
+        // eslint-disable-next-line dot-notation
+        value={paymentAmounts['pagoMovil']}
+        onChange={(e) => handlePaymentAmountChange('pagoMovil', e.target.value)}
         disabled={isCredit || remainingAmounts < 0}
       />
     </Grid>
