@@ -14,11 +14,14 @@ import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
+
 import { Document, Page, pdfjs } from '@react-pdf/renderer';
 import numeral from 'numeral';
 
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
+import authHeader from '../../redux/services/auth-header';
+
 import { fDateTime } from '../../utils/formatTime';
 
 const columns = [
@@ -74,7 +77,7 @@ const ViewAbonoscxp = ({ compraId }) => {
 
   const handleVerPagos = async (compraId) => {
     try {
-      const response = await axios.post(`${API_URL}api/account-payable/get-all-pay`, { compraId });
+      const response = await axios.post(`${API_URL}api/account-payable/get-all-pay`, { compraId },{ headers: authHeader() });
       setSelectedCuentaPagos(response.data);
       setSelectedCuenta(compraId);
     } catch (error) {
