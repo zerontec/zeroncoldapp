@@ -28,6 +28,7 @@ import styled, { css } from 'styled-components';
 import { jsPDF } from "jspdf";
 import { fDateTime } from '../../../utils/formatTime';
 import { deleteExpense, getAllExpense, updateExpense } from '../../../redux/modules/expenses';
+import { CreateExpenses } from '../../../components/CreateExpenses';
 
 const FormContainer = styled.form`
   display: flex;
@@ -351,21 +352,18 @@ const handleCloseModal = () => {
 
 
 <Box sx={{ m: 2 }}>
- {/* <div style={{marginLeft:70}}>
+ <div style={{marginLeft:70}}>
   
   
-  <SearchInvoiceByDate /></div>
-   */}
+  <CreateExpenses/></div>
+  
   
         <TextField
-          label="Buscar Facturas"
+          label="Buscar Gasto"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Button variant="contained" onClick={handleSearch}>
-          Buscar
-        </Button>
-       
+   
   
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }}>
@@ -442,7 +440,7 @@ const handleCloseModal = () => {
           <TablePagination
             rowsPerPageOptions={[5,10, 100]}
             component="div"
-            count={gastos.expenses.length}
+            count={gastos?.expenses.expenses?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
