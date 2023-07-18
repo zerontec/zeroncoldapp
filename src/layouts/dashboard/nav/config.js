@@ -20,7 +20,7 @@ const navConfig = [
   {
     title: 'Administracion',
     path: '/dashboard/Administracion',
-    icon: icon('ic_cart'),
+    icon: icon('ic_analytics'),
     
   },
   // {
@@ -60,6 +60,14 @@ icon: icon('ic_user'),
     icon: icon('ic_user'),
     
     },
+
+    {
+
+      title: 'gastos',
+      path:'/dashboard/gastos',
+      icon: icon('ic_money'),
+      
+      },
   
 
 
