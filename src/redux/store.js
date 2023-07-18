@@ -19,6 +19,7 @@ import loanReducer from './modules/loan';
 import paymentReducer from './modules/payments';
 import reportReducer from './modules/reports';
 import payablesReducer from './modules/accountPayables';
+import expenseReducer from './modules/expenses';
 
 
 // Combinar los reducers de tus módulos
@@ -39,7 +40,8 @@ const rootReducer = combineReducers({
   loan:loanReducer,
   payment:paymentReducer,
   report:reportReducer,
-  payable:payablesReducer
+  payable:payablesReducer,
+  expense:expenseReducer
  
   // Otros módulos de Redux
 });
