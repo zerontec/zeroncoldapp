@@ -94,9 +94,7 @@ const CreateAbonocxp = ({ compraId }) => {
     }));
     setErrors(validate({ ...formInfo, [name]: value }));
 
-    //   if (name === 'compraId') {
-    // 	setCompraIds(value);
-    //   }
+  
   };
 
   const handleSubmit = (event) => {
@@ -182,7 +180,7 @@ const CreateAbonocxp = ({ compraId }) => {
                   required
                   label="Cantidad "
                   name="montoPagado"
-                  type="texto"
+                  type="number"
                   id="montoPagado"
                   value={formInfo.montoPagado}
                   onChange={handleChange}
