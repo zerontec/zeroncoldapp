@@ -126,12 +126,18 @@ const CreateAbonocxp = ({ compraId }) => {
         }
       })
       .catch((error) => {
-        console.log(error);
-        setLoading(false);
-        setSelectButton(null);
-        setMessageError(error.message);
-        // Swal.fire(error.message);
-      });
+        if (error.response && error.response.status === 400) {
+          const errorMessage = error.response.data.message;
+          Swal.fire({
+          icon: 'error',
+
+          title: 'Error',
+          text: errorMessage,
+          });
+        } else {
+          console.error('Error al generar el resumen del cierre de ventas:', error);
+        }
+        });
   };
 
   return (
