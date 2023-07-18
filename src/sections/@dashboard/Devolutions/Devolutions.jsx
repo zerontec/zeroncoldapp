@@ -326,7 +326,7 @@ const Devolutions = () => {
       {selectedProduct.productoD.map((devolutions) => (
         <li key={devolutions.barcode}>
            <strong>Código :  </strong> {devolutions.barcode}<br />
-           <strong>Producto: </strong> {capitalizeFirstLetter(devolutions.name)}<br />
+           <strong>Producto: </strong> {devolutions.name}<br />
           
          
           <strong>Cantidad:  </strong> {devolutions.quantity}<br />
