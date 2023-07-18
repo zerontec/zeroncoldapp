@@ -22,11 +22,7 @@ import styled from 'styled-components';
 import { fDateTime } from '../../utils/formatTime';
 
 const columns = [
-  //   {
-  //     id: 'id',
-  //     label: 'Seleccion',
-  //     minWidth: 50,
-  //   },
+ 
   {
     id: 'id',
     label: 'Numero de Compra',
