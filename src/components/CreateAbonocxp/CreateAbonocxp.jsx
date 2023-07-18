@@ -1,3 +1,11 @@
+/**
+ * The above code is a React component that renders a form to create a new "Abono" (payment) for a
+ * purchase.
+ * @returns The component is returning a JSX structure that includes a button and a modal. The button
+ * is used to open the modal, and the modal contains a form for creating a new "Abono" (payment) with
+ * various input fields such as "proveedor" (supplier), "montoPagado" (amount paid), and "fechaPago"
+ * (payment date). The form also includes validation for the input
+ */
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -47,12 +55,6 @@ const CreateAbonocxp = ({ compraId }) => {
   });
 
   const formatAmountB = (amount) => numeral(amount).format('0,0.00');
-
-  // useEffect(()=>{
-
-  // 	setCompraIds(compraId)
-
-  // },[setCompraIds])
 
   const [errors, setErrors] = useState({});
 
