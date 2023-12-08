@@ -1,0 +1,1 @@
+export { default as AllTaskTable } from './AllTaskTable';

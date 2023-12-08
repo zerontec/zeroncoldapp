@@ -34,6 +34,14 @@ const navConfig = [
     path: '/dashboard/facturacionA',
     icon: icon('ic_cart'),
   },
+
+
+  {
+    title: 'tareas',
+    path: '/dashboard/tareas',
+    icon: icon('ic_cart'),
+  },
+
   {
     title: 'compras',
     path: '/dashboard/compras',
@@ -115,8 +123,8 @@ icon: icon('ic_user'),
 export const filterAllowedRoutes = (userRoles) => {
   if (userRoles.includes('ROLE_ADMIN')) {
     return navConfig; // Mostrar todas las rutas para el rol de administrador
-  } if (userRoles.includes('ROLE_FACTURACION')) {
-    return navConfig.filter((route) => route.path === '/dashboard/facturacionA');
+  } if (userRoles.includes('ROLE_TECNICO')) {
+    return navConfig.filter((route) => route.path === '/dashboard/tareas');
   } 
     return []; // No se muestran rutas para otros roles
   

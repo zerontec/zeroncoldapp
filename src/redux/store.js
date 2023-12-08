@@ -20,6 +20,7 @@ import paymentReducer from './modules/payments';
 import reportReducer from './modules/reports';
 import payablesReducer from './modules/accountPayables';
 import expenseReducer from './modules/expenses';
+import taskReducer from './modules/task';
 
 
 // Combinar los reducers de tus módulos
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   customer:customerReducer,
   product:productReducer,
   vendedores:sellerReducer,
+  task:taskReducer,
   supplier:supplierReducer,
   purchase:purchaseReducer,
   cuentasxc:cuentasxcReducer,

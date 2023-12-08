@@ -4,7 +4,7 @@ const API_URL_D = "http://localhost:5040/";
 const API_URL = "https://expressjs-postgres-production-bd69.up.railway.app/"
 
 const register = (name, username, email, password) => axios.post(
-  `${API_URL}api/auth/register-user`, {
+  `${API_URL_D}api/auth/register-user`, {
   name,
   username,
   email,
@@ -13,7 +13,7 @@ const register = (name, username, email, password) => axios.post(
 
 const login = (username, password) => axios
   
-    .post(`${API_URL}api/auth/login`, {
+    .post(`${API_URL_D}api/auth/login`, {
       username,
       password,
     })

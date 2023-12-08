@@ -51,14 +51,14 @@ console.log("usuario", usuario)
 const allowedRoutes = usuario.user && usuario.user.roles && usuario.user.roles.includes('ROLE_ADMIN')
 
 ? navConfig
-: navConfig.filter((route) => route.path === '/dashboard/facturacionA')
+: navConfig.filter((route) => route.path === '/dashboard/tareas')
 
 useEffect(() => {
   if (usuario.user.roles.includes('ROLE_ADMIN')) {
     setRoleShow('Administrador');
   }
-  if (usuario.user.roles.includes('ROLE_FACTURACION')) {
-    setRoleShow('Facturacion');
+  if (usuario.user.roles.includes('ROLE_TECNICO')) {
+    setRoleShow('Tecnico');
   } 
 }, [usuario]);
 

@@ -1,4 +1,7 @@
+
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Navigate, useRoutes } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
@@ -38,16 +41,31 @@ import { AdminPerfil } from './sections/@dashboard/AdminPerfil';
 import { TableClosure } from './components/TableClosure';
 import AccountPayablePages from './pages/AccountPayablePages';
 import ExpensesPages from './pages/ExpensesPage';
+import TaskPages from './pages/TaskPages';
+import AllTaskPage from './pages/AllTaskPage';
+import TaskListTecPage from './pages/TaskListTecPage';
+import HistorialTaskTec from './pages/HistorialTaskTec';
 
 // ----------------------------------------------------------------------
 
 
-const user = JSON.parse(localStorage.getItem("user"));
-console.log("user")
 export default function Router() {
-  const isLoggedIn = !!user; // Verificar si el usuario está registrado
-  const redirectPath = isLoggedIn ? "/dashboard" : "/login"; // Determinar la ruta de redirección
+  const [user, setUser] = useState(null);
 
+  // const user = JSON.parse(localStorage.getItem("user"));
+  console.log("user", user)
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    setUser(storedUser);
+  }, []);
+
+  const isLoggedIn = user; // Verificar si el usuario está registrado
+  // const redirectPath = isLoggedIn ? "/dashboard/app" : "/login"; // Determinar la ruta de redirección
+ // Verificar si el usuario está logueado y redirigir a la página de inicio de sesión si no lo está
+//  if (!isLoggedIn) {
+//   return <Navigate to="/login" replace />;
+// }
+// const redirectPath = '/dashboard/app';
 
 
   const routes = useRoutes([
@@ -73,7 +91,7 @@ export default function Router() {
         { path: 'cargar-compras', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <Purchases /></ProtectedRoute> },
         { path: 'lista-compras', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <TablePurchases/></ProtectedRoute> },
         { path: 'lista-proveedores', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <TableSupplier/></ProtectedRoute> },
-        { path: 'facturacionA', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_FACTURACION')) }>  <PosPageA /></ProtectedRoute> },
+
         { path: 'productos-defectuosos', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <ProductDPages /></ProtectedRoute> },
         { path: 'devoluciones-venta', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <DevolutionPages/></ProtectedRoute> },
         { path: 'reportes', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <ReportPages/></ProtectedRoute> },
@@ -85,16 +103,32 @@ export default function Router() {
         { path: 'cuentasxp', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <AccountPayablePages/></ProtectedRoute> },
         { path: 'cierres', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <TableClosure/></ProtectedRoute> },
         { path: 'gastos', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <ExpensesPages/></ProtectedRoute> },
+     
+        { path: 'tareas', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO')) }>  <TaskPages /></ProtectedRoute> },
+        { path: 'alltask', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <AllTaskPage/></ProtectedRoute> },
+          
+        { path: 'mytask', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO')) }>  <TaskListTecPage/></ProtectedRoute> },
+        { path: 'mytaskfinish', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO')) }>  <HistorialTaskTec/> </ProtectedRoute> },
+        
+        
+        // { path: 'tareas', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO') }> <TaskPages/> </ProtectedRoute> },
+     
       ],
     },
 
+    
+
     {
       path: "login",
-      element: isLoggedIn ? <Navigate to="/dashboard" replace /> : <LoginPage />,
+      element: isLoggedIn ? <Navigate to="/dashboard/app" replace /> : <LoginPage />,
     },
+
+
+    
     {
       element: <SimpleLayout />,
       children: [
+      
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },

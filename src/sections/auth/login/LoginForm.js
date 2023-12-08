@@ -28,7 +28,7 @@ import Iconify from '../../../components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+const LoginForm= ()=> {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -53,8 +53,16 @@ export default function LoginForm() {
   const { auth } = useSelector((state) => state);
   console.log("aqui auth", auth)
   
-  if (auth.isLoggedIn && auth.user && auth.user.roles.includes('ROLE_FACTURACION')) {
-    return <Navigate to="/dashboard/facturacionA" />;
+
+  if (auth && auth.user && auth.user.username) {
+    // Acceder a la propiedad 'username' solo si el objeto y la propiedad existen
+    
+    console.log(auth.user.username);
+  } else {
+    console.log('El objeto o la propiedad "username" son nulos.');
+  }
+  if (auth.isLoggedIn && auth.user && auth.user.roles.includes('ROLE_TECNICO')) {
+    return <Navigate to="/dashboard/tareas" />;
   } if (auth.isLoggedIn && auth.user && auth.user.roles.includes('ROLE_ADMIN')) {
     return <Navigate to="/dashboard" />;
   }
@@ -167,7 +175,7 @@ console.log(message)
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <Checkbox name="remember" label="Remember me" />
+        {/* <Checkbox name="remember" label="Remember me" /> */}
         <Link variant="subtitle2" underline="hover">
          Olvidaste tu password comunicate con el Administrador
         </Link>
@@ -189,3 +197,4 @@ console.log(message)
     </>
   );
 }
+export default LoginForm;

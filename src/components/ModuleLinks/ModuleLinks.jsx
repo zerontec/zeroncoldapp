@@ -53,8 +53,20 @@ const ModuleLinks = () => {
         <LinkText>Usuarios De Sistema</LinkText>
       </LinkBox>
 
-      <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/inventario')}>
-        <LinkText>Inventario</LinkText>
+      <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/tareas')}>
+        <LinkText>Tareas </LinkText>
+      </LinkBox>
+
+      <LinkBox style={{ backgroundColor: '#FF5722' }} onClick={() => handleLinkClick('/dashboard/alltask')}>
+        <LinkText> Tareas Admin </LinkText>
+      </LinkBox>
+
+      <LinkBox style={{ backgroundColor: '#E91E63' }} onClick={() => handleLinkClick('/dashboard/mytask')}>
+        <LinkText> Mis Tareas Por Realizar </LinkText>
+      </LinkBox>
+
+      <LinkBox style={{ backgroundColor: 'rgb(33, 150, 243)' }} onClick={() => handleLinkClick('/dashboard/mytaskfinish')}>
+        <LinkText>Mis tareas Terminadas</LinkText>
       </LinkBox>
 
       <LinkBox style={{ backgroundColor: '#ff8c00' }} onClick={() => handleLinkClick('/dashboard/reportes')}>
