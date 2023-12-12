@@ -25,6 +25,7 @@
   },
   "babel": {
     "presets": [
+      "@babel/preset-env",
       "@babel/preset-react"
     ]
   },
@@ -41,6 +42,7 @@
     ]
   },
   "dependencies": {
+    "@babel/preset-env": "^7.23.6",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@faker-js/faker": "^7.6.0",
@@ -81,7 +83,7 @@
     "web-vitals": "^3.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.0",
+    "@babel/core": "^7.23.6",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/preset-react": "^7.23.3",
     "eslint": "^8.34.0",

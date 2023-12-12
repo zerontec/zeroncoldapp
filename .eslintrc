@@ -15,18 +15,20 @@
   "plugins": [
     "react",
     "react-hooks",
-    "prettier"
+    "prettier",
+    "jsx"
   ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 8,
     "requireConfigFile": false,
     
+    
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
       "impliedStrict": true,
       "babelOptions": {
-        "presets": ["@babel/preset-react"]
+        "presets": ["@babel/preset-env","@babel/preset-react"]
      }
     }
   },
