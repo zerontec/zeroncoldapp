@@ -11,7 +11,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Swal from 'sweetalert2';
 import { Alert, Button, TextField } from '@mui/material';
-import {  getAllTask, createTask, assignedTaskTec } from '../../../redux/modules/task';
+import { getAllTask, createTask, assignedTaskTec } from '../../../redux/modules/task';
 
 import { TaskTableTec } from '../TaskTableTec';
 
@@ -47,161 +47,136 @@ const TableContainer = styled.div`
   margin: 0 auto;
 `;
 
-
 const TaskListTec = () => {
+  const [errors, setErrors] = useState({});
+  const { message } = useSelector((state) => state);
+  const [loading, setLoading] = useState(false);
+  const [selectButton, setSelectButton] = useState(null);
+  const [messageError, setMessageError] = useState({});
 
-	const [errors, setErrors] = useState({});
-	const { message } = useSelector((state) => state);
-	const [loading, setLoading] = useState(false);
-	const [selectButton, setSelectButton] = useState(null);
-	const [messageError, setMessageError] = useState({});
-  
-	const dispatch = useDispatch();
-  
-	const [formInfo, setFormInfo] = useState({
-	  description: '',
-	
-	 address:''
-	});
-	const [isFormValid, setIsFormValid] = useState(false);
-  
-	const validateForm = () => {
-	  const {  description,  address } = formInfo;
-	  setIsFormValid(
-	
-		  description.trim() !== '' &&
-		  address.trim() !== '' 
-		  
-	  );
-	};
-  
-	const  tecnicoId = useSelector((state)=> state.auth.user.id)
-	console.log("tecnico id", tecnicoId);
+  const dispatch = useDispatch();
 
-  
+  const [formInfo, setFormInfo] = useState({
+    description: '',
 
-	useEffect(() => {
-	  validateForm();
-	}, [formInfo]);
-  
-	useEffect(() => {
-	  dispatch(assignedTaskTec(tecnicoId));
-	}, [dispatch]);
-  
+    address: '',
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
 
+  const validateForm = () => {
+    const { description, address } = formInfo;
+    setIsFormValid(description.trim() !== '' && address.trim() !== '');
+  };
 
+  const tecnicoId = useSelector((state) => state.auth.user.id);
+  console.log('tecnico id', tecnicoId);
 
+  useEffect(() => {
+    validateForm();
+  }, [formInfo]);
 
-	function validate(formInfo) {
-	  const errors = {};
-	  
-	 
-	  formInfo.description ? (errors.description = '') : (errors.description = 'Ingrese una Descripcion');
-	  formInfo.address ? (errors.address = '') : (errors.address = 'Ingrese una direccion ');
-  
-	
-  
-	  return errors;
-	}
-  
-	function capitalizeFirstLetter(text) {
-	  if (!text) return '';
-	  return text.charAt(0).toUpperCase() + text.slice(1);
-	}
-  
-	const handleChange = (event) => {
-	  const { name, value } = event.target;
-	  setFormInfo((prevFormInfo) => ({
-		...prevFormInfo,
-		[name]: value,
-	  }));
-	  setErrors(validate({ ...formInfo, [name]: value }));
-	};
-  
-	const handleSubmit = (event) => {
-	  event.preventDefault();
-	  setLoading(true);
-	  dispatch(createTask(formInfo))
-		.then((response) => {
-		  setLoading(false);
-		  Swal.fire('tarea creado con éxito!', '', 'success');
-		  dispatch(getAllTask());
-		  setFormInfo({
-			
-			description: '',
-			
-			address: '',
-		  });
-		  setSelectButton(null);
-		  if (response.error) {
-			setMessageError(response.error);
-		  }
-		})
-		.catch((error) => {
-		  console.log(error);
-		  setLoading(false);
-		  setSelectButton(null);
-		  setMessageError(error.message);
-		  Swal.fire(error.message);
-		});
-	};
-  
-	const navigate = useNavigate();
-  
-	const handleLinkClick = (link) => {
-	  navigate(link);
-	  console.log(`Redireccionando a ${link}`);
-	};
+  useEffect(() => {
+    dispatch(assignedTaskTec(tecnicoId));
+  }, [dispatch]);
 
+  function validate(formInfo) {
+    const errors = {};
 
+    formInfo.description ? (errors.description = '') : (errors.description = 'Ingrese una Descripcion');
+    formInfo.address ? (errors.address = '') : (errors.address = 'Ingrese una direccion ');
 
+    return errors;
+  }
 
+  function capitalizeFirstLetter(text) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 
-	return (
-		<>
-		
-		
-		  <TaskTableTec/>
-	
-		  <Modal open={selectButton !== null} onClose={() => setSelectButton(null)}>
-			<Box
-			  sx={{
-				position: 'absolute',
-				top: '50%',
-				left: '50%',
-				transform: 'translate(-50%, -50%)',
-				width: 400,
-				bgcolor: 'background.paper',
-				borderRadius: '8px',
-				boxShadow: 24,
-				p: 4,
-			  }}
-			>
-			  {/* Aquí va el contenido del modal */}
-			  <form onSubmit={handleSubmit}>
-				<FormContainer>
-				  <FieldContainer>
-					
-					
-					<TextField
-					  required
-					  label="Description"
-					  name="description"
-					  id="description"
-					  value={formInfo.description}
-					  onChange={handleChange}
-					/>{' '}
-					{errors.description && <span className="error-message"> {errors.description}</span>}
-					<TextField
-					  required
-					  label="Nota"
-					  name="note"
-					  id="note"
-					  value={formInfo.note}
-					  onChange={handleChange}
-					/>{' '}
-					{errors.note && <span className="error-message"> {errors.note}</span>}
-					{/* <TextField
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormInfo((prevFormInfo) => ({
+      ...prevFormInfo,
+      [name]: value,
+    }));
+    setErrors(validate({ ...formInfo, [name]: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true);
+    dispatch(createTask(formInfo))
+      .then((response) => {
+        setLoading(false);
+        Swal.fire('tarea creado con éxito!', '', 'success');
+        dispatch(getAllTask());
+        setFormInfo({
+          description: '',
+
+          address: '',
+        });
+        setSelectButton(null);
+        if (response.error) {
+          setMessageError(response.error);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        setSelectButton(null);
+        setMessageError(error.message);
+        Swal.fire(error.message);
+      });
+  };
+
+  const navigate = useNavigate();
+
+  const handleLinkClick = (link) => {
+    navigate(link);
+    console.log(`Redireccionando a ${link}`);
+  };
+
+  return (
+    <>
+      <TaskTableTec />
+
+      <Modal open={selectButton !== null} onClose={() => setSelectButton(null)}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            borderRadius: '8px',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          {/* Aquí va el contenido del modal */}
+          <form onSubmit={handleSubmit}>
+            <FormContainer>
+              <FieldContainer>
+                <TextField
+                  required
+                  label="Description"
+                  name="description"
+                  id="description"
+                  value={formInfo.description}
+                  onChange={handleChange}
+                />{' '}
+                {errors.description && <span className="error-message"> {errors.description}</span>}
+                <TextField
+                  required
+                  label="Nota"
+                  name="note"
+                  id="note"
+                  value={formInfo.note}
+                  onChange={handleChange}
+                />{' '}
+                {errors.note && <span className="error-message"> {errors.note}</span>}
+                {/* <TextField
 					  required
 					  label="Cantidad"
 					  name="quantity"
@@ -211,35 +186,34 @@ const TaskListTec = () => {
 					/>{' '}
 					{errors.quantity && <span className="error-message"> {errors.quantity}</span>}
 				 */}
-					{message && (
-					  <Alert severity="error" sx={{ mt: 2 }}>
-						{' '}
-						{messageError}{' '}
-					  </Alert>
-					)}{' '}
-				  </FieldContainer>
-				  <ActionsContainer>
-					<Button
-					  type="submit"
-					  onClick={handleSubmit}
-					  variant="contained"
-					  color="primary"
-					  disabled={!isFormValid} // Deshabilitar el botón si isFormValid es false
-					>
-					  {loading ? 'Cargando...' : 'Crear Producto'}
-					</Button>
-				  </ActionsContainer>
-				</FormContainer>
-			  </form>
-			  <hr />
-			  <Button variant="contained" onClick={() => setSelectButton(null)}>
-				Cerrar
-			  </Button>
-			</Box>
-		  </Modal>
-		</>
-	  );
+                {message && (
+                  <Alert severity="error" sx={{ mt: 2 }}>
+                    {' '}
+                    {messageError}{' '}
+                  </Alert>
+                )}{' '}
+              </FieldContainer>
+              <ActionsContainer>
+                <Button
+                  type="submit"
+                  onClick={handleSubmit}
+                  variant="contained"
+                  color="primary"
+                  disabled={!isFormValid} // Deshabilitar el botón si isFormValid es false
+                >
+                  {loading ? 'Cargando...' : 'Crear Producto'}
+                </Button>
+              </ActionsContainer>
+            </FormContainer>
+          </form>
+          <hr />
+          <Button variant="contained" onClick={() => setSelectButton(null)}>
+            Cerrar
+          </Button>
+        </Box>
+      </Modal>
+    </>
+  );
 };
-
 
 export default TaskListTec;

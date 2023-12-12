@@ -5,40 +5,27 @@ import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-
-import {  getAllTaskPendding } from '../../../redux/modules/task';
+import { getAllTaskPendding } from '../../../redux/modules/task';
 
 import { TaskTable } from '../TaskTable';
 
-
 const Task = () => {
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getAllTaskPendding());
+  }, [dispatch]);
 
-	const dispatch = useDispatch();
-  
+  function capitalizeFirstLetter(text) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 
-
-	useEffect(() => {
-	  dispatch(getAllTaskPendding());
-	}, [dispatch]);
-  
-	
-	function capitalizeFirstLetter(text) {
-	  if (!text) return '';
-	  return text.charAt(0).toUpperCase() + text.slice(1);
-	}
-  
-
-	return (
-		<>
-	
-		  <TaskTable />
-	
-		 
-		</>
-	  );
+  return (
+    <>
+      <TaskTable />
+    </>
+  );
 };
-
-
 
 export default Task;
