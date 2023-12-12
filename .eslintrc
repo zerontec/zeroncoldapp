@@ -9,11 +9,8 @@
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
-    "prettier",
-    "standard",
-    "plugin:react/jsx-runtime",
-    "plugin:testing-library/react",
-    "plugin:jest/all"
+    "prettier"
+   
   ],
   "plugins": [
     "react",
@@ -24,19 +21,14 @@
   "parserOptions": {
     "ecmaVersion": 8,
     "requireConfigFile": false,
-    "sourceType": "module",
+    
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
       "impliedStrict": true,
       "babelOptions": {
         "presets": ["@babel/preset-react"]
      }
-    },
-    "settings": {
-      "react": {
-          "version": "detect"
-      }
-  }
+    }
   },
   "rules": {
     "no-new": 0,
