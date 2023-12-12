@@ -25,6 +25,7 @@ import Swal from 'sweetalert2';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
 import {   finishTaksTec, finishTask, takeTask } from '../../../redux/modules/task';
+import { fDate, fDateTime } from '../../../utils/formatTime';
 
 
 const FormContainer = styled.form`
@@ -115,7 +116,7 @@ const FinishTaskTable = () => {
 
 	const [selectedTasks, setSelectedTasks] = useState([]);
 
-
+fDate();
   function capitalizeFirstLetter(text) {
     if (!text) return '';
     return text.charAt(0).toUpperCase() + text.slice(1);
@@ -356,7 +357,7 @@ console.log('usuario', usuario);
 				 
 				 
 				  <p>
-					<strong>Fecha Finalizada :</strong> {selectedTask.fechaTerminacion}
+					<strong>Fecha Finalizada :</strong> {fDate(selectedTask.fechaTerminacion)}
 				  </p>
 				  {/* <p>
 					<strong>Tecnico :</strong> {selectedTask.tecnico?.name}
@@ -413,7 +414,7 @@ console.log('usuario', usuario);
 					  onChange={() => handleToggleSelect(items.id)}
 					/>
 				  */}
-						  <TableCell align="left"> {capitalizeFirstLetter (items.fechaTerminacion)}</TableCell>
+						  <TableCell align="left"> { fDate(items.fechaTerminacion)}</TableCell>
 						  <TableCell align="left"> {capitalizeFirstLetter(items.description)}</TableCell>
 						  
 					

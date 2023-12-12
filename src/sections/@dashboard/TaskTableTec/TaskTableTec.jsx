@@ -25,6 +25,7 @@ import Swal from 'sweetalert2';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
 import {assignedTaskTec, finishTask,rejecTask,  takeTask } from '../../../redux/modules/task';
+import { fDate, fDateTime } from '../../../utils/formatTime';
 
 
 
@@ -114,6 +115,7 @@ const TaskTableTec = () => {
 
 	const [selectedTasks, setSelectedTasks] = useState([]);
 
+	fDate();
 
   function capitalizeFirstLetter(text) {
     if (!text) return '';
@@ -444,7 +446,7 @@ const handleRejecTask = async (items)=> {
 				  </p>
 				 
 				  <p>
-					<strong>Fecha :</strong> {selectedTask.date}
+					<strong>Fecha :</strong> {fDate(selectedTask.date)}
 				  </p>
 				  <p>
 					<strong>Tecnico :</strong> {selectedTask.tecnico?.name}

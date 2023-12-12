@@ -26,6 +26,7 @@ import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
 import {   getAllTaskPendding, takeTask } from '../../../redux/modules/task';
 
+import { fDate, fDateTime } from '../../../utils/formatTime';
 
 
 const FormContainer = styled.form`
@@ -110,6 +111,7 @@ const TaskTable = () => {
 	const [loading, setLoading] = useState(false);
 
 
+fDate();
 
 	const [selectedTasks, setSelectedTasks] = useState([]);
 
@@ -367,7 +369,7 @@ console.log('usuario', usuario);
               </p>
              
 			  <p>
-                <strong>Fecha :</strong> {selectedTask.date}
+                <strong>Fecha :</strong> {fDate (selectedTask.date)}
               </p>
 			  <p>
                 <strong>Tecnico :</strong> {selectedTask.tecnico?.name}
@@ -379,8 +381,8 @@ console.log('usuario', usuario);
 			  <Button variant="contained" color="primary" style={{marginRight:10}} onClick={handleTakeTask}>
   Tomar Tarea
 </Button>
-              <Button variant="contained" onClick={() => setSelectedTask(null)}>
-                Cerrar
+              <Button variant="contained" style={{backgroundColor:'grey'}} onClick={() => setSelectedTask(null)}>
+                X
               </Button>
             </>
           )}

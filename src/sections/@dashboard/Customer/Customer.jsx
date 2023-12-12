@@ -99,6 +99,10 @@ const Customer = () => {
 		identification: '',
 		name: '',
 		address: '',
+    telf:'',
+    numeroContacto: '',
+    nombreContacto: ''
+    
 		
 	  });
 	  const [isFormValid, setIsFormValid] = useState(false);
@@ -155,6 +159,8 @@ const Customer = () => {
 		  }));
 		}
 	  };
+
+    // Editar Clientes
 	
 	  const handleSubmitEdit = (e) => {
 		if (
@@ -185,6 +191,10 @@ const Customer = () => {
 		  handleCloseModal();
 		}
 	  };
+
+
+
+    // CREAR CLIENTES
 	
 	  const handleSubmit = (event) => {
 		event.preventDefault();
@@ -199,7 +209,11 @@ const Customer = () => {
 			 
 			  name: '',
 			  identification: '',
-			  address: ''
+			  address: '',
+        telf:'',
+        nombreContacto:'',
+        numeroContacto:'',
+        email:''
 			  
 			});
 	
@@ -646,6 +660,8 @@ const Customer = () => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 400,
+            maxHeight: '80vh',
+            overflowY: 'auto',
             bgcolor: 'background.paper',
             borderRadius: '8px',
             boxShadow: 24,
@@ -669,7 +685,7 @@ const Customer = () => {
                 {errors.name && <span className="error-message"> {errors.name}</span>}
                 <TextField
                   required
-                  label="cedule"
+                  label="Identificacion"
                   name="identification"
                   type="text"
                   id="name"
@@ -686,6 +702,46 @@ const Customer = () => {
                   onChange={handleChange}
                 />{' '}
                 {errors.address && <span className="error-message"> {errors.address}</span>}
+                <TextField
+                  required
+                  label="Telfono Cliente"
+                  name="telf"
+                  id="telf"
+                  value={capitalizeFirstLetter(formInfo.telf)}
+                  onChange={handleChange}
+                />{' '}
+                {errors.address && <span className="error-message"> {errors.telf}</span>}
+                
+                <TextField
+                  
+                  label="Nombre de contacto "
+                  name="nombreContacto"
+                  id="nombreContacto"
+                  value={capitalizeFirstLetter(formInfo.nombreContacto)}
+                  onChange={handleChange}
+                />{' '}
+                
+               
+                
+                <TextField
+                  
+                  label="Numero de Contacto"
+                  name="numeroContacto"
+                  id="numeroContacto"
+                  value={capitalizeFirstLetter(formInfo.numeroContacto)}
+                  onChange={handleChange}
+                />{' '}
+              
+               
+                <TextField
+                  
+                  label="Email"
+                  name="email"
+                  id="email"
+                  value={formInfo.email}
+                  onChange={handleChange}
+                />{' '}
+                
                
                
                 {message && (
