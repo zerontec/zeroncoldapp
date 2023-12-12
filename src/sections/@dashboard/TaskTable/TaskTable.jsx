@@ -24,10 +24,9 @@ import { Document, Page, pdfjs } from '@react-pdf/renderer';
 import Swal from 'sweetalert2';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
-import {   getAllTaskPendding, takeTask } from '../../../redux/modules/task';
+import { getAllTaskPendding, takeTask } from '../../../redux/modules/task';
 
 import { fDate, fDateTime } from '../../../utils/formatTime';
-
 
 const FormContainer = styled.form`
   display: flex;
@@ -92,35 +91,31 @@ const columns = [
 ];
 
 const TaskTable = () => {
-	const [page, setPage] = useState(0);
-	const [rowsPerPage, setRowsPerPage] = useState(100);
-	const [searchTerm, setSearchTerm] = useState('');
-	const [selectedTask, setSelectedTask] = useState(null);
-	const [messageError, setMessageError] = useState({});
-	const [selectedTaskId, setSelectedTaskId] = useState(null);
-	const [open, setOpen] = useState(false);
-  
-  
-	const [showPreview, setShowPreview] = useState(false);
-	const [numPages, setNumPages] = useState(null);
-  
-	const [taskName, setTaskName] = useState('');
-	const [taskPrice, setTaskPrice] = useState('');
-	const [taskDescription, setTaskDescription] = useState('');
-	const [pdfContent, setPdfContent] = useState(null);
-	const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [messageError, setMessageError] = useState({});
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [open, setOpen] = useState(false);
 
+  const [showPreview, setShowPreview] = useState(false);
+  const [numPages, setNumPages] = useState(null);
 
-fDate();
+  const [taskName, setTaskName] = useState('');
+  const [taskPrice, setTaskPrice] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+  const [pdfContent, setPdfContent] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-	const [selectedTasks, setSelectedTasks] = useState([]);
+  fDate();
 
+  const [selectedTasks, setSelectedTasks] = useState([]);
 
   function capitalizeFirstLetter(text) {
     if (!text) return '';
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
-
 
   const handleToggleSelect = (itemsId) => {
     if (selectedTasks.includes(itemsId)) {
@@ -129,9 +124,6 @@ fDate();
       setSelectedTasks([...selectedTasks, itemsId]);
     }
   };
-
-
-
 
   const handlePrintClick = () => {
     window.print();
@@ -144,41 +136,33 @@ fDate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    
     dispatch(getAllTaskPendding());
   }, [dispatch]);
 
-
-
   const tareas = useSelector((state) => state.task);
-  console.log("tareas ", tareas );
+  console.log('tareas ', tareas);
 
-  const  tecnicoId = useSelector((state)=> state.auth.user.id)
-	console.log("tecnico id", tecnicoId);
+  const tecnicoId = useSelector((state) => state.auth.user.id);
+  console.log('tecnico id', tecnicoId);
 
-  
-const usuario = useSelector((state)=> state.auth);
-const role = usuario.user.roles;
+  const usuario = useSelector((state) => state.auth);
+  const role = usuario.user.roles;
 
-console.log("role", role)
-console.log('usuario', usuario);
+  console.log('role', role);
+  console.log('usuario', usuario);
 
+  // const taskId = selectedTaskId
+  // console.log("Id tarea ", taskId)
 
-
-	// const taskId = selectedTaskId
-	// console.log("Id tarea ", taskId)
-	
-	const handleEditClick = (task) => {
+  const handleEditClick = (task) => {
     setSelectedTaskId(task.id);
     setSelectedTaskEdit({
-      
       description: task.description,
-      note:task.note
+      note: task.note,
     });
     setOpen(true);
   };
   const [selectedTaskEdit, setSelectedTaskEdit] = useState({
-    
     description: '',
     note: '',
   });
@@ -204,14 +188,11 @@ console.log('usuario', usuario);
     });
   }
 
-
-
   const handleCloseModal = () => {
     setSelectedTaskId(null);
     setSelectedTaskEdit({
-    
       description: '',
-      note:''
+      note: '',
     });
     setOpen(false);
   };
@@ -225,11 +206,9 @@ console.log('usuario', usuario);
     setPage(0);
   };
 
-
-
-//EDITAR TAREA
+  //EDITAR TAREA
   const handleSubmit = (e) => {
-    if ( selectedTaskEdit.description && selectedTaskEdit.note) {
+    if (selectedTaskEdit.description && selectedTaskEdit.note) {
       e.preventDefault();
 
       const data = {
@@ -253,8 +232,7 @@ console.log('usuario', usuario);
     }
   };
 
- 
-//TOMAR TAREA
+  //TOMAR TAREA
   const handleTakeTask = async (event) => {
     event.preventDefault();
 
@@ -264,58 +242,47 @@ console.log('usuario', usuario);
     console.log('tecnico', tecnicoId);
     try {
       setLoading(true);
-     
+
       // Llama a la acción takeTask para tomar la tarea
       await dispatch(takeTask(taskId, tecnicoId));
-       // Actualiza la lista de tareas después de tomar una tarea
-      
-// Si llegamos aquí, la tarea se tomó con éxito
+      // Actualiza la lista de tareas después de tomar una tarea
+
+      // Si llegamos aquí, la tarea se tomó con éxito
       Swal.fire('Tarea tomada con éxito!', '', 'success');
       dispatch(getAllTaskPendding());
-     
-      
-      setSelectedTask(null)
+
+      setSelectedTask(null);
       setMessageError(null); // Limpia cualquier mensaje de error anterior
-      
     } catch (error) {
       console.error(error);
 
       // Manejo de errores, puedes personalizar según tus necesidades
       setLoading(false);
-     
 
       setMessageError(error.message);
-      setSelectedTask(null)
+      setSelectedTask(null);
       handleCloseModal();
       Swal.fire('Algo pasó', error.message, 'error');
-     
     } finally {
       setLoading(false);
-      
-
     }
-    
   };
-  
-
 
   const handleSearch = () => {
     // Lógica para realizar la búsqueda de pacientes en la API y actualizar el estado del componente con los resultados.
   };
 
-
   const isDeleteButtonDisabled = setSelectedTasks.length === 0;
 
-
-    // Define las columnas que deben mostrarse según el rol
-    const visibleColumns = columns.filter(column => {
-      if (column.id === 'Seleccion') {
-        // Muestra la columna de acciones solo para el rol de administrador
-        return roles === 'ROLE_ADMIN';
-      }
-      // Muestra todas las demás columnas
-      return true;
-    });
+  // Define las columnas que deben mostrarse según el rol
+  const visibleColumns = columns.filter((column) => {
+    if (column.id === 'Seleccion') {
+      // Muestra la columna de acciones solo para el rol de administrador
+      return roles === 'ROLE_ADMIN';
+    }
+    // Muestra todas las demás columnas
+    return true;
+  });
 
   return (
     <>
@@ -323,7 +290,7 @@ console.log('usuario', usuario);
       {/* Modal Ver tarea */}
       <Modal open={selectedTask !== null} onClose={() => setSelectedTask(null)}>
         <Box
-         sx={{
+          sx={{
             position: 'absolute',
             top: '50%',
             left: '50%',
@@ -340,48 +307,45 @@ console.log('usuario', usuario);
           {/* Aquí va el contenido del modal */}
           {selectedTask && (
             <>
-
-			<h2>Tarea</h2>
+              <h2>Tarea</h2>
 
               <h2>{selectedTask.name}</h2>
-<p>{selectedTask.id}</p>
+              <p>{selectedTask.id}</p>
 
-			  <p>
+              <p>
                 <strong>Cliente:</strong> {selectedTask.customer?.name}
               </p>
-			  <p>
+              <p>
                 <strong>Direccion:</strong> {selectedTask.customer?.address}
               </p>
               <p>
                 <strong>Descripción:</strong> {selectedTask.description}
               </p>
-			  <p>
+              <p>
                 <strong>Estatus:</strong> {selectedTask.estatus}
               </p>
-			  
 
-			 
-			  <p>
+              <p>
                 <strong>Telefono:</strong> {selectedTask.customer?.telf}
               </p>
-			  <p>
+              <p>
                 <strong>Nota:</strong> {selectedTask.note}
               </p>
-             
-			  <p>
-                <strong>Fecha :</strong> {fDate (selectedTask.date)}
+
+              <p>
+                <strong>Fecha :</strong> {fDate(selectedTask.date)}
               </p>
-			  <p>
+              <p>
                 <strong>Tecnico :</strong> {selectedTask.tecnico?.name}
               </p>
-			  <p>
+              <p>
                 <strong>Telefono :</strong> {selectedTask.tecnico?.telephone}
               </p>
 
-			  <Button variant="contained" color="primary" style={{marginRight:10}} onClick={handleTakeTask}>
-  Tomar Tarea
-</Button>
-              <Button variant="contained" style={{backgroundColor:'grey'}} onClick={() => setSelectedTask(null)}>
+              <Button variant="contained" color="primary" style={{ marginRight: 10 }} onClick={handleTakeTask}>
+                Tomar Tarea
+              </Button>
+              <Button variant="contained" style={{ backgroundColor: 'grey' }} onClick={() => setSelectedTask(null)}>
                 X
               </Button>
             </>
@@ -389,8 +353,6 @@ console.log('usuario', usuario);
         </Box>
       </Modal>
       {/* End Modal nalysis  */}
-
-     
 
       <Box sx={{ m: 2 }}>
         {/* <Subtitles>Prueba</Subtitles> */}
@@ -411,65 +373,60 @@ console.log('usuario', usuario);
                 ))}{' '}
               </TableRow>
             </TableHead>
-          
+
             <TableBody>
               {' '}
-  
-              {Array.isArray(tareas?.tasks) && tareas?.tasks.length > 0 ?(
+              {Array.isArray(tareas?.tasks) && tareas?.tasks.length > 0 ? (
                 tareas?.tasks
                   .filter((items) => items.estatus.toLowerCase().includes(searchTerm.toLowerCase()))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((items) => (
-
-					
                     <TableRow key={items.id}>
-					
-						 {/* <Checkbox
+                      {/* <Checkbox
                   checked={selectedTasks.includes(items.id)}
                   onChange={() => handleToggleSelect(items.id)}
                 /> */}
-             
-                      <TableCell align="left"> {capitalizeFirstLetter (items.description)}</TableCell>
+
+                      <TableCell align="left"> {capitalizeFirstLetter(items.description)}</TableCell>
                       <TableCell align="left"> {capitalizeFirstLetter(items.estatus)}</TableCell>
-					  
-					  {/* <TableCell align="left"> {items.cliente_id}</TableCell> */}
-                    
-               
+
+                      {/* <TableCell align="left"> {items.cliente_id}</TableCell> */}
+
                       <>
                         <TableCell className="tableCell">
                           <Button variant="contained" onClick={() => setSelectedTask(items)}>
                             Ver
                           </Button>
                         </TableCell>
-                      { role === "ROLE_ADMIN" && (
-                        <>
-                        <TableCell className="tableCell">
-                          
-                       
-                          <Button variant="contained" onClick={() => handleEditClick(items)}>
-                            Editar
-                          </Button>
-                        </TableCell>
+                        {role === 'ROLE_ADMIN' && (
+                          <>
+                            <TableCell className="tableCell">
+                              <Button variant="contained" onClick={() => handleEditClick(items)}>
+                                Editar
+                              </Button>
+                            </TableCell>
 
-                        <TableCell className="tableCell">
-                         
-                            <Button  variant='contained' style={{backgroundColor:"red", color:"white"}}  id={items.id} onClick={() => deleteHandler(items)}>Borrar</Button>
-                         
-                        </TableCell>
-
-                        </>)}
+                            <TableCell className="tableCell">
+                              <Button
+                                variant="contained"
+                                style={{ backgroundColor: 'red', color: 'white' }}
+                                id={items.id}
+                                onClick={() => deleteHandler(items)}
+                              >
+                                Borrar
+                              </Button>
+                            </TableCell>
+                          </>
+                        )}
                       </>
-
-            
                     </TableRow>
                   ))
-                  ):(
-                    <TableRow>
-                    <TableCell colSpan={6}>No hay datos disponibles</TableCell>
-                  </TableRow>
-                )}
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6}>No hay datos disponibles</TableCell>
+                </TableRow>
+              )}
             </TableBody>
-         
           </Table>
           <TablePagination
             rowsPerPageOptions={[5, 10, 100]}
@@ -481,10 +438,9 @@ console.log('usuario', usuario);
             onRowsPerPageChange={handleChangeRowsPerPage}
           ></TablePagination>
 
-{/* <Button variant="contained" onClick={handleDeleteMultipleClick} disabled={isDeleteButtonDisabled}>Borrar seleccionados</Button> */}
-
+          {/* <Button variant="contained" onClick={handleDeleteMultipleClick} disabled={isDeleteButtonDisabled}>Borrar seleccionados</Button> */}
         </TableContainer>
-<hr/>
+        <hr />
         {/* Agrega el botón para generar el PDF */}
         {/* <button onClick={generatePDF}>Generar PDF</button> */}
 
@@ -504,6 +460,5 @@ console.log('usuario', usuario);
     </>
   );
 };
-
 
 export default TaskTable;
