@@ -153,39 +153,39 @@ const TaskTableTec = () => {
   // const taskId = selectedTaskId
   // console.log("Id tarea ", taskId)
 
-  const handleEditClick = (task) => {
-    setSelectedTaskId(task.id);
-    setSelectedTaskEdit({
-      description: task.description,
-      note: task.note,
-    });
-    setOpen(true);
-  };
-  const [selectedTaskEdit, setSelectedTaskEdit] = useState({
-    description: '',
-    note: '',
-  });
+  // const handleEditClick = (task) => {
+  //   setSelectedTaskId(task.id);
+  //   setSelectedTaskEdit({
+  //     description: task.description,
+  //     note: task.note,
+  //   });
+  //   setOpen(true);
+  // };
+  // const [selectedTaskEdit, setSelectedTaskEdit] = useState({
+  //   description: '',
+  //   note: '',
+  // });
 
-  function deleteHandler(items) {
-    Swal.fire({
-      title: 'Estas Seguro',
-      text: 'No podras revertir esta operacion !',
-      icon: 'advertencia',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Borrar!',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(deleteProduct(items.id));
-        Swal.fire('El producto ha sido borrado!');
+  // function deleteHandler(items) {
+  //   Swal.fire({
+  //     title: 'Estas Seguro',
+  //     text: 'No podras revertir esta operacion !',
+  //     icon: 'advertencia',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Si, Borrar!',
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       dispatch(deleteProduct(items.id));
+  //       Swal.fire('El producto ha sido borrado!');
 
-        dispatch(getAllProduct());
-      } else {
-        Swal.fire('El producto  Esta Seguro !');
-      }
-    });
-  }
+  //       dispatch(getAllProduct());
+  //     } else {
+  //       Swal.fire('El producto  Esta Seguro !');
+  //     }
+  //   });
+  // }
 
   const handleCloseModal = () => {
     setSelectedTaskId(null);
@@ -206,30 +206,30 @@ const TaskTableTec = () => {
   };
 
   //EDITAR TAREA
-  const handleSubmit = (e) => {
-    if (selectedTaskEdit.description && selectedTaskEdit.note) {
-      e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   if (selectedTaskEdit.description && selectedTaskEdit.note) {
+  //     e.preventDefault();
 
-      const data = {
-        ...selectedtaskEdit,
-        id: selectedTaskId,
-      };
-      dispatch(updateTask(selectedTaskId, data));
-      Swal.fire('¨Tarea Editado con Exito  !', 'You clicked the button!', 'success');
-      dispatch(getAllTask());
+  //     const data = {
+  //       ...selectedtaskEdit,
+  //       id: selectedTaskId,
+  //     };
+  //     dispatch(updateTask(selectedTaskId, data));
+  //     Swal.fire('¨Tarea Editado con Exito  !', 'You clicked the button!', 'success');
+  //     dispatch(getAllTask());
 
-      handleCloseModal();
-      //   getAllAnalysis();
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Debe completar toda la informacion !',
-      });
+  //     handleCloseModal();
+  //     //   getAllAnalysis();
+  //   } else {
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Oops...',
+  //       text: 'Debe completar toda la informacion !',
+  //     });
 
-      handleCloseModal();
-    }
-  };
+  //     handleCloseModal();
+  //   }
+  // };
 
   //TOMAR TAREA
   const handleTakeTask = async (event) => {
@@ -337,14 +337,14 @@ const TaskTableTec = () => {
   const isDeleteButtonDisabled = setSelectedTasks.length === 0;
 
   // Define las columnas que deben mostrarse según el rol
-  const visibleColumns = columns.filter((column) => {
-    if (column.id === 'Seleccion') {
-      // Muestra la columna de acciones solo para el rol de administrador
-      return roles === 'ROLE_ADMIN';
-    }
-    // Muestra todas las demás columnas
-    return true;
-  });
+  // const visibleColumns = columns.filter((column) => {
+  //   if (column.id === 'Seleccion') {
+  //     // Muestra la columna de acciones solo para el rol de administrador
+  //     return roles === 'ROLE_ADMIN';
+  //   }
+  //   // Muestra todas las demás columnas
+  //   return true;
+  // });
 
   return (
     <>
@@ -424,7 +424,7 @@ const TaskTableTec = () => {
       {/* End Modal nalysis  */}
 
       {/* Modal para editar el análisis */}
-      <Modal open={open} onClose={handleCloseModal}>
+      {/* <Modal open={open} onClose={handleCloseModal}>
         <Box
           sx={{
             position: 'absolute',
@@ -498,7 +498,7 @@ const TaskTableTec = () => {
             Cerrar
           </Button>
         </Box>
-      </Modal>
+      </Modal> */}
 
       <Box sx={{ m: 2 }}>
         {/* <Subtitles>Prueba</Subtitles> */}
