@@ -345,80 +345,84 @@ const TaskTableTec = () => {
   // });
 
   return (
-    <>
+    
+      <>
+
+      <>
       <hr />
-      {/* Modal Ver tarea */}
+      
       <Modal open={selectedTask !== null} onClose={() => setSelectedTask(null)}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            maxHeight: '80vh',
-            overflowY: 'auto',
-            bgcolor: 'background.paper',
-            borderRadius: '8px',
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          {/* Aquí va el contenido del modal */}
-          {selectedTask && (
-            <>
-              <h2>Tarea</h2>
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          maxHeight: '80vh',
+          overflowY: 'auto',
+          bgcolor: 'background.paper',
+          borderRadius: '8px',
+          boxShadow: 24,
+          p: 4,
+        }}
+      >
+        {/* Aquí va el contenido del modal */}
+        {selectedTask && (
+          <>
+            <h2>Tarea</h2>
 
-              <h2>{selectedTask.name}</h2>
-              <p>{selectedTask.id}</p>
+            <h2>{selectedTask.name}</h2>
+            <p>{selectedTask.id}</p>
 
-              <p>
-                <strong>Cliente:</strong> {selectedTask.customer?.name}
-              </p>
-              <p>
-                <strong>Direccion:</strong> {selectedTask.customer?.address}
-              </p>
-              <p>
-                <strong>Descripción:</strong> {selectedTask.description}
-              </p>
-              <p>
-                <strong>Estatus:</strong> {selectedTask.estatus}
-              </p>
+            <p>
+              <strong>Cliente:</strong> {selectedTask.customer?.name}
+            </p>
+            <p>
+              <strong>Direccion:</strong> {selectedTask.customer?.address}
+            </p>
+            <p>
+              <strong>Descripción:</strong> {selectedTask.description}
+            </p>
+            <p>
+              <strong>Estatus:</strong> {selectedTask.estatus}
+            </p>
 
-              <p>
-                <strong>Telefono:</strong> {selectedTask.customer?.telf}
-              </p>
-              <p>
-                <strong>Nota:</strong> {selectedTask.note}
-              </p>
+            <p>
+              <strong>Telefono:</strong> {selectedTask.customer?.telf}
+            </p>
+            <p>
+              <strong>Nota:</strong> {selectedTask.note}
+            </p>
 
-              <p>
-                <strong>Fecha :</strong> {fDate(selectedTask.date)}
-              </p>
-              <p>
-                <strong>Tecnico :</strong> {selectedTask.tecnico?.name}
-              </p>
-              <p>
-                <strong>Telefono :</strong> {selectedTask.tecnico?.telephone}
-              </p>
-              <Button variant="contained" color="primary" style={{ marginRight: 5 }} onClick={handleTakeTask}>
-                Tomar tarea
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginRight: 5, backgroundColor: 'rgb(213 114 186)' }}
-                onClick={handleFinisTask}
-              >
-                Finalizar Tarea
-              </Button>
-              <Button variant="contained" style={{ backgroundColor: 'grey' }} onClick={() => setSelectedTask(null)}>
-                X
-              </Button>
-            </>
-          )}
-        </Box>
-      </Modal>
+            <p>
+              <strong>Fecha :</strong> {fDate(selectedTask.date)}
+            </p>
+            <p>
+              <strong>Tecnico :</strong> {selectedTask.tecnico?.name}
+            </p>
+            <p>
+              <strong>Telefono :</strong> {selectedTask.tecnico?.telephone}
+            </p>
+            <Button variant="contained" color="primary" style={{ marginRight: 5 }} onClick={handleTakeTask}>
+              Tomar tarea
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: 5, backgroundColor: 'rgb(213 114 186)' }}
+              onClick={handleFinisTask}
+            >
+              Finalizar Tarea
+            </Button>
+            <Button variant="contained" style={{ backgroundColor: 'grey' }} onClick={() => setSelectedTask(null)}>
+              X
+            </Button>
+          </>
+        )}
+      </Box>
+    </Modal>
+    </>
       {/* End Modal nalysis  */}
 
       {/* Modal para editar el análisis */}
@@ -607,7 +611,9 @@ const TaskTableTec = () => {
           </div>
         )}
       </Box>
-    </>
+
+      </>
+    
   );
 };
 

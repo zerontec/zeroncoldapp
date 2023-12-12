@@ -285,6 +285,7 @@ const FinishTaskTable = () => {
     <>
       <hr />
       {/* Modal Ver tarea */}
+      
       <Modal open={selectedTask !== null} onClose={() => setSelectedTask(null)}>
         <Box
           sx={{
