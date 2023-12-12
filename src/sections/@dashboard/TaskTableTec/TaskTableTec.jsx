@@ -308,7 +308,7 @@ const TaskTableTec = () => {
 
       await dispatch(rejecTask(items.id, tecnicoId));
       handleCloseModal();
-      // Si llegamos aquí, la tarea se tomó con éxito
+    
       Swal.fire('Tarea Rechazada con éxito!', '', 'success');
 
       // Actualiza la lista de tareas después de finalizar una tarea

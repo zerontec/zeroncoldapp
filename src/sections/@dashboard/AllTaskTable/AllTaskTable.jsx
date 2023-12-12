@@ -26,6 +26,7 @@ import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
 import { getAllTask, deleteTask, updateTask, takeTask } from '../../../redux/modules/task';
 import { fDate, fDateTime } from '../../../utils/formatTime';
+import { CreteTask } from '../../../components/CreteTask';
 
 const FormContainer = styled.form`
   display: flex;
@@ -287,6 +288,8 @@ const AllTaskTable = () => {
   return (
     <>
       <hr />
+
+    <CreteTask/>
       {/* Modal Ver tarea */}
       <Modal open={selectedTask !== null} onClose={() => setSelectedTask(null)}>
         <Box
