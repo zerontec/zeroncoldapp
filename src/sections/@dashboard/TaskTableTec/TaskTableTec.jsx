@@ -203,7 +203,7 @@ const TaskTableTec = () => {
     setPage(0);
   };
 
-  //EDITAR TAREA
+
   // const handleSubmit = (e) => {
   //   if (selectedTaskEdit.description && selectedTaskEdit.note) {
   //     e.preventDefault();
@@ -229,7 +229,7 @@ const TaskTableTec = () => {
   //   }
   // };
 
-  //TOMAR TAREA
+
   const handleTakeTask = async (event) => {
     event.preventDefault();
 
@@ -551,20 +551,20 @@ const TaskTableTec = () => {
                         {role === 'ROLE_ADMIN' && (
                           <>
                             <TableCell className="tableCell">
-                              <Button variant="contained" onClick={() => handleEditClick(items)}>
+                              {/* <Button variant="contained" onClick={() => handleEditClick(items)}>
                                 Editar
-                              </Button>
+                              </Button> */}
                             </TableCell>
 
                             <TableCell className="tableCell">
-                              <Button
+                              {/* <Button
                                 variant="contained"
                                 style={{ backgroundColor: 'red', color: 'white' }}
                                 id={items.id}
                                 onClick={() => deleteHandler(items)}
                               >
                                 Borrar
-                              </Button>
+                              </Button> */}
                             </TableCell>
                           </>
                         )}
