@@ -24,9 +24,8 @@ import { Document, Page, pdfjs } from '@react-pdf/renderer';
 import Swal from 'sweetalert2';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
-import {   finishTaksTec, finishTask, takeTask } from '../../../redux/modules/task';
+import { finishTaksTec, finishTask, takeTask } from '../../../redux/modules/task';
 import { fDate, fDateTime } from '../../../utils/formatTime';
-
 
 const FormContainer = styled.form`
   display: flex;
@@ -55,11 +54,11 @@ const ActionsContainer = styled.div`
 `;
 
 const columns = [
-//   {
-//     id: 'id',
-//     label: 'Seleccion',
-//     minWidth: 50,
-//   },
+  //   {
+  //     id: 'id',
+  //     label: 'Seleccion',
+  //     minWidth: 50,
+  //   },
   {
     id: 'name',
     label: 'Fecha finalizacion',
@@ -90,38 +89,31 @@ const columns = [
   // },
 ];
 
-
-
 const FinishTaskTable = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [messageError, setMessageError] = useState({});
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [open, setOpen] = useState(false);
 
-	const [page, setPage] = useState(0);
-	const [rowsPerPage, setRowsPerPage] = useState(5);
-	const [searchTerm, setSearchTerm] = useState('');
-	const [selectedTask, setSelectedTask] = useState(null);
-	const [messageError, setMessageError] = useState({});
-	const [selectedTaskId, setSelectedTaskId] = useState(null);
-	const [open, setOpen] = useState(false);
-  
-  
-	const [showPreview, setShowPreview] = useState(false);
-	const [numPages, setNumPages] = useState(null);
-  
-	const [taskName, setTaskName] = useState('');
-	const [taskPrice, setTaskPrice] = useState('');
-	const [taskDescription, setTaskDescription] = useState('');
-	const [pdfContent, setPdfContent] = useState(null);
-	const [loading, setLoading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [numPages, setNumPages] = useState(null);
 
+  const [taskName, setTaskName] = useState('');
+  const [taskPrice, setTaskPrice] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+  const [pdfContent, setPdfContent] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+  const [selectedTasks, setSelectedTasks] = useState([]);
 
-	const [selectedTasks, setSelectedTasks] = useState([]);
-
-fDate();
+  fDate();
   function capitalizeFirstLetter(text) {
     if (!text) return '';
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
-
 
   const handleToggleSelect = (itemsId) => {
     if (selectedTasks.includes(itemsId)) {
@@ -130,9 +122,6 @@ fDate();
       setSelectedTasks([...selectedTasks, itemsId]);
     }
   };
-
-
-
 
   const handlePrintClick = () => {
     window.print();
@@ -144,44 +133,34 @@ fDate();
 
   const dispatch = useDispatch();
 
-  const  tecnicoId = useSelector((state)=> state.auth.user.id)
-  console.log("tecnico id", tecnicoId);
-
+  const tecnicoId = useSelector((state) => state.auth.user.id);
+  console.log('tecnico id', tecnicoId);
 
   useEffect(() => {
-    
     dispatch(finishTaksTec(tecnicoId));
   }, [dispatch]);
 
-
-
   const tareas = useSelector((state) => state.task);
-  console.log("tareas ", tareas );
+  console.log('tareas ', tareas);
 
+  const usuario = useSelector((state) => state.auth);
+  const role = usuario.user.roles;
 
-  
-const usuario = useSelector((state)=> state.auth);
-const role = usuario.user.roles;
+  console.log('role', role);
+  console.log('usuario', usuario);
 
-console.log("role", role)
-console.log('usuario', usuario);
+  // const taskId = selectedTaskId
+  // console.log("Id tarea ", taskId)
 
-
-
-	// const taskId = selectedTaskId
-	// console.log("Id tarea ", taskId)
-	
-	const handleEditClick = (task) => {
+  const handleEditClick = (task) => {
     setSelectedTaskId(task.id);
     setSelectedTaskEdit({
-      
       description: task.description,
-      note:task.note
+      note: task.note,
     });
     setOpen(true);
   };
   const [selectedTaskEdit, setSelectedTaskEdit] = useState({
-    
     description: '',
     note: '',
   });
@@ -207,14 +186,11 @@ console.log('usuario', usuario);
     });
   }
 
-
-
   const handleCloseModal = () => {
     setSelectedTaskId(null);
     setSelectedTaskEdit({
-    
       description: '',
-      note:''
+      note: '',
     });
     setOpen(false);
   };
@@ -228,11 +204,9 @@ console.log('usuario', usuario);
     setPage(0);
   };
 
-
-
-//EDITAR TAREA
+  //EDITAR TAREA
   const handleSubmit = (e) => {
-    if ( selectedTaskEdit.description && selectedTaskEdit.note) {
+    if (selectedTaskEdit.description && selectedTaskEdit.note) {
       e.preventDefault();
 
       const data = {
@@ -256,8 +230,7 @@ console.log('usuario', usuario);
     }
   };
 
- 
-//TOMAR TAREA
+  //TOMAR TAREA
   const handleTakeTask = async (event) => {
     event.preventDefault();
 
@@ -270,7 +243,7 @@ console.log('usuario', usuario);
       handleCloseModal();
       // Llama a la acción takeTask para tomar la tarea
       await dispatch(takeTask(taskId, tecnicoId));
-     
+
       // Si llegamos aquí, la tarea se tomó con éxito
       Swal.fire('Tarea tomada con éxito!', '', 'success');
 
@@ -290,204 +263,186 @@ console.log('usuario', usuario);
       setLoading(false);
     }
   };
-  
-
 
   const handleSearch = () => {
     // Lógica para realizar la búsqueda de pacientes en la API y actualizar el estado del componente con los resultados.
   };
 
-
   const isDeleteButtonDisabled = setSelectedTasks.length === 0;
 
+  // Define las columnas que deben mostrarse según el rol
+  const visibleColumns = columns.filter((column) => {
+    if (column.id === 'Seleccion') {
+      // Muestra la columna de acciones solo para el rol de administrador
+      return roles === 'ROLE_ADMIN';
+    }
+    // Muestra todas las demás columnas
+    return true;
+  });
 
-    // Define las columnas que deben mostrarse según el rol
-    const visibleColumns = columns.filter(column => {
-      if (column.id === 'Seleccion') {
-        // Muestra la columna de acciones solo para el rol de administrador
-        return roles === 'ROLE_ADMIN';
-      }
-      // Muestra todas las demás columnas
-      return true;
-    });
+  return (
+    <>
+      <hr />
+      {/* Modal Ver tarea */}
+      <Modal open={selectedTask !== null} onClose={() => setSelectedTask(null)}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            bgcolor: 'background.paper',
+            borderRadius: '8px',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          {/* Aquí va el contenido del modal */}
+          {selectedTask && (
+            <>
+              <h2>Tarea</h2>
 
-	return (
-		<>
-		  <hr />
-		  {/* Modal Ver tarea */}
-		  <Modal open={selectedTask !== null} onClose={() => setSelectedTask(null)}>
-			<Box
-			 sx={{
-				position: 'absolute',
-				top: '50%',
-				left: '50%',
-				transform: 'translate(-50%, -50%)',
-				width: 400,
-				maxHeight: '80vh',
-				overflowY: 'auto',
-				bgcolor: 'background.paper',
-				borderRadius: '8px',
-				boxShadow: 24,
-				p: 4,
-			  }}
-			>
-			  {/* Aquí va el contenido del modal */}
-			  {selectedTask && (
-				<>
-	
-				<h2>Tarea</h2>
-	
-				  <h2>{selectedTask.name}</h2>
-	<p>{selectedTask.id}</p>
-	
-				  <p>
-					<strong>Cliente:</strong> {selectedTask.cliente?.name}
-				  </p>
-				  <p>
-					<strong>Direccion:</strong> {selectedTask.cliente?.address}
-				  </p>
-				  <p>
-					<strong>Descripción:</strong> {selectedTask.description}
-				  </p>
-				  <p>
-					<strong>Telefono:</strong> {selectedTask.cliente?.telf}
-				  </p>
-				  
-	
-				 
-				 
-				  <p>
-					<strong>Fecha Finalizada :</strong> {fDate(selectedTask.fechaTerminacion)}
-				  </p>
-				  {/* <p>
+              <h2>{selectedTask.name}</h2>
+              <p>{selectedTask.id}</p>
+
+              <p>
+                <strong>Cliente:</strong> {selectedTask.cliente?.name}
+              </p>
+              <p>
+                <strong>Direccion:</strong> {selectedTask.cliente?.address}
+              </p>
+              <p>
+                <strong>Descripción:</strong> {selectedTask.description}
+              </p>
+              <p>
+                <strong>Telefono:</strong> {selectedTask.cliente?.telf}
+              </p>
+
+              <p>
+                <strong>Fecha Finalizada :</strong> {fDate(selectedTask.fechaTerminacion)}
+              </p>
+              {/* <p>
 					<strong>Tecnico :</strong> {selectedTask.tecnico?.name}
 				  </p>
 				  <p>
 					<strong>Telefono :</strong> {selectedTask.tecnico?.telephone}
 				  </p> */}
-	
-	
-				  <Button variant="contained" onClick={() => setSelectedTask(null)}>
-					Cerrar
-				  </Button>
-				</>
-			  )}
-			</Box>
-		  </Modal>
-		  {/* End Modal nalysis  */}
-	
-	
-		  <Box sx={{ m: 2 }}>
-			{/* <Subtitles>Prueba</Subtitles> */}
-			<TextField label="Buscar Tareas " value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-			<Button variant="contained" onClick={handleSearch}>
-			  Buscar
-			</Button>
-			<TableContainer component={Paper}>
-			  <Table sx={{ minWidth: 650 }}>
-				<TableHead>
-				  <TableRow>
-					{' '}
-					{columns.map((column) => (
-					  <TableCell key={column.id} align="left" minWidth={column.minWidth}>
-						{' '}
-						{column.label}{' '}
-					  </TableCell>
-					))}{' '}
-				  </TableRow>
-				</TableHead>
-			  
-				<TableBody>
-				  {' '}
-	  
-				  {Array.isArray(tareas.finishedtasks) && tareas.finishedtasks.length > 0 ?(
-					tareas.finishedtasks
-					  .filter((items) => items.description.toLowerCase().includes(searchTerm.toLowerCase()))
-					  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-					  .map((items) => (
-	
-						
-						<TableRow key={items.id}>
-						
-							 {/* <Checkbox
+
+              <Button variant="contained" onClick={() => setSelectedTask(null)}>
+                Cerrar
+              </Button>
+            </>
+          )}
+        </Box>
+      </Modal>
+      {/* End Modal nalysis  */}
+
+      <Box sx={{ m: 2 }}>
+        {/* <Subtitles>Prueba</Subtitles> */}
+        <TextField label="Buscar Tareas " value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        <Button variant="contained" onClick={handleSearch}>
+          Buscar
+        </Button>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }}>
+            <TableHead>
+              <TableRow>
+                {' '}
+                {columns.map((column) => (
+                  <TableCell key={column.id} align="left" minWidth={column.minWidth}>
+                    {' '}
+                    {column.label}{' '}
+                  </TableCell>
+                ))}{' '}
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {' '}
+              {Array.isArray(tareas.finishedtasks) && tareas.finishedtasks.length > 0 ? (
+                tareas.finishedtasks
+                  .filter((items) => items.description.toLowerCase().includes(searchTerm.toLowerCase()))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((items) => (
+                    <TableRow key={items.id}>
+                      {/* <Checkbox
 					  checked={selectedTasks.includes(items.id)}
 					  onChange={() => handleToggleSelect(items.id)}
 					/>
 				  */}
-						  <TableCell align="left"> { fDate(items.fechaTerminacion)}</TableCell>
-						  <TableCell align="left"> {capitalizeFirstLetter(items.description)}</TableCell>
-						  
-					
-				   
-						  <>
-							<TableCell className="tableCell">
-							  <Button variant="contained" onClick={() => setSelectedTask(items)}>
-								Ver
-							  </Button>
-							</TableCell>
-						  { role === "ROLE_ADMIN" && (
-							<>
-							<TableCell className="tableCell">
-							  
-						   
-							  <Button variant="contained" onClick={() => handleEditClick(items)}>
-								Editar
-							  </Button>
-							</TableCell>
-	
-							<TableCell className="tableCell">
-							 
-								<Button  variant='contained' style={{backgroundColor:"red", color:"white"}}  id={items.id} onClick={() => deleteHandler(items)}>Borrar</Button>
-							 
-							</TableCell>
-	
-							</>)}
-						  </>
-	
-				
-						</TableRow>
-					  ))
-					  ):(
-						<TableRow>
-						<TableCell colSpan={6}>No hay datos disponibles</TableCell>
-					  </TableRow>
-					)}
-				</TableBody>
-			 
-			  </Table>
-			  <TablePagination
-				rowsPerPageOptions={[5, 10, 100]}
-				component="div"
-				count={tareas.finishedtasks.length}
-				rowsPerPage={rowsPerPage}
-				page={page}
-				onPageChange={handleChangePage}
-				onRowsPerPageChange={handleChangeRowsPerPage}
-			  ></TablePagination>
-	
-	{/* <Button variant="contained" onClick={handleDeleteMultipleClick} disabled={isDeleteButtonDisabled}>Borrar seleccionados</Button> */}
-	
-			</TableContainer>
-	<hr/>
-			{/* Agrega el botón para generar el PDF */}
-			{/* <button onClick={generatePDF}>Generar PDF</button> */}
-	
-			{/* Muestra el botón de imprimir */}
-			{pdfContent && (
-			  <div>
-				<Button variant="contained" onClick={handlePrintClick}>
-				  Imprimir
-				</Button>
-	
-				<Document file={pdfContent}>
-				  <Page pageNumber={1} />
-				</Document>
-			  </div>
-			)}
-		  </Box>
-		</>
-	  );
-};
+                      <TableCell align="left"> {fDate(items.fechaTerminacion)}</TableCell>
+                      <TableCell align="left"> {capitalizeFirstLetter(items.description)}</TableCell>
 
+                      <>
+                        <TableCell className="tableCell">
+                          <Button variant="contained" onClick={() => setSelectedTask(items)}>
+                            Ver
+                          </Button>
+                        </TableCell>
+                        {role === 'ROLE_ADMIN' && (
+                          <>
+                            <TableCell className="tableCell">
+                              <Button variant="contained" onClick={() => handleEditClick(items)}>
+                                Editar
+                              </Button>
+                            </TableCell>
+
+                            <TableCell className="tableCell">
+                              <Button
+                                variant="contained"
+                                style={{ backgroundColor: 'red', color: 'white' }}
+                                id={items.id}
+                                onClick={() => deleteHandler(items)}
+                              >
+                                Borrar
+                              </Button>
+                            </TableCell>
+                          </>
+                        )}
+                      </>
+                    </TableRow>
+                  ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6}>No hay datos disponibles</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 100]}
+            component="div"
+            count={tareas.finishedtasks.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          ></TablePagination>
+
+          {/* <Button variant="contained" onClick={handleDeleteMultipleClick} disabled={isDeleteButtonDisabled}>Borrar seleccionados</Button> */}
+        </TableContainer>
+        <hr />
+        {/* Agrega el botón para generar el PDF */}
+        {/* <button onClick={generatePDF}>Generar PDF</button> */}
+
+        {/* Muestra el botón de imprimir */}
+        {pdfContent && (
+          <div>
+            <Button variant="contained" onClick={handlePrintClick}>
+              Imprimir
+            </Button>
+
+            <Document file={pdfContent}>
+              <Page pageNumber={1} />
+            </Document>
+          </div>
+        )}
+      </Box>
+    </>
+  );
+};
 
 export default FinishTaskTable;

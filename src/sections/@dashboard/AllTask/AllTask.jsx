@@ -19,8 +19,6 @@ import { fetchCustomers } from '../../../redux/modules/customer';
 import { fetchUsers } from '../../../redux/modules/user';
 import { ErrorMessage } from '../../../components/ErrorMessage';
 
-
-
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -85,17 +83,14 @@ const AllTask = () => {
     note: '',
     address: '',
     technician: '',
-	
-
   });
   const [isFormValid, setIsFormValid] = useState(false);
 
   const validateForm = () => {
     const { description, address } = formInfo;
     setIsFormValid(description.trim() !== '' && address.trim() !== '') &&
-	(isAddingTechnician ? formInfo.technician.trim() !== '' : true) &&
-	(selectedCustomer ? selectedCustomer.name.trim() !== '' : true) 
-	 
+      (isAddingTechnician ? formInfo.technician.trim() !== '' : true) &&
+      (selectedCustomer ? selectedCustomer.name.trim() !== '' : true);
   };
 
   useEffect(() => {
@@ -112,15 +107,11 @@ const AllTask = () => {
     }
   }, [query, dispatch]);
 
-
   useEffect(() => {
-	if (queryt) {
-		dispatch(fetchUsers(queryt));
-	  }
-	}, [queryt, dispatch]);
-
-
-
+    if (queryt) {
+      dispatch(fetchUsers(queryt));
+    }
+  }, [queryt, dispatch]);
 
   function validate(formInfo) {
     const errors = {};
@@ -146,8 +137,8 @@ const AllTask = () => {
     setErrors(validate({ ...formInfo, [name]: value }));
   };
 
-  console.log("forimfo", formInfo)
-  
+  console.log('forimfo', formInfo);
+
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const availableCustomer = useSelector((state) => state.customer);
@@ -167,40 +158,33 @@ const AllTask = () => {
   const availableTec = useSelector((state) => state.usuarios);
   console.log('aqui users', availableTec);
 
-
   const handleTecSelect = (usuarios) => {
     setSelectedTec(usuarios); // Actualiza el estado del cliente seleccionado
     setFormInfo({
       ...formInfo,
-      tecnico_id: usuarios.id, 
-  });
-  }
-
- const idt =  selectedTec ? selectedTec.id : ''
-const vt =  selectedTec ? selectedTec.asignar_tecnico : ''
-
-console.log("vt", vt)
-console.log("idt", idt)
- 
-
-
-const updatedFormInfo = {
-	...formInfo,
-	tecnico_id: idt,
-	asignar_tecnico: vt
+      tecnico_id: usuarios.id,
+    });
   };
 
-  console.log("updateFor",updatedFormInfo)
- 
+  const idt = selectedTec ? selectedTec.id : '';
+  const vt = selectedTec ? selectedTec.asignar_tecnico : '';
 
- 
+  console.log('vt', vt);
+  console.log('idt', idt);
+
+  const updatedFormInfo = {
+    ...formInfo,
+    tecnico_id: idt,
+    asignar_tecnico: vt,
+  };
+
+  console.log('updateFor', updatedFormInfo);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     setLoading(true);
     dispatch(createTask(updatedFormInfo))
-
-	
       .then((response) => {
         setLoading(false);
         Swal.fire('tarea creada con éxito!', '', 'success');
@@ -248,15 +232,15 @@ const updatedFormInfo = {
   };
 
   const handleModalClose = () => {
-	setSelectButton(null);
-	setSelectedCustomer(null);
-	setSelectedTec(null);
-	toggleAddingTechnician()
-	setQueryt('')
-	setQuery('')
-	handleTecSelect()
-	handleCustomerSelect()
-	// Restablecer otros estados según sea necesario
+    setSelectButton(null);
+    setSelectedCustomer(null);
+    setSelectedTec(null);
+    toggleAddingTechnician();
+    setQueryt('');
+    setQuery('');
+    handleTecSelect();
+    handleCustomerSelect();
+    // Restablecer otros estados según sea necesario
   };
 
   console.log(availableCustomer.customers);
@@ -268,7 +252,6 @@ const updatedFormInfo = {
         <Button style={{ marginRight: 3 }} variant="contained" onClick={() => setSelectButton()}>
           Crear Tarea
         </Button>
-
       </Box>
 
       <AllTaskTable />
@@ -293,24 +276,22 @@ const updatedFormInfo = {
           <form onSubmit={handleSubmit}>
             <FormContainer>
               <FieldContainer>
-              <Autocomplete
-					options={ 
-            availableCustomer.customers  || []}
-					getOptionLabel={(option) => option?.name|| option?.identification || ''}
-					renderInput={(params) => (
-				   <StyledTextField
-				   {...params}
-				   label="Agregar Cliente"
-				   onChange={(e) => setQuery(e.target.value.toLowerCase())}
-				 />
-			   )}   onChange={(event, value) => {
-				handleCustomerSelect(value);
-				setQuery(''); // Limpiar la búsqueda al seleccionar un técnico
-			  }}
-			/>
-				
-				
-				{query.length  > 0 &&(
+                <Autocomplete
+                  options={availableCustomer.customers || []}
+                  getOptionLabel={(option) => option?.name || option?.identification || ''}
+                  renderInput={(params) => (
+                    <StyledTextField
+                      {...params}
+                      label="Agregar Cliente"
+                      onChange={(e) => setQuery(e.target.value.toLowerCase())}
+                    />
+                  )}
+                  onChange={(event, value) => {
+                    handleCustomerSelect(value);
+                    setQuery(''); // Limpiar la búsqueda al seleccionar un técnico
+                  }}
+                />
+                {query.length > 0 &&
                   Array.isArray(availableCustomer.customers) &&
                   availableCustomer.customers.length > 0 && (
                     <Table>
@@ -320,9 +301,11 @@ const updatedFormInfo = {
                         </ButtonBase>
                       ))}
                     </Table>
-                  )
                   )}
-				  	<div> <ErrorMessage message={availableCustomer.customers?.message} show={searchError} /></div>
+                <div>
+                  {' '}
+                  <ErrorMessage message={availableCustomer.customers?.message} show={searchError} />
+                </div>
                 {selectedCustomer && (
                   <Typography>
                     Nombre: {selectedCustomer.name} (Nro Cliente: {selectedCustomer.id})
@@ -370,39 +353,37 @@ const updatedFormInfo = {
                 <Button variant="contained" onClick={toggleAddingTechnician}>
                   {isAddingTechnician ? 'No agregar técnico' : 'Agregar técnico'}
                 </Button>
-
-				{isAddingTechnician && (
-					<Autocomplete
-					options={availableTec.usuarios|| []}
-					getOptionLabel={(option) => option?.name}
-					renderInput={(params) => (
-				   <StyledTextField
-				   {...params}
-				   label="Agregar Técnico"
-				   onChange={(e) => setQueryt(e.target.value.toLowerCase())}
-				 />
-			   )}   onChange={(event, value) => {
-				handleTecSelect(value);
-				setQueryt(''); // Limpiar la búsqueda al seleccionar un técnico
-			  }}
-			/>
-				)}
-                {queryt.length > 0 && (
-                  Array.isArray(availableTec.usuarios) &&
-                  availableTec.usuarios.length > 0 && (
-                   
-				   <Table>
-                      {availableTec.usuarios.map((result, index) => (
-                        <ButtonBase key={result.id} onClick={() => handleTecSelect(result)}>
-                          <TableCell style={{ color: 'blue' }}>{result.name}</TableCell>
-                        </ButtonBase>
-                      ))}
-                    </Table>
-                  ))}
-				<div> <ErrorMessage message={availableTec.usuarios?.message} show={searchError} /></div>
-
-				   {selectedTec && (
-				    <input type="hidden" name="tecnico_id" value={selectedTec.id} />)}
+                {isAddingTechnician && (
+                  <Autocomplete
+                    options={availableTec.usuarios || []}
+                    getOptionLabel={(option) => option?.name}
+                    renderInput={(params) => (
+                      <StyledTextField
+                        {...params}
+                        label="Agregar Técnico"
+                        onChange={(e) => setQueryt(e.target.value.toLowerCase())}
+                      />
+                    )}
+                    onChange={(event, value) => {
+                      handleTecSelect(value);
+                      setQueryt(''); // Limpiar la búsqueda al seleccionar un técnico
+                    }}
+                  />
+                )}
+                {queryt.length > 0 && Array.isArray(availableTec.usuarios) && availableTec.usuarios.length > 0 && (
+                  <Table>
+                    {availableTec.usuarios.map((result, index) => (
+                      <ButtonBase key={result.id} onClick={() => handleTecSelect(result)}>
+                        <TableCell style={{ color: 'blue' }}>{result.name}</TableCell>
+                      </ButtonBase>
+                    ))}
+                  </Table>
+                )}
+                <div>
+                  {' '}
+                  <ErrorMessage message={availableTec.usuarios?.message} show={searchError} />
+                </div>
+                {selectedTec && <input type="hidden" name="tecnico_id" value={selectedTec.id} />}
                 {/* {selectedTec && (
 					
                   <Typography>
@@ -412,9 +393,6 @@ const updatedFormInfo = {
              
 			  
 			   )} */}
- 
-
-
                 {isAddingTechnician && (
                   <TextField
                     required
@@ -425,20 +403,17 @@ const updatedFormInfo = {
                     onChange={handleChange}
                   />
                 )}
-
-{isAddingTechnician && (
+                {isAddingTechnician && (
                   <TextField
                     required
                     label="Asignado"
                     name="asignar_tecnico"
                     id="asignar_tecnico"
-                    value={selectedTec ? selectedTec.asignar_tecnico = true: ''}
-					type="hiden"
+                    value={selectedTec ? (selectedTec.asignar_tecnico = true) : ''}
+                    type="hiden"
                     onChange={handleChange}
                   />
                 )}
-                
-                
                 {message && (
                   <Alert severity="error" sx={{ mt: 2 }}>
                     {' '}
