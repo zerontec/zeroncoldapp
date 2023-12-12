@@ -204,7 +204,7 @@ const AllTaskTable = () => {
     setPage(0);
   };
 
-  //EDITAR TAREA
+  
   // const handleSubmit = (e) => {
   //   if (selectedTaskEdit.description && selectedTaskEdit.note) {
   //     e.preventDefault();
@@ -230,7 +230,8 @@ const AllTaskTable = () => {
   //   }
   // };
 
-  //TOMAR TAREA
+
+
   const handleTakeTask = async (event) => {
     event.preventDefault();
 
@@ -486,7 +487,7 @@ const AllTaskTable = () => {
                           </Button>
                         </TableCell>
 
-                        <TableCell className="tableCell">
+                        {/* <TableCell className="tableCell">
                           <Button
                             variant="contained"
                             style={{ backgroundColor: 'red', color: 'white' }}
@@ -495,7 +496,7 @@ const AllTaskTable = () => {
                           >
                             Borrar
                           </Button>
-                        </TableCell>
+                        </TableCell> */}
                       </>
                     </TableRow>
                   ))

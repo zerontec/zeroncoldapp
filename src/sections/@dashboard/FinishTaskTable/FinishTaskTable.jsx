@@ -204,7 +204,7 @@ const FinishTaskTable = () => {
     setPage(0);
   };
 
-  //EDITAR TAREA
+  
   // const handleSubmit = (e) => {
   //   if (selectedTaskEdit.description && selectedTaskEdit.note) {
   //     e.preventDefault();
@@ -230,39 +230,40 @@ const FinishTaskTable = () => {
   //   }
   // };
 
-  //TOMAR TAREA
-  const handleTakeTask = async (event) => {
-    event.preventDefault();
+ 
 
-    const taskId = selectedTask.id;
+  // const handleTakeTask = async (event) => {
+  //   event.preventDefault();
 
-    console.log('taskId', taskId);
-    console.log('tecnico', tecnicoId);
-    try {
-      setLoading(true);
-      handleCloseModal();
-      // Llama a la acción takeTask para tomar la tarea
-      await dispatch(takeTask(taskId, tecnicoId));
+  //   const taskId = selectedTask.id;
 
-      // Si llegamos aquí, la tarea se tomó con éxito
-      Swal.fire('Tarea tomada con éxito!', '', 'success');
+  //   console.log('taskId', taskId);
+  //   console.log('tecnico', tecnicoId);
+  //   try {
+  //     setLoading(true);
+  //     handleCloseModal();
+  //     // Llama a la acción takeTask para tomar la tarea
+  //     await dispatch(takeTask(taskId, tecnicoId));
 
-      // Actualiza la lista de tareas después de tomar una tarea
-      dispatch(getAllTaskPendding());
+  //     // Si llegamos aquí, la tarea se tomó con éxito
+  //     Swal.fire('Tarea tomada con éxito!', '', 'success');
 
-      setMessageError(null); // Limpia cualquier mensaje de error anterior
-    } catch (error) {
-      console.error(error);
+  //     // Actualiza la lista de tareas después de tomar una tarea
+  //     dispatch(getAllTaskPendding());
 
-      // Manejo de errores, puedes personalizar según tus necesidades
-      setLoading(false);
+  //     setMessageError(null); // Limpia cualquier mensaje de error anterior
+  //   } catch (error) {
+  //     console.error(error);
 
-      setMessageError(error.message);
-      Swal.fire('Algo pasó', error.message, 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     // Manejo de errores, puedes personalizar según tus necesidades
+  //     setLoading(false);
+
+  //     setMessageError(error.message);
+  //     Swal.fire('Algo pasó', error.message, 'error');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleSearch = () => {
     // Lógica para realizar la búsqueda de pacientes en la API y actualizar el estado del componente con los resultados.
@@ -384,13 +385,13 @@ const FinishTaskTable = () => {
                         </TableCell>
                         {role === 'ROLE_ADMIN' && (
                           <>
-                            <TableCell className="tableCell">
+                            {/* <TableCell className="tableCell">
                               <Button variant="contained" onClick={() => handleEditClick(items)}>
                                 Editar
                               </Button>
-                            </TableCell>
+                            </TableCell> */}
 
-                            <TableCell className="tableCell">
+                            {/* <TableCell className="tableCell">
                               <Button
                                 variant="contained"
                                 style={{ backgroundColor: 'red', color: 'white' }}
@@ -399,7 +400,7 @@ const FinishTaskTable = () => {
                               >
                                 Borrar
                               </Button>
-                            </TableCell>
+                            </TableCell> */}
                           </>
                         )}
                       </>
