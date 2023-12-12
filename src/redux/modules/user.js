@@ -38,7 +38,7 @@ export const fetchUsers = (query) => async (dispatch) => {
   dispatch(fetchUserRequest());
   try {
     const response = await fetch(
-      `${API_URL_D}api/user/search-query?q=${query}`, { headers: authHeader() }
+      `${API_URL}api/user/search-query?q=${query}`, { headers: authHeader() }
     );
 
     if (!response.ok) {

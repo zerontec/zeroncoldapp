@@ -43,7 +43,7 @@ export const fetchTaskFailure = (error) => ({
 export const fetchTasks = (query) => async (dispatch) => {
   dispatch(fetchTaskRequest());
   try {
-    const response = await fetch(`${API_URL_D}api/task/search-query?q=${query}`, { headers: authHeader() });
+    const response = await fetch(`${API_URL}api/task/search-query?q=${query}`, { headers: authHeader() });
     const data = await response.json();
     dispatch(fetchTaskSuccess(data));
     return data;
@@ -55,7 +55,7 @@ export const fetchTasks = (query) => async (dispatch) => {
 
 export const createTask = (formInfo) => async (dispatch) => {
   try {
-    const response = await axios.post(`${API_URL_D}api/task/create`, formInfo, { headers: authHeader() });
+    const response = await axios.post(`${API_URL}api/task/create`, formInfo, { headers: authHeader() });
     dispatch({
       type: CREATE_TASK,
       payload: response.data,
@@ -71,7 +71,7 @@ export const createTask = (formInfo) => async (dispatch) => {
 
 export const takeTask = (taskId, tecnicoId) => async (dispatch) => {
   try {
-    const response = await axios.post(`${API_URL_D}api/task/take/${taskId}/${tecnicoId}`);
+    const response = await axios.post(`${API_URL}api/task/take/${taskId}/${tecnicoId}`);
     dispatch({
       type: TAKE_TASK,
       payload: response.data,
@@ -87,7 +87,7 @@ export const takeTask = (taskId, tecnicoId) => async (dispatch) => {
 
 export const rejecTask = (taskId, tecnicoId) => async (dispatch) => {
   try {
-    const response = await axios.post(`${API_URL_D}api/task/reject/${taskId}/${tecnicoId}`);
+    const response = await axios.post(`${API_URL}api/task/reject/${taskId}/${tecnicoId}`);
     dispatch({
       type: REJECT_TASK,
       payload: response.data,
@@ -103,7 +103,7 @@ export const rejecTask = (taskId, tecnicoId) => async (dispatch) => {
 
 export const finishTask = (taskId, tecnicoId) => async (dispatch) => {
   try {
-    const response = await axios.post(`${API_URL_D}api/task/task-finish/${taskId}/${tecnicoId}`);
+    const response = await axios.post(`${API_URL}api/task/task-finish/${taskId}/${tecnicoId}`);
     dispatch({
       type: FINISH_TASK,
       payload: response.data,
@@ -119,7 +119,7 @@ export const finishTask = (taskId, tecnicoId) => async (dispatch) => {
 
 export const takeTaskById = (taskId) => async (dispatch) => {
   try {
-    const response = await axios.get(`${API_URL_D}api/task/task/${taskId}`);
+    const response = await axios.get(`${API_URL}api/task/task/${taskId}`);
     dispatch({
       type: TAKE_TASK_ID,
       payload: response.data,
@@ -135,7 +135,7 @@ export const takeTaskById = (taskId) => async (dispatch) => {
 
 export const getAllTask = () => async (dispatch) => {
   try {
-    const resp = await axios.get(`${API_URL_D}api/task/all `, { headers: authHeader() });
+    const resp = await axios.get(`${API_URL}api/task/all `, { headers: authHeader() });
 
     dispatch({
       type: GET_ALL_TASKS,
@@ -149,7 +149,7 @@ export const getAllTask = () => async (dispatch) => {
 
 export const getAllTaskFinish = () => async (dispatch) => {
   try {
-    const resp = await axios.get(`${API_URL_D}api/task/task-finish `, { headers: authHeader() });
+    const resp = await axios.get(`${API_URL}api/task/task-finish `, { headers: authHeader() });
 
     dispatch({
       type: GET_ALL_TASKS_FINISH,
@@ -163,7 +163,7 @@ export const getAllTaskFinish = () => async (dispatch) => {
 
 export const getAllTaskProgress = () => async (dispatch) => {
   try {
-    const resp = await axios.get(`${API_URL_D}api/task/task-progress `, { headers: authHeader() });
+    const resp = await axios.get(`${API_URL}api/task/task-progress `, { headers: authHeader() });
 
     dispatch({
       type: GET_ALL_PROGRESS,
@@ -177,7 +177,7 @@ export const getAllTaskProgress = () => async (dispatch) => {
 
 export const getAllTaskPendding = () => async (dispatch) => {
   try {
-    const resp = await axios.get(`${API_URL_D}api/task/pending `, { headers: authHeader() });
+    const resp = await axios.get(`${API_URL}api/task/pending `, { headers: authHeader() });
 
 
     console.log('Tareas Asignadas:', resp.data); // Agrega este log

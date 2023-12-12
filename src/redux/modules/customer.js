@@ -45,7 +45,7 @@ export const fetchCustomers = (query) => async (dispatch) => {
   dispatch(fetchCustomersRequest());
   try {
     const response = await fetch(
-      `${API_URL_D}api/customer/search-query?q=${query}`, { headers: authHeader() }
+      `${API_URL}api/customer/search-query?q=${query}`, { headers: authHeader() }
     );
 
     if (!response.ok) {
@@ -78,7 +78,7 @@ export const fetchCustomers = (query) => async (dispatch) => {
 export const createCustomer = (formInfo) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${API_URL_D}api/customer/create`,
+      `${API_URL}api/customer/create`,
       formInfo,{ headers: authHeader() }
     );
     dispatch({
@@ -103,7 +103,7 @@ export const getAllCustomer= () => async(dispatch) =>  {
 
 
   try {
-    const resp = await axios.get(`${API_URL_D}api/customer/find-all`,{ headers: authHeader() });
+    const resp = await axios.get(`${API_URL}api/customer/find-all`,{ headers: authHeader() });
 
     dispatch({
       type: GET_CUSTOMER,
@@ -120,7 +120,7 @@ export const serachCustomeById =({id}) => async(dispatch)=>{
 
   dispatch(fetchCustomersRequest());
   try {
-    const response = await fetch(`${API_URL_D}api/customer/search/${id}`,{ headers: authHeader() }
+    const response = await fetch(`${API_URL}api/customer/search/${id}`,{ headers: authHeader() }
     );
     const data = await response.json();
     dispatch(fetchCustomersSuccess(data));
@@ -137,7 +137,7 @@ export const serachCustomeById =({id}) => async(dispatch)=>{
   
 export const updateCustomer = (id, data) => async (dispatch) => {
   try {
-    const resp = await axios.put(`${API_URL_D}api/customer/update/${id}`, data,{ headers: authHeader() });
+    const resp = await axios.put(`${API_URL}api/customer/update/${id}`, data,{ headers: authHeader() });
 
     dispatch({
       type: UPDATE_CUSTOMER,
@@ -153,7 +153,7 @@ export const updateCustomer = (id, data) => async (dispatch) => {
 
 export const deleteCustomer = (id) => async (dispatch) => {
   try {
-    await axios.delete(`${API_URL_D}api/customer/delete/${id}`,{ headers: authHeader() });
+    await axios.delete(`${API_URL}api/customer/delete/${id}`,{ headers: authHeader() });
 
     dispatch({
       type: DELETE_CUSTOMER,
