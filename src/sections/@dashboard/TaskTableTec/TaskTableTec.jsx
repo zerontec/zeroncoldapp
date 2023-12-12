@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/self-closing-comp */
+
 import React, { useState, useEffect } from 'react';
 
 import TableContainer from '@mui/material/TableContainer';
@@ -189,10 +190,7 @@ const TaskTableTec = () => {
 
   const handleCloseModal = () => {
     setSelectedTaskId(null);
-    setSelectedTaskEdit({
-      description: '',
-      note: '',
-    });
+ 
     setOpen(false);
   };
 
