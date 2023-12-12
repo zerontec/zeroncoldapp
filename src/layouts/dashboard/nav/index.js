@@ -41,6 +41,8 @@ Nav.propTypes = {
 };
 
 
+
+
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
@@ -48,11 +50,13 @@ export default function Nav({ openNav, onCloseNav }) {
 
 const usuario = useSelector((state)=> state.auth)
 console.log("usuario", usuario)
-const allowedRoutes = usuario.user && usuario.user.roles && usuario.user.roles.includes('ROLE_ADMIN')
-
-? navConfig
-: navConfig.filter((route) => route.path === '/dashboard/tareas')
-
+const allowedRoutes = usuario.user && usuario.user.roles
+  ? usuario.user.roles.includes('ROLE_ADMIN')
+    ? navConfig
+    : usuario.user.roles.includes('ROLE_TECNICO')
+    ? navConfig.filter(route => route.path.startsWith('/dashboard/tec' ))
+    : []
+  : [];
 useEffect(() => {
   if (usuario.user.roles.includes('ROLE_ADMIN')) {
     setRoleShow('Administrador');
@@ -106,12 +110,12 @@ useEffect(() => {
 <Logout/>
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Box
+          {/* <Box
             component="img"
             src="/assets2/illustration_avatar.png"
             sx={{ width: 100, position: 'absolute', top: -50 }}
-          />
-
+          /> */}
+<Logo/>
           {/* <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h6">
               Get more?

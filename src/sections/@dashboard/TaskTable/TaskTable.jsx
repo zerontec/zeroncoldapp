@@ -55,11 +55,11 @@ const ActionsContainer = styled.div`
 `;
 
 const columns = [
-  {
-    id: 'id',
-    label: 'Seleccion',
-    minWidth: 50,
-  },
+  // {
+  //   id: 'id',
+  //   label: 'Seleccion',
+  //   minWidth: 50,
+  // },
   {
     id: 'name',
     label: 'Descripcion tarea ',
@@ -262,28 +262,37 @@ console.log('usuario', usuario);
     console.log('tecnico', tecnicoId);
     try {
       setLoading(true);
-      handleCloseModal();
+     
       // Llama a la acción takeTask para tomar la tarea
       await dispatch(takeTask(taskId, tecnicoId));
-     
-      // Si llegamos aquí, la tarea se tomó con éxito
+       // Actualiza la lista de tareas después de tomar una tarea
+      
+// Si llegamos aquí, la tarea se tomó con éxito
       Swal.fire('Tarea tomada con éxito!', '', 'success');
-
-      // Actualiza la lista de tareas después de tomar una tarea
       dispatch(getAllTaskPendding());
-
+     
+      
+      setSelectedTask(null)
       setMessageError(null); // Limpia cualquier mensaje de error anterior
+      
     } catch (error) {
       console.error(error);
 
       // Manejo de errores, puedes personalizar según tus necesidades
       setLoading(false);
+     
 
       setMessageError(error.message);
+      setSelectedTask(null)
+      handleCloseModal();
       Swal.fire('Algo pasó', error.message, 'error');
+     
     } finally {
       setLoading(false);
+      
+
     }
+    
   };
   
 
@@ -358,7 +367,7 @@ console.log('usuario', usuario);
               </p>
              
 			  <p>
-                <strong>Fecha :</strong> {selectedTask.address}
+                <strong>Fecha :</strong> {selectedTask.date}
               </p>
 			  <p>
                 <strong>Tecnico :</strong> {selectedTask.tecnico?.name}
@@ -367,7 +376,7 @@ console.log('usuario', usuario);
                 <strong>Telefono :</strong> {selectedTask.tecnico?.telephone}
               </p>
 
-			  <Button variant="contained" color="primary" onClick={handleTakeTask}>
+			  <Button variant="contained" color="primary" style={{marginRight:10}} onClick={handleTakeTask}>
   Tomar Tarea
 </Button>
               <Button variant="contained" onClick={() => setSelectedTask(null)}>
@@ -379,85 +388,7 @@ console.log('usuario', usuario);
       </Modal>
       {/* End Modal nalysis  */}
 
-      {/* Modal para editar el análisis */}
-      <Modal open={open} onClose={handleCloseModal}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            borderRadius: '8px',
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <h2>Editar Tareas</h2>
-          {selectedTaskEdit && (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <FormContainer>
-                <FieldContainer>
-                  <TextField
-                    type="text"
-                    value={setSelectedTaskId.id}
-                    onChange={(e) =>
-                      setSelectedTaskId({
-                        ...selectedTaskId,
-                        id: e.target.value,
-                      })
-                    }
-                  />
-
-                  <TextField
-                    label="Descripcion"
-                    type="text"
-                    value={selectedTaskEdit.description}
-                    onChange={(e) =>
-                      setSelectedTaskEdit({
-                        ...selectedTaskEdit,
-                        description: e.target.value,
-                      })
-                    }
-                  />
-
-                  <br />
-                  <TextField
-                    label="Nota"
-                    name="note"
-                    value={selectedTaskEdit.note}
-                    onChange={(e) =>
-                      setSelectedTaskEdit({
-                        ...selectedTaskEdit,
-                        note: e.target.value,
-                      })
-                    }
-                  />
-
-             
-
-
-                  <br />
-                </FieldContainer>
-                <ActionsContainer>
-                  <Button variant="contained" type="submit" color="primary" onClick={handleSubmit}>
-                    Guardar cambios
-                  </Button>
-                </ActionsContainer>
-              </FormContainer>
-            </form>
-          )}
-          <hr />
-          <Button variant="contained" onClick={() => setOpen(null)}>
-            Cerrar
-          </Button>
-        </Box>
-      </Modal>
+     
 
       <Box sx={{ m: 2 }}>
         {/* <Subtitles>Prueba</Subtitles> */}
@@ -491,10 +422,10 @@ console.log('usuario', usuario);
 					
                     <TableRow key={items.id}>
 					
-						 <Checkbox
+						 {/* <Checkbox
                   checked={selectedTasks.includes(items.id)}
                   onChange={() => handleToggleSelect(items.id)}
-                />
+                /> */}
              
                       <TableCell align="left"> {capitalizeFirstLetter (items.description)}</TableCell>
                       <TableCell align="left"> {capitalizeFirstLetter(items.estatus)}</TableCell>

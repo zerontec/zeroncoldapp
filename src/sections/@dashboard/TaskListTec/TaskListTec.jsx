@@ -159,25 +159,8 @@ const TaskListTec = () => {
 
 	return (
 		<>
-		  <hr />
-		  <Box sx={{ m: 8 }}>
-			<Button style={{ marginRight: 3 }} variant="contained" onClick={() => setSelectButton()}>
-			  Crear Tarea
-			</Button>
-	
-			<Button
-			  style={{ marginRight: 3 }}
-			  variant="contained"
-			  onClick={() => handleLinkClick('/dashboard/productos-defectuosos')}
-			>
-			  Productos Defectuosos
-			</Button>
-	
-			<Button variant="contained" onClick={() => handleLinkClick('/dashboard/cargar-productos')}>
-			  Carga Rapida de Productos
-			</Button>
-		  </Box>
-	
+		
+		
 		  <TaskTableTec/>
 	
 		  <Modal open={selectButton !== null} onClose={() => setSelectButton(null)}>

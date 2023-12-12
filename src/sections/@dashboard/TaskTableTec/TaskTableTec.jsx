@@ -271,10 +271,10 @@ console.log('usuario', usuario);
       handleCloseModal();
       // Si llegamos aquí, la tarea se tomó con éxito
       Swal.fire('Tarea tomada con éxito!', '', 'success');
-
+	 
       // Actualiza la lista de tareas después de tomar una tarea
-      dispatch(getAllTaskPendding());
-
+      dispatch(assignedTaskTec(tecnicoId));
+	  setSelectedTask(null)
       setMessageError(null); // Limpia cualquier mensaje de error anterior
     } catch (error) {
       console.error(error);
@@ -283,7 +283,9 @@ console.log('usuario', usuario);
       setLoading(false);
 
       setMessageError(error.message);
-      Swal.fire('Algo pasó', error.message, 'error');
+	  setSelectedTask(null)
+      handleCloseModal();
+	  Swal.fire('Algo pasó', error.message, 'error');
     } finally {
       setLoading(false);
     }
@@ -309,8 +311,9 @@ const handleFinisTask = async (event)=> {
       Swal.fire('Tarea Finalizada con éxito!', '', 'success');
 
       // Actualiza la lista de tareas después de finalizar una tarea
-      dispatch(assignedTaskTec());
+      dispatch(assignedTaskTec(tecnicoId));
 
+      setSelectedTask(null)
       setMessageError(null); // Limpia cualquier mensaje de error anterior
     } catch (error) {
       console.error(error);
@@ -319,7 +322,9 @@ const handleFinisTask = async (event)=> {
       setLoading(false);
 
       setMessageError(error.message);
-      Swal.fire('Algo pasó', error.message, 'error');
+	  setSelectedTask(null)
+      handleCloseModal();
+	  Swal.fire('Algo pasó', error.message, 'error');
     } finally {
       setLoading(false);
     }
@@ -336,14 +341,14 @@ const handleRejecTask = async (items)=> {
     try {
       setLoading(true);
 
-      await dispatch(rejecTask(items.id));
+      await dispatch(rejecTask(items.id, tecnicoId));
       handleCloseModal();
       // Si llegamos aquí, la tarea se tomó con éxito
       Swal.fire('Tarea Rechazada con éxito!', '', 'success');
 
       // Actualiza la lista de tareas después de finalizar una tarea
-      dispatch(assignedTaskTec());
-
+      dispatch(assignedTaskTec(tecnicoId));
+	  setSelectedTask(null)
       setMessageError(null); // Limpia cualquier mensaje de error anterior
     } catch (error) {
       console.error(error);
@@ -439,7 +444,7 @@ const handleRejecTask = async (items)=> {
 				  </p>
 				 
 				  <p>
-					<strong>Fecha :</strong> {selectedTask.address}
+					<strong>Fecha :</strong> {selectedTask.date}
 				  </p>
 				  <p>
 					<strong>Tecnico :</strong> {selectedTask.tecnico?.name}
@@ -447,12 +452,14 @@ const handleRejecTask = async (items)=> {
 				  <p>
 					<strong>Telefono :</strong> {selectedTask.tecnico?.telephone}
 				  </p>
-	
-				  <Button variant="contained" color="primary" onClick={handleFinisTask}>
+				  <Button variant="contained" color="primary" style={{marginRight:5}} onClick={handleTakeTask}>
+	  Tomar tarea
+	</Button>
+				  <Button variant="contained" color="primary" style={{marginRight:5, backgroundColor:'rgb(213 114 186)'}} onClick={handleFinisTask}>
 	  Finalizar Tarea
 	</Button>
-				  <Button variant="contained" onClick={() => setSelectedTask(null)}>
-					Cerrar
+				  <Button variant="contained" style={{ backgroundColor:'grey'}} onClick={() => setSelectedTask(null)}>
+					X
 				  </Button>
 				</>
 			  )}

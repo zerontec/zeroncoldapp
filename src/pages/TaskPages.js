@@ -13,7 +13,7 @@ const FormTipo = styled.div`
   width: 100%;
   max-width: 1000px;
   margin-bottom: 2rem;
-  background-color: #FF5722;
+  background-color: rgb(0, 204, 153);
   border-radius: 20px;
 `
 

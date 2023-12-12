@@ -34,19 +34,39 @@ export const fetchUserFailure = (error) => ({
   payload: error,
 });
 
-export const fetchUsers= (queryPu) => async(dispatch) => {
- 
-    dispatch(fetchUserRequest());
-    try {
-      const response = await fetch(`${API_URL}api/users/search-query?q=${queryPu}`);
-      const data = await response.json();
-      dispatch(fetchUserSuccess(data));
-      return data
-    } catch (error) {
-      dispatch(fetchUserRequest(error.message));
-      throw error 
+export const fetchUsers = (query) => async (dispatch) => {
+  dispatch(fetchUserRequest());
+  try {
+    const response = await fetch(
+      `${API_URL_D}api/user/search-query?q=${query}`, { headers: authHeader() }
+    );
+
+    if (!response.ok) {
+      // Si el servidor responde con un código de error
+      const errorMessage = await response.json();
+      dispatch(fetchUserFailure(errorMessage.message));
+      return null;
     }
-  };
+
+    const data = await response.json();
+
+    if (data.message && data.message === "No se encontraron resultados para la búsqueda.") {
+      // Manejar el caso cuando no se encuentran resultados
+      console.log("No se encontraron resultados");
+      dispatch(fetchUserSuccess([])); // Puedes pasar un array vacío o null dependiendo de tu implementación
+    } else {
+      // Procesar los resultados normalmente
+      dispatch(fetchUserSuccess(data));
+    }
+
+    return data;
+  } catch (error) {
+    // Manejar otros errores, como errores de red
+    console.error("Error en la solicitud:", error);
+    dispatch(fetchUserFailure(error.message));
+    return null;
+  }
+};
 
 
   export const serachUsereById =({id}) => async(dispatch)=>{
@@ -197,7 +217,7 @@ export default function userReducer(state = initialState, action) {
       case CREATE_USER:
         return{
           ...state,
-          customer:action.payload
+          usuarios:action.payload
     
         }
 

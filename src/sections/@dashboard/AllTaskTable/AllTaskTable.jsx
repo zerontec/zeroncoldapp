@@ -277,6 +277,7 @@ console.log('usuario', usuario);
       dispatch(getAllTask());
 
       setMessageError(null); // Limpia cualquier mensaje de error anterior
+    setSelectedTask(null);
     } catch (error) {
       console.error(error);
 
@@ -284,9 +285,12 @@ console.log('usuario', usuario);
       setLoading(false);
 
       setMessageError(error.message);
-      Swal.fire('Algo pasó', error.message, 'error');
+	  setSelectedTask(null)
+      handleCloseModal();
+	  Swal.fire('Algo pasó', error.message, 'error');
     } finally {
       setLoading(false);
+	  
     }
   };
   
@@ -364,7 +368,7 @@ console.log('usuario', usuario);
 				  </p>
 				 
 				  <p>
-					<strong>Fecha :</strong> {selectedTask.address}
+					<strong>Fecha :</strong> {selectedTask.date}
 				  </p>
 				  <p>
 					<strong>Tecnico :</strong> {selectedTask.tecnico?.name}
@@ -373,7 +377,7 @@ console.log('usuario', usuario);
 					<strong>Telefono :</strong> {selectedTask.tecnico?.telephone}
 				  </p>
 	
-				  <Button variant="contained" color="primary" onClick={handleTakeTask}>
+				  <Button variant="contained" color="primary" style={{marginRight:10, backgroundColor:"#2196F3"}} onClick={handleTakeTask}>
 	  Tomar Tarea
 	</Button>
 				  <Button variant="contained" onClick={() => setSelectedTask(null)}>
@@ -468,7 +472,7 @@ console.log('usuario', usuario);
 		  <Box sx={{ m: 2 }}>
 			{/* <Subtitles>Prueba</Subtitles> */}
 			<TextField label="Buscar Tareas " value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-			<Button variant="contained" onClick={handleSearch}>
+			<Button variant="contained" style={{marginRight:10}} onClick={handleSearch}>
 			  Buscar
 			</Button>
 			<TableContainer component={Paper}>

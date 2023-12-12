@@ -31,6 +31,11 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
 
+  const handleMenuItemClick = (event) => {
+    // Agrega esta línea para cerrar la ventana emergente al hacer clic en una opción
+    handleClose();
+  };
+
 
   const [roleShow, setRoleShow] = useState('')
 

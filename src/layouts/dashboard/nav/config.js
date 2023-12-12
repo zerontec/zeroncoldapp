@@ -1,8 +1,10 @@
 
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 // component
 import SvgColor from '../../../components/svg-color';
-
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +17,12 @@ const navConfig = [
   {
     title: 'dashboard',
     path: '/dashboard/app',
+    icon: icon('ic_analytics'),
+  },
+
+  {
+    title: 'dashboard',
+    path: '/dashboard/tec/app',
     icon: icon('ic_analytics'),
   },
   {
@@ -38,8 +46,19 @@ const navConfig = [
 
   {
     title: 'tareas',
-    path: '/dashboard/tareas',
-    icon: icon('ic_cart'),
+    path: '/dashboard/tec/tareas',
+    icon: <AssignmentIcon/>,
+  },
+  {
+    title: 'Mis tareas',
+    path: '/dashboard/tec/mytask',
+    icon: <AssignmentIndIcon/>,
+  },
+
+  {
+    title: 'Mis tareas Finalizadas',
+    path: '/dashboard/tec/mytaskfinish',
+    icon: <AssignmentTurnedInIcon />,
   },
 
   {
@@ -47,7 +66,9 @@ const navConfig = [
     path: '/dashboard/compras',
     icon: icon('ic_cart'),
   },
-{
+
+
+  {
 
 title: 'usuarios',
 path:'/dashboard/usuarios',
@@ -123,10 +144,21 @@ icon: icon('ic_user'),
 export const filterAllowedRoutes = (userRoles) => {
   if (userRoles.includes('ROLE_ADMIN')) {
     return navConfig; // Mostrar todas las rutas para el rol de administrador
-  } if (userRoles.includes('ROLE_TECNICO')) {
-    return navConfig.filter((route) => route.path === '/dashboard/tareas');
   } 
-    return []; // No se muestran rutas para otros roles
-  
+
+  if (userRoles.includes('ROLE_TECNICO')) {
+    // Lista de rutas permitidas para ROLE_TECNICO
+    const allowedRoutesForTecnico = [ '/dashboard/mytask'];
+
+    // Filtrar rutas permitidas para el rol de técnico
+    return navConfig.filter((route) => allowedRoutesForTecnico.includes(route.path));
+  }
+
+  return []; // No se muestran rutas para otros roles
 };
+
+
+
+
+
 export default navConfig;

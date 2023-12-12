@@ -85,9 +85,9 @@ export const takeTask = (taskId, tecnicoId) => async (dispatch) => {
   }
 };
 
-export const rejecTask = (taskId) => async (dispatch) => {
+export const rejecTask = (taskId, tecnicoId) => async (dispatch) => {
   try {
-    const response = await axios.post(`${API_URL_D}api/task/reject/${taskId}`);
+    const response = await axios.post(`${API_URL_D}api/task/reject/${taskId}/${tecnicoId}`);
     dispatch({
       type: REJECT_TASK,
       payload: response.data,

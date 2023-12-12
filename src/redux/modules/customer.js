@@ -41,22 +41,39 @@ export const customerError = (error) => ({
 
 
 
-export const fetchCustomers = (query) =>async (dispatch) => {
- 
-  
-    dispatch(fetchCustomersRequest());
-    try {
-      const response = await fetch(
-        `${API_URL}api/customer/search-query?q=${query}`,{ headers: authHeader() }
-      );
-      const data = await response.json();
-      dispatch(fetchCustomersSuccess(data));
-      return response.data;
-    } catch (error) {
-      dispatch(fetchCustomersFailure(error.message));
-      return null
+export const fetchCustomers = (query) => async (dispatch) => {
+  dispatch(fetchCustomersRequest());
+  try {
+    const response = await fetch(
+      `${API_URL_D}api/customer/search-query?q=${query}`, { headers: authHeader() }
+    );
+
+    if (!response.ok) {
+      // Si el servidor responde con un código de error
+      const errorMessage = await response.json();
+      dispatch(fetchCustomersFailure(errorMessage.message));
+      return null;
     }
-  };
+
+    const data = await response.json();
+
+    if (data.message && data.message === "No se encontraron resultados para la búsqueda.") {
+      // Manejar el caso cuando no se encuentran resultados
+      console.log("No se encontraron resultados");
+      dispatch(fetchCustomersSuccess([])); // Puedes pasar un array vacío o null dependiendo de tu implementación
+    } else {
+      // Procesar los resultados normalmente
+      dispatch(fetchCustomersSuccess(data));
+    }
+
+    return data;
+  } catch (error) {
+    // Manejar otros errores, como errores de red
+    console.error("Error en la solicitud:", error);
+    dispatch(fetchCustomersFailure(error.message));
+    return null;
+  }
+};
 
 export const createCustomer = (formInfo) => async (dispatch) => {
   try {

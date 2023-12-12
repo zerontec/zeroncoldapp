@@ -75,6 +75,7 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
+        { path: 'tec/app', element: <DashboardAppPage /> },
         {path:"user", element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }> <UserPage/></ProtectedRoute> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
@@ -107,9 +108,9 @@ export default function Router() {
         { path: 'tareas', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO')) }>  <TaskPages /></ProtectedRoute> },
         { path: 'alltask', element: <ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') }>  <AllTaskPage/></ProtectedRoute> },
           
-        { path: 'mytask', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO')) }>  <TaskListTecPage/></ProtectedRoute> },
-        { path: 'mytaskfinish', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO')) }>  <HistorialTaskTec/> </ProtectedRoute> },
-        
+        { path: 'tec/mytask', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO')) }>  <TaskListTecPage/></ProtectedRoute> },
+        { path: 'tec/mytaskfinish', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO')) }>  <HistorialTaskTec/> </ProtectedRoute> },
+        { path: 'tec/tareas', element: <ProtectedRoute isAllowed={!!user && (user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO')) }>  <TaskPages /></ProtectedRoute> },
         
         // { path: 'tareas', element:<ProtectedRoute isAllowed={!!user && user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_TECNICO') }> <TaskPages/> </ProtectedRoute> },
      
