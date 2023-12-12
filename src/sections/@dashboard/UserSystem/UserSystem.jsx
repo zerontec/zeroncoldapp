@@ -796,7 +796,7 @@ const UserSystem = () => {
     renderValue={(selected) => selected.join(', ')}
   >
     <MenuItem value="admin">admin</MenuItem>
-    {/* <MenuItem value="usertl">usertl</MenuItem> */}
+    <MenuItem value="tecnico">Tecnico</MenuItem>
     <MenuItem value="facturacion">facturacion</MenuItem>
   </Select>
           
