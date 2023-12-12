@@ -215,8 +215,8 @@ const UserSystem = () => {
         .then((response) => {
           setLoading(false);
           Swal.fire("Usuario creado con éxito!", "", "success");
-          window.location.reload();
-         
+          // window.location.reload();
+         setSelectButton(null)
           setFormInfo({
             username: "",
             email: "",
@@ -225,6 +225,8 @@ const UserSystem = () => {
             password: "",
 
           });
+
+          dispatch(getAllUsers())
 
           setSelectButton(null);
           if (response.error) {
@@ -428,6 +430,8 @@ const UserSystem = () => {
 		});
 		setOpen(false);
 	  };
+
+
     function capitalizeFirstLetter(text) {
       if (!text) return '';
       return text.charAt(0).toUpperCase() + text.slice(1);
@@ -565,6 +569,125 @@ const UserSystem = () => {
 			</Button>
 		  </Box>
 		</Modal>
+
+
+
+
+
+    <Modal open={selectButton !== null} onClose={() => setSelectButton(null)}>
+		  <Box
+			sx={{
+			  position: "absolute",
+			  top: "50%",
+			  left: "50%",
+			  transform: "translate(-50%, -50%)",
+			  width: 400,
+			  bgcolor: "background.paper",
+			  borderRadius: "8px",
+			  boxShadow: 24,
+			  p: 4,
+			}}
+		  >
+			{/* Aquí va el contenido del modal */}
+			<form onSubmit={handleSubmit}>
+			  <FormContainer>
+				<FieldContainer>
+				  <TextField
+					required
+					label="Nombre"
+					name="name"
+					type="text"
+					id="name"
+					value={capitalizeFirstLetter(formInfo.name)}
+					onChange={handleChange}
+				  />{" "}
+				  {errors.name && (
+					<span className="error-message"> {errors.name}</span>
+				  )}
+				  <TextField
+					required
+					label="username"
+					name="username"
+					type="text"
+					id="name"
+					value={formInfo.username}
+					onChange={handleChange}
+				  />{" "}
+				  {errors.username && (
+					<span className="error-message"> {errors.username}</span>
+				  )}
+				  <TextField
+					required
+					label="email"
+					name="email"
+					id="email"
+					value={formInfo.email}
+					onChange={handleChange}
+				  />{" "}
+				  {errors.email && (
+					<span className="error-message"> {errors.email}</span>
+				  )}
+				  <TextField
+					required
+					label="Password"
+					name="password"
+					id="password"
+					value={formInfo.password}
+					onChange={handleChange}
+				  />{" "}
+				  {errors.password && (
+					<span className="error-message"> {errors.password}</span>
+				  )}
+  
+  <InputLabel id="roles-label">Rol</InputLabel>
+  <Select
+    labelId="roles-label"
+    id="roles"
+    name="roles"
+    multiple
+    value={formInfo.roles || []} 
+    onChange={handleChange}
+    renderValue={(selected) => selected.join(', ')}
+  >
+    <MenuItem value="admin">admin</MenuItem>
+    <MenuItem value="tecnico">tecnico</MenuItem>
+    {/* <MenuItem value="facturacion">facturacion</MenuItem> */}
+  </Select>
+          
+          {" "}
+				  {errors.roles && (
+					<span className="error-message"> {errors.roles}</span>
+				  )}
+  
+				  {message && (
+					<Alert severity="error" sx={{ mt: 2 }}>
+					  {" "}
+					  {messageError}{" "}
+					</Alert>
+				  )}{" "}
+				</FieldContainer>
+				<ActionsContainer>
+				<Button
+  type="submit"
+  onClick={handleSubmit}
+  variant="contained"
+  color="primary"
+  disabled={!isFormValid} // Deshabilitar el botón si isFormValid es false
+>
+  {loading ? "Cargando..." : "Agregar Usuario"}
+				  </Button>
+				</ActionsContainer>
+			  </FormContainer>
+			</form>
+			<hr />
+			<Button variant="contained" onClick={() => setSelectButton(null)}>
+			  Cerrar
+			</Button>
+		  </Box>
+		</Modal>
+
+
+
 
     <FormTipo>
           <Typography style={{color:"white" , marginLeft:10}} variant="h4" gutterBottom>
@@ -720,117 +843,6 @@ const UserSystem = () => {
       </Popover>
 
 
-    <Modal open={selectButton !== null} onClose={() => setSelectButton(null)}>
-		  <Box
-			sx={{
-			  position: "absolute",
-			  top: "50%",
-			  left: "50%",
-			  transform: "translate(-50%, -50%)",
-			  width: 400,
-			  bgcolor: "background.paper",
-			  borderRadius: "8px",
-			  boxShadow: 24,
-			  p: 4,
-			}}
-		  >
-			{/* Aquí va el contenido del modal */}
-			<form onSubmit={handleSubmit}>
-			  <FormContainer>
-				<FieldContainer>
-				  <TextField
-					required
-					label="Nombre"
-					name="name"
-					type="text"
-					id="name"
-					value={capitalizeFirstLetter(formInfo.name)}
-					onChange={handleChange}
-				  />{" "}
-				  {errors.name && (
-					<span className="error-message"> {errors.name}</span>
-				  )}
-				  <TextField
-					required
-					label="username"
-					name="username"
-					type="text"
-					id="name"
-					value={formInfo.username}
-					onChange={handleChange}
-				  />{" "}
-				  {errors.username && (
-					<span className="error-message"> {errors.username}</span>
-				  )}
-				  <TextField
-					required
-					label="email"
-					name="email"
-					id="email"
-					value={formInfo.email}
-					onChange={handleChange}
-				  />{" "}
-				  {errors.email && (
-					<span className="error-message"> {errors.email}</span>
-				  )}
-				  <TextField
-					required
-					label="Password"
-					name="password"
-					id="password"
-					value={formInfo.password}
-					onChange={handleChange}
-				  />{" "}
-				  {errors.password && (
-					<span className="error-message"> {errors.password}</span>
-				  )}
-  
-  <InputLabel id="roles-label">Rol</InputLabel>
-  <Select
-    labelId="roles-label"
-    id="roles"
-    name="roles"
-    multiple
-    value={formInfo.roles || []} 
-    onChange={handleChange}
-    renderValue={(selected) => selected.join(', ')}
-  >
-    <MenuItem value="admin">admin</MenuItem>
-    <MenuItem value="tecnico">Tecnico</MenuItem>
-    <MenuItem value="facturacion">facturacion</MenuItem>
-  </Select>
-          
-          {" "}
-				  {errors.roles && (
-					<span className="error-message"> {errors.roles}</span>
-				  )}
-  
-				  {message && (
-					<Alert severity="error" sx={{ mt: 2 }}>
-					  {" "}
-					  {messageError}{" "}
-					</Alert>
-				  )}{" "}
-				</FieldContainer>
-				<ActionsContainer>
-				<Button
-  type="submit"
-  onClick={handleSubmit}
-  variant="contained"
-  color="primary"
-  disabled={!isFormValid} // Deshabilitar el botón si isFormValid es false
->
-  {loading ? "Cargando..." : "Agregar Usuario"}
-				  </Button>
-				</ActionsContainer>
-			  </FormContainer>
-			</form>
-			<hr />
-			<Button variant="contained" onClick={() => setSelectButton(null)}>
-			  Cerrar
-			</Button>
-		  </Box>
-		</Modal>
 <FloatingButtonComponent/>
     </>
   );
