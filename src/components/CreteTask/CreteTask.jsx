@@ -329,11 +329,11 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
                   {' '}
                   <ErrorMessage message={availableCustomer.customers?.message} show={searchError} />
                 </div>
-                {/* {selectedCustomer && (
+                {selectedCustomer && (
                   <Typography>
                     Nombre: {selectedCustomer?.name} (Nro Cliente: {selectedCustomer?.id})
                   </Typography>
-                )} */}
+                )}
                 {/* No existe Producto en inventario Stored */}
                 {/* <div style={{color:"white"}}>
 <ErrorMessage message={availableCustomers.customers.message} show={searchError} /></div>
@@ -407,7 +407,7 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
                   <ErrorMessage message={availableTec.usuarios?.message} show={searchError} />
                 </div>
                 {selectedTec && <input type="hidden" name="tecnico_id" value={selectedTec?.id} />}
-                {/* {selectedTec && (
+                {selectedTec && (
 					
                   <Typography>
                     Tecnico: {selectedTec?.name} (Nro Tecnico: {selectedTec?.id})
@@ -415,7 +415,7 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
 				
              
 			  
-			   )} */}
+			   )}
                 {isAddingTechnician && (
                   <TextField
                     required
