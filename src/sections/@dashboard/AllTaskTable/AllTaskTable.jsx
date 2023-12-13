@@ -313,7 +313,7 @@ const AllTaskTable = () => {
               <h2>Tarea</h2>
 
               <h2>{selectedTask.name}</h2>
-              <p>{selectedTask.id}</p>
+              <p> <strong>Nro de orden:</strong> {selectedTask.id}</p>
 
               <p>
                 <strong>Cliente:</strong> {selectedTask.customer.name}

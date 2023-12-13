@@ -86,15 +86,18 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
 	  description: '',
 	  note: '',
 	  address: '',
-	  technician: '',
+	  
 	});
 	const [isFormValid, setIsFormValid] = useState(false);
   
 	const validateForm = () => {
-	  const { description, address } = formInfo;
-	  setIsFormValid(description.trim() !== '' && address.trim() !== '') &&
-		(isAddingTechnician ? formInfo.technician.trim() !== '' : true) &&
-		(selectedCustomer ? selectedCustomer.name.trim() !== '' : true);
+	  const { description, address,  customer } = formInfo;
+	  setIsFormValid(description.trim() !== ''
+     && address.trim() !== '' &&
+     customer.trim() !== '' &&
+		// isAddingTechnician ? formInfo.technician.trim() !== '' : true &&
+		selectedCustomer ? selectedCustomer.customer.trim() !== '' : true
+    )
 	};
   
 	useEffect(() => {
@@ -117,30 +120,22 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
 	  }
 	}, [queryt, dispatch]);
   
-	function validate(formInfo) {
-	  const errors = {};
+	const validateFormInfo = () => {
+    const errors = {};
   
-	  formInfo.customer ? (errors.customer = '') : (errors.customer = 'Ingrese una Cliente');
-	  formInfo.description ? (errors.description = '') : (errors.description = 'Ingrese una Descripcion');
-	  formInfo.address ? (errors.address = '') : (errors.address = 'Ingrese una direccion ');
+    errors.customer = formInfo.customer ? '' : 'Ingrese un Cliente';
+    errors.description = formInfo.description ? '' : 'Ingrese una Descripción';
+    errors.address = formInfo.address ? '' : 'Ingrese una dirección';
   
-	  return errors;
-	}
+    return errors;
+  };
   
 	function capitalizeFirstLetter(text) {
 	  if (!text) return '';
 	  return text.charAt(0).toUpperCase() + text.slice(1);
 	}
   
-	const handleChange = (event) => {
-	  const { name, value } = event.target;
-	  setFormInfo((prevFormInfo) => ({
-		...prevFormInfo,
-		[name]: value,
-	  }));
-	  setErrors(validate({ ...formInfo, [name]: value }));
-	};
-  
+ 
 	console.log('forimfo', formInfo);
   
 	const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -156,6 +151,23 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
 		// Otras propiedades del cliente que quieras agregar al formulario
 	  });
 	};
+
+
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+  
+    // Actualiza el estado del formulario
+    setFormInfo((prevFormInfo) => ({
+      ...prevFormInfo,
+      [name]: value,
+    }));
+  
+    // Valida el formulario utilizando el último estado actualizado
+    setErrors(validateFormInfo({ ...formInfo, [name]: value }));
+  };
+  
+
   
 	const [selectedTec, setSelectedTec] = useState(null);
   
@@ -267,7 +279,7 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
 		  </Button>
 
 		  
-<Modal open={selectButton !== null} onClose={() => setSelectButton()}>
+<Modal open={selectButton !== null} onClose={() => handleModalClose()}>
         <Box
           sx={{
             position: 'absolute',
