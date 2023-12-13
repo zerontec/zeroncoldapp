@@ -23,7 +23,7 @@ const Task = () => {
 
   return (
     <>
-      <TaskTable />
+      <TaskTable/>
     </>
   );
 };
