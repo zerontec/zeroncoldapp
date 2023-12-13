@@ -111,6 +111,7 @@ const TaskTableTec = () => {
   const [selectedTasks, setSelectedTasks] = useState([]);
 
   fDate();
+  fDateTime();
 
   function capitalizeFirstLetter(text) {
     if (!text) return '';
@@ -396,7 +397,7 @@ const TaskTableTec = () => {
             </p>
 
             <p>
-              <strong>Fecha :</strong> {fDate(selectedTask.date)}
+              <strong>Fecha :</strong> {fDateTime(selectedTask.date)}
             </p>
             <p>
               <strong>Tecnico :</strong> {selectedTask.tecnico?.name}
