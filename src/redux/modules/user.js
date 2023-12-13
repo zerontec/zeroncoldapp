@@ -38,7 +38,7 @@ export const fetchUsers = (query) => async (dispatch) => {
   dispatch(fetchUserRequest());
   try {
     const response = await fetch(
-      `${API_URL_D}api/user/search-query?q=${query}`, { headers: authHeader() }
+      `${API_URL}api/user/search-query?q=${query}`, { headers: authHeader() }
     );
 
     if (!response.ok) {
@@ -73,7 +73,7 @@ export const fetchUsers = (query) => async (dispatch) => {
 
     dispatch(fetchUserRequest());
     try {
-      const response = await fetch(`${API_URL_D}api/user/search/${id}`,{ headers: authHeader() }
+      const response = await fetch(`${API_URL}api/user/search/${id}`,{ headers: authHeader() }
       );
       const data = await response.json();
       dispatch(fetchUserSuccess(data));
@@ -90,7 +90,7 @@ export const getAllUsers= () => async(dispatch) =>  {
 
 
     try {
-      const resp = await axios.get(`${API_URL_D}api/user/get-all`,{ headers: authHeader() });
+      const resp = await axios.get(`${API_URL}api/user/get-all`,{ headers: authHeader() });
 
       dispatch({
         type: GET_USERS,
