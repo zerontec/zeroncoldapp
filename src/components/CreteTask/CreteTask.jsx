@@ -147,7 +147,7 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
 	  setSelectedCustomer(customer); // Actualiza el estado del cliente seleccionado
 	  setFormInfo({
 		...formInfo,
-		cliente_id: customer.id, // Actualiza el ID del cliente en el estado del formulario
+		cliente_id: customer?.id, // Actualiza el ID del cliente en el estado del formulario
 		// Otras propiedades del cliente que quieras agregar al formulario
 	  });
 	};
@@ -268,7 +268,7 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
 	  // Restablecer otros estados según sea necesario
 	};
 
-
+  const isSubmitDisabled = !isFormValid || loading;
 
 
 	return (
@@ -300,7 +300,7 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
             <FormContainer>
               <FieldContainer>
                 <Autocomplete
-                  options={availableCustomer.customers || []}
+                  options={availableCustomer?.customers || []}
                   getOptionLabel={(option) => option?.name || option?.identification || ''}
                   renderInput={(params) => (
                     <StyledTextField
@@ -315,12 +315,12 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
                   }}
                 />
                 {query.length > 0 &&
-                  Array.isArray(availableCustomer.customers) &&
+                  Array.isArray(availableCustomer?.customers) &&
                   availableCustomer.customers.length > 0 && (
                     <Table>
                       {availableCustomer.customers.map((result, index) => (
                         <ButtonBase key={result?.id} onClick={() => handleCustomerSelect(result)}>
-                          <TableCell style={{ color: 'blue' }}>{result.name}</TableCell>
+                          <TableCell style={{ color: 'blue' }}>{result?.name}</TableCell>
                         </ButtonBase>
                       ))}
                     </Table>
@@ -343,7 +343,7 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
                   label="Cliente"
                   name="customer"
                   id="customer"
-                  value={selectedCustomer ? selectedCustomer.name : ''}
+                  value={selectedCustomer ? selectedCustomer?.name : ''}
                   onChange={handleChange}
                 />
                 {errors.customer && <span className="error-message"> {errors.customer}</span>}
@@ -410,7 +410,7 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
                 {selectedTec && (
 					
                   <Typography>
-                    Tecnico: {selectedTec.name} (Nro Tecnico: {selectedTec.id})
+                    Tecnico: {selectedTec?.name} (Nro Tecnico: {selectedTec?.id})
                   </Typography>
 				
              
@@ -450,7 +450,7 @@ const CreteTask = ({tecnicoId, clienteId, asigneTecnico }) => {
                   onClick={handleSubmit}
                   variant="contained"
                   color="primary"
-                  disabled={!isFormValid} // Deshabilitar el botón si isFormValid es false
+                  disabled={isSubmitDisabled} // Deshabilitar el botón si isFormValid es false
                 >
                   {loading ? 'Cargando...' : 'Crear tarea'}
                 </Button>

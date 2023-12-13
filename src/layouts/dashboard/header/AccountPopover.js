@@ -42,9 +42,9 @@ export default function AccountPopover() {
 const usuario = useSelector((state)=> state.auth)
 
 useEffect(() => {
-  if (usuario.user.roles.includes('ROLE_ADMIN')) {
+  if (usuario?.user?.roles.includes('ROLE_ADMIN')) {
     setRoleShow('Administrador');
-  }   if (usuario.user.roles.includes('ROLE_FACTURACION')) {
+  }   if (usuario?.user?.roles.includes('ROLE_FACTURACION')) {
     setRoleShow('Facturacion');
   } 
   
@@ -88,7 +88,7 @@ const logoOut =() => {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={account?.photoURL} alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -112,10 +112,10 @@ const logoOut =() => {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-          {usuario.user.username}
+          {usuario.user?.username}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-          {usuario.user.email}
+          {usuario.user?.email}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
           {roleShow}
@@ -130,7 +130,7 @@ const logoOut =() => {
               {option.label}
             </MenuItem>
           ))} */}
-           <Link to={`/dashboard/perfil-usuario/${usuario.user.id}`} style={{ textDecoration: 'none' }}>
+           <Link to={`/dashboard/perfil-usuario/${usuario.user?.id}`} style={{ textDecoration: 'none' }}>
           <MenuItem sx={{ m: 1 }}>
           Perfil
         </MenuItem></Link>
