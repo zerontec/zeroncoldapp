@@ -110,6 +110,7 @@ const FinishTaskTable = () => {
   const [selectedTasks, setSelectedTasks] = useState([]);
 
   fDate();
+  fDateTime();
   function capitalizeFirstLetter(text) {
     if (!text) return '';
     return text.charAt(0).toUpperCase() + text.slice(1);
@@ -324,7 +325,7 @@ const FinishTaskTable = () => {
               </p>
 
               <p>
-                <strong>Fecha Finalizada :</strong> {fDate(selectedTask.fechaTerminacion)}
+                <strong>Fecha Finalizada :</strong> {fDateTime(selectedTask.fechaTerminacion)}
               </p>
               {/* <p>
 					<strong>Tecnico :</strong> {selectedTask.tecnico?.name}
@@ -375,7 +376,7 @@ const FinishTaskTable = () => {
 					  onChange={() => handleToggleSelect(items.id)}
 					/>
 				  */}
-                      <TableCell align="left"> {fDate(items.fechaTerminacion)}</TableCell>
+                      <TableCell align="left"> {fDateTime(items.fechaTerminacion)}</TableCell>
                       <TableCell align="left"> {capitalizeFirstLetter(items.description)}</TableCell>
 
                       <>

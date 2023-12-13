@@ -109,6 +109,7 @@ const TaskTable = () => {
   const [loading, setLoading] = useState(false);
 
   fDate();
+  fDateTime();
 
   const [selectedTasks, setSelectedTasks] = useState([]);
 
@@ -338,7 +339,7 @@ const TaskTable = () => {
               </p>
 
               <p>
-                <strong>Fecha :</strong> {fDate(selectedTask.date)}
+                <strong>Fecha :</strong> {fDateTime(selectedTask.date)}
               </p>
               <p>
                 <strong>Tecnico :</strong> {selectedTask.tecnico?.name}
