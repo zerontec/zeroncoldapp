@@ -195,7 +195,7 @@ export const getAllTaskPendding = () => async (dispatch) => {
 
 export const assignedTaskTec = (tecnicoId) => async (dispatch) => {
   try {
-    const resp = await axios.get(`${API_URL_D}api/task/assigned/${tecnicoId}`, { headers: authHeader() });
+    const resp = await axios.get(`${API_URL}api/task/assigned/${tecnicoId}`, { headers: authHeader() });
 
     dispatch({
       type: ASSIGNED_TASK,
@@ -210,7 +210,7 @@ export const assignedTaskTec = (tecnicoId) => async (dispatch) => {
 
 export const finishTaksTec = (tecnicoId) => async (dispatch) => {
   try {
-    const resp = await axios.get(`${API_URL_D}api/task/finish-task-teca/${tecnicoId}`, { headers: authHeader() });
+    const resp = await axios.get(`${API_URL}api/task/finish-task-teca/${tecnicoId}`, { headers: authHeader() });
 
     dispatch({
       type: FINISHTASKTEC_TASK,
@@ -225,7 +225,7 @@ export const finishTaksTec = (tecnicoId) => async (dispatch) => {
 
 export const allTaskFinishR = () => async (dispatch) => {
   try {
-    const resp = await axios.get(`${API_URL_D}api/task/finish-historial `, { headers: authHeader() });
+    const resp = await axios.get(`${API_URL}api/task/finish-historial `, { headers: authHeader() });
     dispatch({
       type: GET_ALL_TASK_FINISH_R,
 
@@ -240,7 +240,7 @@ export const allTaskFinishR = () => async (dispatch) => {
 
 export const taskByIdF = (taskId) => async (dispatch) => {
   try {
-    const respon = await axios.get(`${API_URL_D}api/task/finish-historial/${taskId}`);
+    const respon = await axios.get(`${API_URL}api/task/finish-historial/${taskId}`);
     dispatch({
       type: TAKE_TASK_ID_F,
       payload: respon.data,
@@ -253,7 +253,7 @@ export const taskByIdF = (taskId) => async (dispatch) => {
 
 export const updateTask = (id, data) => async (dispatch) => {
   try {
-    const resp = await axios.put(`${API_URL_D}api/task/update/${id}`, data, { headers: authHeader() });
+    const resp = await axios.put(`${API_URL}api/task/update/${id}`, data, { headers: authHeader() });
 
     dispatch({
       type: UPDATE_TASK,
@@ -268,7 +268,7 @@ export const updateTask = (id, data) => async (dispatch) => {
 
 export const deleteTask = (id) => async (dispatch) => {
   try {
-    await axios.delete(`${API_URL_D}api/task/delete/${id}`, { headers: authHeader() });
+    await axios.delete(`${API_URL}api/task/delete/${id}`, { headers: authHeader() });
 
     dispatch({
       type: DELETE_TASK,
