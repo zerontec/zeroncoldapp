@@ -271,6 +271,7 @@ const TaskTableTec = () => {
 
     const taskId = selectedTask.id;
 
+
     console.log('taskId', taskId);
     console.log('tecnico', tecnicoId);
     try {
@@ -383,7 +384,7 @@ const TaskTableTec = () => {
               <strong>Direccion:</strong> {selectedTask.customer?.address}
             </p>
             <p>
-              <strong>Descripción:</strong> {selectedTask.description}
+              <strong>Descripción:</strong> {selectedTask?.description}
             </p>
             <p>
               <strong>Estatus:</strong> {selectedTask.estatus}
@@ -405,15 +406,17 @@ const TaskTableTec = () => {
             <p>
               <strong>Telefono :</strong> {selectedTask.tecnico?.telephone}
             </p>
-            <Button variant="contained" color="primary" style={{ marginRight: 5 }} onClick={handleTakeTask}>
+            <Button variant="contained" color="primary" style={{ marginRight: 5 }}  disabled={selectedTask.estatus === 'En Progreso' } onClick={handleTakeTask}>
               Tomar tarea
             </Button>
             <Button
               variant="contained"
               color="primary"
+              disabled={selectedTask.estatus === 'Pendiente' }
               style={{ marginRight: 5, backgroundColor: 'rgb(213 114 186)' }}
               onClick={handleFinisTask}
-            >
+           
+           >
               Finalizar Tarea
             </Button>
             <Button variant="contained" style={{ backgroundColor: 'grey' }} onClick={() => setSelectedTask(null)}>
